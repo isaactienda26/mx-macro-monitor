@@ -15,27 +15,33 @@ institucional correcto pero sin identidad; la v5 se lee como una publicación co
 4. **Toda gráfica sin cuadrícula** y con la línea «Fuente: Elaboración propia con datos de …».
 5. **Firma y contacto** en cada página: Isaac Tienda · isaac.tienda01@gmail.com.
 
-## 2. Estructura (v6: una idea por página, 1080 × 1350 px)
+## 2. Estructura (v7: 6 páginas, títulos con el dato)
 
 Lector de referencia: persona con atención corta, TDAH y TOC que decide en 2 segundos si sigue deslizando
-(agente `.claude/agents/lector-scroll.md`). Reglas: **una idea por página, máximo ~25 palabras de lectura**,
-misma posición de kicker, titular (124 px, Archivo condensada) y fuente en todas las páginas, barra de progreso en
-el pie. Todo el método, las cuentas y las fuentes completas van en el texto del post, no en las páginas. Sin
-enlaces al repositorio en piezas públicas.
+(agente `.claude/agents/lector-scroll.md`). Reglas:
 
-| # | Página | Una idea |
+- **Una idea por página**, máximo ~25 palabras de lectura; kicker, titular, fuente y pie en la misma posición.
+- **El titular dice el hecho con su cifra** y se entiende solo (EL PESO CAE 4.9%, 2 DE 6 SEÑALES EN ROJO,
+  MÉXICO, TERCERO EN TASA REAL). Va en una línea siempre que quepa a 124 px; si no, dos líneas equilibradas.
+- **Firma de columnista**: «Por Isaac Tienda, Economista Senior» en portada; pie con nombre y número de edición;
+  correo una sola vez, en la contraportada.
+- Método, cuentas, fuentes completas y la nota del autor («Mi lectura») van en el texto del post.
+- Sin enlaces al repositorio en piezas públicas. La versión en inglés se redacta en inglés, no se traduce literal.
+
+| # | Página | Titular (ejemplo Nº 1) |
 |---|---|---|
-| 1 | Portada | Titular + una frase + gráfica protagonista anotada; gancho «¿Qué tan grave es? →» |
-| 2 | El cálculo de la semana | «6 lugar de 416» semanas |
-| 3 | Termómetro MX Macro | seis señales ordenadas por gravedad, valor y estado |
-| 4 | México frente a sus pares | barras de tasa real ex post, México en azul |
-| 5 | ¿Fue el peso o el dólar? | tres barras: real, peso, dólar amplio |
-| 6 | Para tu empresa | una cifra en pesos por USD 100,000 importados |
-| 7 | En la mira | agenda agrupada por día |
-| 8 | Mi lectura | cita de ≤20 palabras (`cita_es` en `config/nota_autor.yml`) |
-| 9 | Contraportada | siguiente número, «Sígueme», correo |
+| 1 | Portada | EL PESO CAE 4.9% + «Solo 5 de 416 semanas desde 2018 fueron peores» + gráfica anotada |
+| 2 | Termómetro MX Macro | 2 DE 6 SEÑALES EN ROJO |
+| 3 | México frente a sus pares | MÉXICO, TERCERO EN TASA REAL |
+| 4 | ¿Peso o dólar? | NO FUE EL DÓLAR |
+| 5 | Para tu empresa | IMPORTAR CUESTA MÁS ($89,910 por cada USD 100,000) |
+| 6 | Contraportada | Lo que viene, siguiente número, autor y correo |
 
-Las páginas 2, 4, 5 y 8 se omiten solas cuando no hay dato o nota; la barra de progreso se ajusta.
+Las páginas 3 y 4 se omiten solas si no hay datos; la barra de progreso se ajusta.
+
+**Composición tipográfica.** Todo el texto se compone con HarfBuzz (`src/typeset.py`): respeta el kerning de las
+fuentes y el espaciado entre letras (tracking) de los kickers. Matplotlib solo dibuja los contornos; así el
+espaciado es uniforme y el mismo en PDF y PNG.
 
 ## 3. Logo
 

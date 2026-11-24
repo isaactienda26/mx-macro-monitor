@@ -3,9 +3,9 @@
 ## 1. Texto del post (español)
 
 ```text
-MX Macro Monitor Nº 1 · Sacudida cambiaria.
+MX Macro Monitor Nº 1 · El peso cae 4.9%.
 
-El peso perdió 4.9% frente al dólar en una semana. Solo 5 de 416 semanas desde 2018 fueron peores.
+Solo 5 de 416 semanas desde 2018 fueron peores.
 
 → Termómetro MX Macro: 2 señales en rojo (expectativas y tipo de cambio), 3 en vigilancia y 1 estable.
 → México, lugar 3 de 6 en tasa real (2.8%).
@@ -26,7 +26,7 @@ Contacto: isaac.tienda01@gmail.com
 
 #EconomíaMexicana #Banxico #TipoDeCambio
 ```
-_1543 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
+_1490 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
 
 ## 2. Documento a adjuntar
 
@@ -36,16 +36,16 @@ _1543 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver má
 
 Texto alternativo (para quien usa lector de pantalla; pégalo en el primer comentario si lo necesitas):
 
-> Documento de 9 páginas, MX Macro Monitor Nº 1, una idea por página. Portada: sacudida cambiaria; El peso perdió 4.9% frente al dólar en una semana. Después: el lugar de la semana en la historia; termómetro con 2 señales en tensión; tasa real de México frente a cinco pares; comparación del peso, el real y el dólar; 89,910 pesos más por cada 100 mil dólares importados; agenda; nota del autor; contraportada con contacto.
+> Documento de 6 páginas, MX Macro Monitor Nº 1, por Isaac Tienda. Portada: el peso cae 4.9%; Solo 5 de 416 semanas desde 2018 fueron peores. Página 2: 2 de 6 señales del termómetro en rojo. Página 3: tasa real de México frente a Brasil, Colombia, Chile, Estados Unidos y Perú. Página 4: el real y el peso cayeron más de lo que subió el dólar. Página 5: importar USD 100,000 cuesta 89,910 pesos más que hace una semana. Página 6: agenda, siguiente número y contacto.
 
 ## 3. Primer comentario (inglés)
 
 ```text
-English version · MX Macro Monitor No. 1: Peso shock. The peso lost 4.9% against the dollar in a week: its worst fall since June 2024. Of 416 weeks since Dec 2018, only 5 were sharper. MX Macro thermometer: 2 signals in the red, 3 on watch, 1 stable. A USD 100,000 import costs MXN 89,910 more than a week ago.
+English version · MX Macro Monitor No. 1: Peso falls 4.9%. Only 5 of 416 weeks since 2018 were worse for the peso. MX Macro thermometer: 2 of 6 signals flashing red, 3 on watch, 1 stable. Mexico's ex-post real rate (2.8 pp) ranks #3 of 6 among its peers. It wasn't the dollar: the real fell 5.4% and the peso 2.5%, while the broad dollar index rose just 0.8%. A USD 100,000 import now costs MXN 89,910 more than a week ago.
 
 My take: This week's depreciation comes with the policy stance already in neutral territory: the ex-ante real rate stands at 2.2%, in the lower part of Banxico's estimated range. If the exchange rate holds at these levels, room for further cuts narrows, although evidence for Mexico points to limited pass-through to prices.
 
-Official data from Banxico, INEGI, BIS and the Federal Reserve.
+Official data from Banxico, INEGI, the BIS and the Federal Reserve.
 ```
 
 ## 4. Checklist antes de publicar

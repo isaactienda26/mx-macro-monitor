@@ -71,15 +71,15 @@ def draw_logo(ax, x: float, y: float, h: float, color: str = INK, mark_bg: str =
               tagline: str | None = None, tag_color: str = MUTED, accent: str = BLUE, dot: str = GREEN):
     """Horizontal lockup: mark + two-line wordmark. h = mark height in px. Returns right edge x."""
     draw_mark(ax, x, y, h, mark_bg, mark_fg, dot)
+    import typeset
     tx = x + h * 1.22
     fs = h * 0.40
-    ax.text(tx, y + h * 0.02, "MX MACRO", fontsize=pt(fs), color=color, family=WIDE, fontweight="extra bold",
-            va="top", ha="left")
-    ax.text(tx, y + h * 0.50, "MONITOR", fontsize=pt(fs), color=accent, family=WIDE, fontweight="extra bold",
-            va="top", ha="left")
+    cap = fs * 0.7
+    typeset.draw(ax, tx, y + (h * 0.5 - cap) / 2 - h * 0.02, "MX MACRO", fs, color, WIDE, "extra bold", track=0.02, zorder=12)
+    typeset.draw(ax, tx, y + h * 0.5 + (h * 0.5 - cap) / 2 + h * 0.02, "MONITOR", fs, accent, WIDE, "extra bold", track=0.02,
+                 zorder=12)
     if tagline:
-        ax.text(tx, y + h * 1.08, tagline, fontsize=pt(h * 0.17), color=tag_color, family=SERIF_D,
-                fontstyle="italic", va="top", ha="left")
+        typeset.draw(ax, tx, y + h * 1.12, tagline, h * 0.17, tag_color, SERIF_D, "medium", "italic", zorder=12)
     return tx + fs * 0.9 * 9
 
 
