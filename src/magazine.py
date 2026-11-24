@@ -185,7 +185,7 @@ def header(pg: Page, num: int, run: date, lang: str, page: int, dark: bool = Fal
     fg, sub = (PAPER, ON_INK) if dark else (INK, MUTED)
     draw_mark(pg.ax, M, 44, 46)
     pg.text(M + 62, 47, "MX MACRO MONITOR", 19, fg, "Archivo Exp", "extra bold")
-    pg.text(M + 62, 71, "Boletín semanal de economía mexicana" if lang == "es" else "Weekly bulletin on Mexico's economy",
+    pg.text(M + 62, 71, "Boletín semanal de economía mexicana" if lang == "es" else "Weekly briefing on Mexico’s economy",
             17, sub, SERIF_D, "medium", "italic")
     pg.text(W - M, 47, f"{'Nº' if lang == 'es' else 'No.'} {num}", 19, fg, SANS, "extra bold", ha="right")
     pg.text(W - M, 72, dlong(run, lang), 17, sub, SANS, ha="right")
@@ -245,13 +245,13 @@ def cover_copy(s: dict, v: dict, lead: str, lang: str) -> dict:
             short = (f"Only {rk['n_larger']} of {rk['n_weeks']} weeks since {yr} were worse for the peso." if up
                      else f"Only {rk['n_larger']} of {rk['n_weeks']} weeks since {yr} were better for the peso.")
         kick, src = ("Tipo de cambio", "Fuente: Elaboración propia con datos de Banxico (FIX).") if es else (
-            "Exchange rate", "Source: Own calculations with Banxico data (FIX).")
+            "Exchange rate", "Source: Author’s calculations based on Banxico FIX data.")
     elif lead == "inflation":
         line = f"INFLACIÓN: {n(i['yoy'], 2)}%" if es else f"INFLATION AT {n(i['yoy'], 2)}%"
         short = (f"La subyacente está en {n(i['core'], 2)}%; la meta de Banxico es 3%." if es
                  else f"Core inflation stands at {n(i['core'], 2)}%; Banxico's target is 3%.")
         kick, src = ("Inflación", "Fuente: Elaboración propia con datos de INEGI.") if es else (
-            "Inflation", "Source: Own calculations with INEGI data.")
+            "Inflation", "Source: Author’s calculations based on INEGI data.")
     elif lead == "activity":
         down = a.get("mom", 0) < 0
         x = n(abs(a["mom"]))
@@ -259,13 +259,13 @@ def cover_copy(s: dict, v: dict, lead: str, lang: str) -> dict:
         short = (f"Variación mensual del IGAE; a tasa anual, {n(a['yoy'], 1, True)}%." if es
                  else f"Monthly change in IGAE; {n(a['yoy'], 1, True)}% year on year.")
         kick, src = ("Actividad económica", "Fuente: Elaboración propia con datos de INEGI.") if es else (
-            "Economic activity", "Source: Own calculations with INEGI data.")
+            "Economic activity", "Source: Author’s calculations based on INEGI data.")
     else:
         line = f"TASA EN {n(p['rate'], 2)}%" if es else f"POLICY RATE AT {n(p['rate'], 2)}%"
         short = (f"La tasa real ex ante está en {n(p['real_ex_ante'], 2)}%." if es
                  else f"The ex-ante real rate stands at {n(p['real_ex_ante'], 2)}%.")
         kick, src = ("Política monetaria", "Fuente: Elaboración propia con datos de Banxico.") if es else (
-            "Monetary policy", "Source: Own calculations with Banxico data.")
+            "Monetary policy", "Source: Author’s calculations based on Banxico data.")
     return {"kicker": kick, "lines": [line], "short": short, "dek": short, "source": src}
 
 
@@ -300,8 +300,8 @@ def chart_fx_weeks(pg: Page, s: dict, v: dict, lang: str, x, y, w, h, simple: bo
     dts = pd.to_datetime(wk["dates"])
     vals = np.array(wk["values"])
     es = lang == "es"
-    pg.text(x, y, ("Cambio semanal del peso frente al dólar, % · arriba = peso más débil" if es
-                   else "Weekly change of the peso vs the dollar, % · up = weaker peso"), 22, MUTED, SANS)
+    pg.text(x, y, ("Cambio semanal del FIX, % · arriba = peso más débil" if es
+                   else "Weekly change in the peso vs. the dollar (FIX), % · up = weaker peso"), 22, MUTED, SANS)
     ax = pg.axes(x + 44, y + 44, w - 44, h - 44)
     ax.bar(dts[:-1], vals[:-1], width=5.2, color=CTX, linewidth=0)
     ax.bar(dts[-1:], vals[-1:], width=16, color=BLUE, linewidth=0, zorder=5)
@@ -383,6 +383,16 @@ def inner(pg: Page, kick: str, title: str, dek: Optional[str], num, run, lang, p
     return y + 36
 
 
+def short_event(what: str) -> str:
+    """Agenda label for the back cover: drop the period; keep an acronym when the name has one (ENOE)."""
+    w = what.split(" (")[0]
+    if w.startswith("Quarterly Report"):
+        return "Banxico " + w
+    if ", " in w and w.split(", ")[-1].isupper():
+        return w.split(", ")[-1]
+    return w
+
+
 def src_line(pg: Page, txt: str, dark=False):
     pg.text(M, Y_SRC, txt, 19, ON_INK if dark else MUTED, SANS)
 
@@ -409,7 +419,7 @@ def page_cover(s, v, t, lang, num, run) -> Page:
     pg.text(W - M, 40, str(num), 170, PAPER, DISPLAY, "extra bold", ha="right")
     pg.text(W - M - nw - 12, 40, "Nº" if es else "No.", 34, PAPER, DISPLAY, "extra bold", ha="right")
     pg.text(M, 204, track((dlong(run, "es") + "  ·  Boletín semanal de economía mexicana" if es
-                           else dlong(run, "en") + "  ·  Weekly bulletin on Mexico's economy").upper()), 16, PAPER, SANS, "semibold")
+                           else dlong(run, "en") + "  ·  Weekly briefing on Mexico’s economy").upper()), 16, PAPER, SANS, "semibold")
     kicker(pg, 292, cc["kicker"])
     size = pg.fit(cc["lines"], CW, cap=170)
     pg.text(M, 334, cc["lines"][0], size, INK, DISPLAY, "extra bold")
@@ -441,10 +451,10 @@ def page_thermo(s, v, t, lang, num, run) -> Page:
     es = lang == "es"
     pg = Page()
     sc, rows = v["thermo_score"], v["thermometer"]
-    names = {"es": {"inflation": "Inflación", "core": "Subyacente", "expectations": "Expectativas de inflación",
-                    "real_rate": "Tasa real ex ante", "fx": "Tipo de cambio", "activity": "Actividad"},
+    names = {"es": {"inflation": "Inflación general", "core": "Inflación subyacente", "expectations": "Expectativas de inflación",
+                    "real_rate": "Tasa real (ex ante)", "fx": "Tipo de cambio (semanal)", "activity": "Actividad (mensual)"},
              "en": {"inflation": "Headline inflation", "core": "Core inflation", "expectations": "Inflation expectations",
-                    "real_rate": "Ex-ante real rate", "fx": "Exchange rate", "activity": "Economic activity"}}[lang]
+                    "real_rate": "Real rate (ex ante)", "fx": "Exchange rate (w/w)", "activity": "Economic activity (m/m)"}}[lang]
     word = {"es": {"estable": "Estable", "vigilancia": "Vigilancia", "tension": "Tensión", "na": "s. d."},
             "en": {"estable": "Stable", "vigilancia": "Watch", "tension": "Alert", "na": "n/a"}}[lang]
     red = [names[r["key"]].lower() for r in rows if r["state"] == "tension"]
@@ -456,7 +466,7 @@ def page_thermo(s, v, t, lang, num, run) -> Page:
         red_en = [{"Exchange rate": "the exchange rate", "Economic activity": "economic activity"}.get(names[r["key"]], names[r["key"]].lower())
                   for r in rows if r["state"] == "tension"]
         dek = (f"On alert: {' and '.join(red_en)}." if red_en else "None of the six signals is on alert.")
-    y = inner(pg, "Termómetro MX Macro" if es else "MX Macro thermometer", title, dek, num, run, lang, 2)
+    y = inner(pg, "Termómetro MX Macro" if es else "MX Macro thermometer", title, None, num, run, lang, 2)
     order = {"tension": 0, "vigilancia": 1, "estable": 2, "na": 3}
     rh = (Y_SRC - 40 - y) / 6
     pg.hline(y, color=INK, lw=1.4)
@@ -471,7 +481,7 @@ def page_thermo(s, v, t, lang, num, run) -> Page:
         y += rh
         pg.hline(y)
     src_line(pg, "Fuente: Elaboración propia con datos de INEGI y Banxico. Reglas en el texto del post." if es
-             else "Source: Own calculations with INEGI and Banxico data. Rules in the post.")
+             else "Source: Author’s calculations based on INEGI and Banxico data. Methodology in the post.")
     footer(pg, 2, lang)
     return pg
 
@@ -488,13 +498,13 @@ def page_peers(s, v, t, lang, num, run) -> Page:
             "en": ["", "1ST", "2ND", "3RD", "4TH", "5TH", "6TH"]}
     if es:
         title = f"MÉXICO, {ordn['es'][pr['mx_rank']]} EN TASA REAL"
-        dek = (f"{n(mx['real'])} puntos; solo {' y '.join(above)} están más arriba." if above else f"{n(mx['real'])} puntos: la más alta del grupo.")
+        dek = (f"Solo {' y '.join(above)} están más arriba." if above else "La más alta del grupo.")
     else:
         title = f"MEXICO RANKS {ordn['en'][pr['mx_rank']]} IN REAL RATES"
-        dek = (f"{n(mx['real'])} points; only {' and '.join(above)} rank higher." if above else f"{n(mx['real'])} points: the highest in the group.")
-    y = inner(pg, "México frente a sus pares" if es else "Mexico vs its peers", title, dek, num, run, lang, 3)
-    pg.text(M, y - 10, ("Tasa de política menos inflación anual, puntos porcentuales" if es
-                        else "Policy rate minus annual inflation, percentage points"), 22, MUTED, SANS)
+        dek = (f"Behind only {' and '.join(above)}." if above else "The highest in the group.")
+    y = inner(pg, "México frente a sus pares" if es else "Mexico vs. its peers", title, dek, num, run, lang, 3)
+    pg.text(M, y - 10, ("Tasa de política menos inflación observada (ex post), pp" if es
+                        else "Policy rate minus headline inflation (ex post), pp"), 22, MUTED, SANS)
     y += 34
     rows = pr["rows"]
     avail = Y_SRC - 60 - y
@@ -514,7 +524,7 @@ def page_peers(s, v, t, lang, num, run) -> Page:
         pg.text(max(x1, zero) + 14, yy + bh / 2, n(r["real"]), 44, INK, DISPLAY, "extra bold", va="center")
     pg.vline(zero, y - 6, y + len(rows) * (bh + gap) - gap + 6, INK, 1.4)
     src_line(pg, f"Fuente: Elaboración propia con datos de BIS y Banxico; inflación de {mshort(pr['cpi_month'], 'es')}." if es
-             else f"Source: Own calculations with BIS and Banxico data; inflation as of {mshort(pr['cpi_month'], 'en')}.")
+             else f"Source: Author’s calculations based on BIS and Banxico data; inflation as of {mshort(pr['cpi_month'], 'en')}.")
     footer(pg, 3, lang)
     return pg
 
@@ -526,17 +536,20 @@ def page_dollar(s, v, t, lang, num, run) -> Page:
     peso_only = db["usd_broad"] < db["usd_mxn_h10"] / 2
     if es:
         title = "NO FUE EL DÓLAR" if peso_only else "FUE EL DÓLAR"
-        dek = (f"El real cayó {n(db['usd_brl'])}% y el peso {n(db['usd_mxn_h10'])}%; el dólar solo subió {n(db['usd_broad'])}%.")
+        dek = ("El real y el peso cayeron mucho más de lo que subió el dólar." if peso_only
+               else "El dólar se fortaleció frente a casi todas las monedas.")
     else:
-        title = "IT WASN'T THE DOLLAR" if peso_only else "IT WAS THE DOLLAR"
-        dek = (f"The real fell {n(db['usd_brl'])}%, the peso {n(db['usd_mxn_h10'])}%; the dollar rose {n(db['usd_broad'])}%.")
+        title = "IT WASN’T THE DOLLAR" if peso_only else "IT WAS THE DOLLAR"
+        dek = ("The real and the peso fell far more than the dollar rose." if peso_only
+               else "The dollar strengthened against almost every currency.")
     y = inner(pg, "¿Peso o dólar?" if es else "Peso or dollar?", title, dek, num, run, lang, 4)
-    pg.text(M, y - 10, (f"Del {dshort(db['start'], 'es')} al {dshort(db['end'], 'es')}, %" if es
-                        else f"{dshort(db['start'], 'en')} to {dshort(db['end'], 'en')}, %"), 22, MUTED, SANS)
+    st, en_ = pd.Timestamp(db["start"]), pd.Timestamp(db["end"])
+    pg.text(M, y - 10, (f"Del {st.day} al {dshort(db['end'], 'es')}, % · datos de la Fed (otra semana que el FIX)" if es
+                        else f"{MES['en'][st.month - 1]}. {st.day}–{en_.day}, % change · Fed data (differs from the FIX week)"), 22, MUTED, SANS)
     y += 40
     items = [("Real brasileño: se depreció" if es else "Brazilian real: weakened", db["usd_brl"], CTX, False),
              ("Peso mexicano: se depreció" if es else "Mexican peso: weakened", db["usd_mxn_h10"], BLUE, True),
-             ("Dólar frente a todas las monedas: se fortaleció" if es else "Dollar vs all currencies: strengthened", db["usd_broad"], INK, False)]
+             ("Índice amplio del dólar: se fortaleció" if es else "Broad dollar index: strengthened", db["usd_broad"], INK, False)]
     vmax = max(abs(x) for _, x, _, _ in items)
     bw, bh = CW - 150, 84
     step = (Y_SRC - 60 - y) / 3
@@ -546,7 +559,7 @@ def page_dollar(s, v, t, lang, num, run) -> Page:
         pg.rect(M, yy + 44, max(abs(val) / vmax * bw, 3), bh, col, z=3)
         pg.text(M + abs(val) / vmax * bw + 16, yy + 44 + bh / 2, f"{n(val, 1, True)}%", 40, INK, DISPLAY, "extra bold", va="center")
     src_line(pg, "Fuente: Elaboración propia con datos de la Reserva Federal (H.10); el FIX de Banxico usa otro corte de fechas." if es
-             else "Source: Own calculations with Federal Reserve data (H.10); Banxico's FIX uses a different date window.")
+             else "Source: Author’s calculations based on Federal Reserve H.10 data; Banxico’s FIX uses a different window.")
     footer(pg, 4, lang)
     return pg
 
@@ -557,18 +570,18 @@ def page_business(s, v, t, lang, num, run) -> Page:
     ic = v["import_cost"]
     up = ic["diff"] >= 0
     title = ("IMPORTAR CUESTA MÁS" if up else "IMPORTAR CUESTA MENOS") if es else ("IMPORTS GOT PRICIER" if up else "IMPORTS GOT CHEAPER")
-    dek = "Por cada USD 100,000 importados pagas hoy:" if es else "For every USD 100,000 you import, you now pay:"
+    dek = "Por cada USD 100,000 importados pagas hoy:" if es else "For every US$100,000 in imports, you now pay:"
     y = inner(pg, "Para tu empresa" if es else "For your business", title, dek, num, run, lang, 5)
-    big = f"${abs(ic['diff']):,.0f}"
+    big = f"{abs(ic['diff']):,.0f}"
     size = pg.fit([big], CW, cap=280)
     block = size * 1.0 + 70
     y += max(0, (Y_SRC - 60 - y - block) / 2) - 20
     pg.text(M - 4, y, big, size, BLUE, DISPLAY, "extra bold")
     y += size * 1.0 + 30
     pg.text(M, y, (f"pesos {'más' if up else 'menos'} que hace una semana." if es
-                   else f"pesos {'more' if up else 'less'} than a week ago."), 40, INK, SERIF_D, "medium", "italic")
+                   else f"{'more' if up else 'fewer'} pesos than a week ago."), 40, INK, SERIF_D, "medium", "italic")
     src_line(pg, "Fuente: Cálculo propio con el FIX de Banxico. La cuenta completa, en el texto del post." if es
-             else "Source: Own calculation with Banxico's FIX. Full math in the post.")
+             else "Source: Author’s calculation based on Banxico’s FIX rate. Full math in the post.")
     footer(pg, 5, lang)
     return pg
 
@@ -588,7 +601,7 @@ def page_back(s, v, t, lang, num, run) -> Page:
     for day, evs in list(days.items())[:3]:
         d0 = day.split()
         pg.text(M, y, day.upper(), 30, PAPER, DISPLAY, "extra bold")
-        pg.text(M + 230, y, " · ".join(e["what"].split(" (")[0] for e in evs[:2]), 28, PAPER, SERIF)
+        pg.text(M + 230, y, " · ".join(short_event(e["what"]) for e in evs[:2]), 28, PAPER, SERIF)
         y += 56
     y += 30
     pg.hline(y, color=ON_INK, lw=0.8)
@@ -601,9 +614,9 @@ def page_back(s, v, t, lang, num, run) -> Page:
     for k, l in enumerate(lines):
         pg.text(M, yy + k * size, l, size, PAPER, DISPLAY, "extra bold")
     yy += len(lines) * size + 24
-    pg.text(M, yy, "Sígueme para recibirlo." if es else "Follow me so you don't miss it.", 40, PAPER, SERIF_D, "medium", "italic")
+    pg.text(M, yy, "Sígueme para recibirlo." if es else "Follow me so you don’t miss it.", 40, PAPER, SERIF_D, "medium", "italic")
     # author block
-    ay = H - 300
+    ay = H - 400
     pg.hline(ay, color=ON_INK, lw=0.8)
     pg.text(M, ay + 46, AUTHOR, 56, PAPER, DISPLAY, "extra bold")
     pg.text(M, ay + 122, ROLE[lang], 30, ON_INK, SERIF_D, "medium", "italic")
@@ -636,7 +649,7 @@ def render(s: dict, v: dict, t: dict, lang: str, out_dir: Path, num: int = 1) ->
     for old in png_dir.glob("*.png"):
         old.unlink()
     meta = {"Title": f"MX Macro Monitor Nº {num}", "Author": f"{AUTHOR} <{EMAIL}>",
-            "Subject": "Boletín semanal de economía mexicana" if lang == "es" else "Weekly bulletin on Mexico's economy"}
+            "Subject": "Boletín semanal de economía mexicana" if lang == "es" else "Weekly briefing on Mexico’s economy"}
     with PdfPages(pdf_path, metadata=meta) as pdf:
         for k, pg in enumerate(pages, 1):
             pdf.savefig(pg.fig, facecolor=pg.bg)
