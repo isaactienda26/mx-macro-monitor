@@ -439,14 +439,16 @@ def slide_close(s, t, lang, idx, total) -> Slide:
         txt = REFERENCES[r]["full"]
         sl.text(M, y, f"{n_}.", size=21, color=MUTED)
         y = sl.para(M + 36, y, txt, size=21, color=TEXT, maxw=W - 2 * M - 36, lh=1.3) + 12
-    box_h = 200
+    head = ("Cada lunes, el pulso macro de México con datos oficiales." if es
+            else "Every Monday: Mexico's macro pulse from official data.")
+    follow = "Sígueme para la próxima edición." if es else "Follow for the next edition."
+    iw = W - 2 * M - 72
+    box_h = 30 + sl.height(head, 32, iw, lh=1.15, weight="bold", family=DISPLAY) + 16 + 2 * 22 * 1.35 + 28
     y = max(y + 18, H - 150 - box_h)
     sl.rect(M, y, W - 2 * M, box_h, NAVY, radius=14)
-    sl.para(M + 36, y + 30, "Cada lunes, el pulso macro de México con datos oficiales." if es
-            else "Every Monday: Mexico's macro pulse from official data.", size=32, color="#FFFFFF", weight="bold",
-            family=DISPLAY, maxw=W - 2 * M - 72, lh=1.15, max_lines=2)
-    sl.para(M + 36, y + box_h - 60, ("Sígueme para la próxima edición · " if es else "Follow for the next edition · ") + REPO_URL,
-            size=22, color=ON_NAVY, maxw=W - 2 * M - 72, lh=1.3, max_lines=1)
+    yy = sl.para(M + 36, y + 30, head, size=32, color="#FFFFFF", weight="bold", family=DISPLAY, maxw=iw, lh=1.15)
+    sl.text(M + 36, yy + 16, follow, size=22, color="#FFFFFF", weight="semibold")
+    sl.text(M + 36, yy + 16 + 22 * 1.35, REPO_URL, size=22, color=ON_NAVY)
     footer(sl, lang, "Agenda: calendarios oficiales de INEGI, Banxico y la Fed; hora del centro de México." if es
            else "Agenda: official INEGI, Banxico and Fed calendars; Mexico City time.")
     return sl
