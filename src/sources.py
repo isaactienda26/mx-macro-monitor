@@ -168,3 +168,43 @@ def fetch_all(offline: bool = False) -> tuple[Dict[str, pd.Series], List[str]]:
                 warnings.append(f"{k}: dato de caché.")
     save_cache({k: v for k, v in data.items()})
     return data, warnings
+
+
+# --- BIS (peers) ---------------------------------------------------------------------
+BIS_URL = "https://stats.bis.org/api/v1/data"
+PEERS = ["MX", "BR", "CL", "CO", "PE"]
+PEER_CCY = {"MX": "MXN", "BR": "BRL", "CL": "CLP", "CO": "COP", "PE": "PEN"}
+
+
+def _bis_csv(session: requests.Session, flow: str, key: str, start: str) -> pd.DataFrame:
+    r = session.get(f"{BIS_URL}/{flow}/{key}/all", params={"startPeriod": start, "format": "csv"}, timeout=90)
+    r.raise_for_status()
+    df = pd.read_csv(io.StringIO(r.text), usecols=lambda c: c in {"REF_AREA", "TIME_PERIOD", "OBS_VALUE", "CURRENCY"})
+    df["OBS_VALUE"] = pd.to_numeric(df["OBS_VALUE"], errors="coerce")
+    return df.dropna(subset=["OBS_VALUE"])
+
+
+def fetch_peers(offline: bool = False) -> tuple[Dict[str, pd.DataFrame], List[str]]:
+    """Policy rates (monthly), CPI y/y (monthly) and FX vs USD (daily) for Mexico and LatAm peers + US rate."""
+    paths = {k: RAW_DIR / f"bis_{k}.csv" for k in ("policy", "cpi", "fx")}
+    if offline:
+        out = {k: pd.read_csv(p) for k, p in paths.items() if p.exists()}
+        return out, ([] if len(out) == 3 else ["Sin caché BIS completa."])
+    session, warnings, out = build_session(), [], {}
+    y2 = (date.today() - timedelta(days=800)).isoformat()
+    areas = "+".join(PEERS)
+    jobs = {
+        "policy": ("WS_CBPOL", f"M.{areas}+US", y2[:7]),
+        "cpi": ("WS_LONG_CPI", f"M.{areas}+US.771", y2[:7]),
+        "fx": ("WS_XRU", f"D.{areas}.{'+'.join(PEER_CCY.values())}.A", y2),
+    }
+    for k, (flow, key, start) in jobs.items():
+        try:
+            df = _bis_csv(session, flow, key, start)
+            df.to_csv(paths[k], index=False)
+            out[k] = df
+        except (requests.RequestException, ValueError, KeyError) as exc:
+            warnings.append(f"BIS {flow} falló ({type(exc).__name__}); se usa caché.")
+            if paths[k].exists():
+                out[k] = pd.read_csv(paths[k])
+    return out, warnings
