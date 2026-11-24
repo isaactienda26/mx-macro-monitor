@@ -267,7 +267,7 @@ def build(s: dict, agenda: dict) -> Dict[str, dict]:
                              else comment_v3_en(s, order, out[lang]["cards"]))
         out[lang]["ed"] = editorial(s, lang)
         note = load_author_note(s["run_date"])
-        out[lang]["note"] = ({"text": note[lang] or note["es"], "estado": note["estado"]} if note and (note.get(lang) or lang == "es")
+        out[lang]["note"] = ({"text": note[lang] or note["es"], "estado": note["estado"], "cita": note.get(f"cita_{lang}")} if note and (note.get(lang) or lang == "es")
                              else None)
         out[lang]["post"] = (post_v4_es(s, order, out[lang]["ed"], out[lang]["agenda"], note) if lang == "es"
                              else comment_v4_en(s, order, out[lang]["ed"], note))
@@ -731,7 +731,8 @@ def load_author_note(run_date: str) -> Optional[dict]:
     es, en = (d.get("es") or "").strip(), (d.get("en") or "").strip()
     if not es:
         return None
-    return {"es": es, "en": en or None, "estado": d.get("estado", "final")}
+    return {"es": es, "en": en or None, "estado": d.get("estado", "final"),
+            "cita_es": (d.get("cita_es") or "").strip() or None, "cita_en": (d.get("cita_en") or "").strip() or None}
 
 
 def post_v4_es(s: dict, order: List[str], ed: Dict[str, dict], agenda_rows: List[dict], note: Optional[dict]) -> str:

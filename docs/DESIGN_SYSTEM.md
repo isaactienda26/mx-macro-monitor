@@ -15,16 +15,27 @@ institucional correcto pero sin identidad; la v5 se lee como una publicación co
 4. **Toda gráfica sin cuadrícula** y con la línea «Fuente: Elaboración propia con datos de …».
 5. **Firma y contacto** en cada página: Isaac Tienda · isaac.tienda01@gmail.com.
 
-## 2. Estructura (6 páginas, 1080 × 1350 px, PDF para LinkedIn)
+## 2. Estructura (v6: una idea por página, 1080 × 1350 px)
 
-| # | Página | Contenido |
+Lector de referencia: persona con atención corta, TDAH y TOC que decide en 2 segundos si sigue deslizando
+(agente `.claude/agents/lector-scroll.md`). Reglas: **una idea por página, máximo ~25 palabras de lectura**,
+misma posición de kicker, titular (124 px, Archivo condensada) y fuente en todas las páginas, barra de progreso en
+el pie. Todo el método, las cuentas y las fuentes completas van en el texto del post, no en las páginas. Sin
+enlaces al repositorio en piezas públicas.
+
+| # | Página | Una idea |
 |---|---|---|
-| 1 | Portada | Banda azul (logo, Nº, fecha), kicker, titular display, entradilla justificada, gráfica protagonista anotada, franja Dato · Lectura · Fuente |
-| 2 | Termómetro MX Macro | Índice 0–100, seis señales con valor, regla y estado (Estable / Vigilancia / Tensión), reglas completas |
-| 3 | México frente a sus pares | Tasa real ex post de México, Brasil, Chile, Colombia, Perú y EE. UU.; recuadro «¿Fue el peso o el dólar?» |
-| 4 | Para tu empresa | Cifra grande en pesos (importación de USD 100,000), cuatro bloques (importas, exportas, te financias, fijas precios), «El cálculo de la semana» |
-| 5 | En la mira | Agenda de próximos datos, nota firmada del autor, lo que ya se publicó |
-| 6 | Contraportada | Logo, siguiente número y fecha, contacto, método y fuentes |
+| 1 | Portada | Titular + una frase + gráfica protagonista anotada; gancho «¿Qué tan grave es? →» |
+| 2 | El cálculo de la semana | «6 lugar de 416» semanas |
+| 3 | Termómetro MX Macro | seis señales ordenadas por gravedad, valor y estado |
+| 4 | México frente a sus pares | barras de tasa real ex post, México en azul |
+| 5 | ¿Fue el peso o el dólar? | tres barras: real, peso, dólar amplio |
+| 6 | Para tu empresa | una cifra en pesos por USD 100,000 importados |
+| 7 | En la mira | agenda agrupada por día |
+| 8 | Mi lectura | cita de ≤20 palabras (`cita_es` en `config/nota_autor.yml`) |
+| 9 | Contraportada | siguiente número, «Sígueme», correo |
+
+Las páginas 2, 4, 5 y 8 se omiten solas cuando no hay dato o nota; la barra de progreso se ajusta.
 
 ## 3. Logo
 

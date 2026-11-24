@@ -5,24 +5,28 @@
 ```text
 MX Macro Monitor Nº 1 · Sacudida cambiaria.
 
-El peso perdió 4.9% frente al dólar en una semana: su peor caída desde junio de 2024. De 416 semanas desde dic-2018, solo 5 fueron más bruscas. Las más fuertes: 4 en 2020 y una en 2024.
+El peso perdió 4.9% frente al dólar en una semana. Solo 5 de 416 semanas desde 2018 fueron peores.
 
-En el documento:
 → Termómetro MX Macro: 2 señales en rojo (expectativas y tipo de cambio), 3 en vigilancia y 1 estable.
-→ México frente a sus pares: lugar 3 de 6 en tasa real ex post (2.8%).
-→ ¿Peso o dólar? Del 13-nov al 20-nov, el real cayó 5.4%, el peso 2.5% y el dólar amplio solo subió 0.8%.
-→ Para tu empresa: una importación de USD 100,000 cuesta hoy $89,910 pesos más que hace una semana.
+→ México, lugar 3 de 6 en tasa real (2.8%).
+→ Del 13-nov al 20-nov: real +5.4%, peso +2.5%, dólar amplio +0.8%.
+→ Importar USD 100,000 cuesta $89,910 pesos más que hace una semana.
 
 Mi lectura: la depreciación de esta semana llega con la postura monetaria ya en terreno neutral: la tasa real ex ante está en 2.2%, en la parte baja del rango que estima Banxico. Si el tipo de cambio se sostiene en estos niveles, el espacio para nuevos recortes se estrecha, aunque la evidencia para México apunta a un traspaso limitado a precios.
 
-En la mira: jue 26-nov, Informe Trimestral jul-sep y Empleo y desempleo, ENOE (octubre); mar 1-dic, Encuesta de expectativas (noviembre).
+Cómo lo calculo:
+• Importación: USD 100,000 × FIX de hoy (19.37) menos USD 100,000 × FIX de hace 7 días (18.47).
+• Ranking: 416 cambios semanales del FIX desde dic-2018 (cierre del viernes).
+• Termómetro: inflación, subyacente y expectativas son estables a ±0.5 pp de la meta de 3% y entran en tensión fuera de 2%–4%; la tasa real, frente al rango neutral de Banxico (1.8%–3.6%); tipo de cambio y actividad, por desviaciones estándar frente a su historia (tensión desde 2).
+• Tasa real de pares: tasa de política menos inflación anual de sep-2026.
+Fuentes: Banxico, INEGI, BIS y Reserva Federal (H.10).
 
 Cada lunes, un número nuevo. Sígueme para recibir el Nº 2 el lunes 30 de noviembre.
-Comentarios y colaboraciones: isaac.tienda01@gmail.com
+Contacto: isaac.tienda01@gmail.com
 
-#EconomíaMexicana #Banxico #TipoDeCambio #Macroeconomía
+#EconomíaMexicana #Banxico #TipoDeCambio
 ```
-_1313 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
+_1543 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
 
 ## 2. Documento a adjuntar
 
@@ -32,7 +36,7 @@ _1313 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver má
 
 Texto alternativo (para quien usa lector de pantalla; pégalo en el primer comentario si lo necesitas):
 
-> Documento de 6 páginas, MX Macro Monitor Nº 1. Portada: sacudida cambiaria. El peso perdió 4.9% frente al dólar en una semana: su peor caída desde junio de 2024. De 416 semanas desde dic-2018, solo 5 fueron más bruscas. Página 2: termómetro con 2 señales en tensión, 3 en vigilancia y 1 estable. Página 3: tasa real de México frente a Brasil, Chile, Colombia, Perú y Estados Unidos, y comparación del peso, el real y el dólar. Página 4: efecto en pesos sobre una importación de 100 mil dólares. Página 5: agenda y nota del autor. Página 6: contacto y fuentes.
+> Documento de 9 páginas, MX Macro Monitor Nº 1, una idea por página. Portada: sacudida cambiaria; El peso perdió 4.9% frente al dólar en una semana. Después: el lugar de la semana en la historia; termómetro con 2 señales en tensión; tasa real de México frente a cinco pares; comparación del peso, el real y el dólar; 89,910 pesos más por cada 100 mil dólares importados; agenda; nota del autor; contraportada con contacto.
 
 ## 3. Primer comentario (inglés)
 
@@ -41,13 +45,14 @@ English version · MX Macro Monitor No. 1: Peso shock. The peso lost 4.9% agains
 
 My take: This week's depreciation comes with the policy stance already in neutral territory: the ex-ante real rate stands at 2.2%, in the lower part of Banxico's estimated range. If the exchange rate holds at these levels, room for further cuts narrows, although evidence for Mexico points to limited pass-through to prices.
 
-Official data from Banxico, INEGI, BIS and the Federal Reserve. Method and open-source code: github.com/isaactienda26/mx-macro-monitor
+Official data from Banxico, INEGI, BIS and the Federal Reserve.
 ```
 
 ## 4. Checklist antes de publicar
 
 - [ ] **Nota del autor en BORRADOR:** revísala o reescríbela en `config/nota_autor.yml` (estado: final) y vuelve a correr el flujo.
 - [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).
-- [ ] Abrir el PDF y confirmar que las 6 páginas se ven completas.
+- [ ] Abrir el PDF y confirmar que todas las páginas se ven completas (una idea por página).
+- [ ] Correr el agente `lector-scroll` (`.claude/agents/lector-scroll.md`) sobre `bulletins/slides_es/` y atender lo que marque como Rehacer.
 - [ ] Publicar entre 8:00 y 9:30 h (centro de México) y pegar el comentario en inglés en los primeros minutos.
 - [ ] Responder comentarios durante la primera hora.

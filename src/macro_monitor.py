@@ -6,7 +6,7 @@ MX Macro Monitor - weekly pipeline.
     python src/macro_monitor.py --date 2026-11-30 --offline   # simulate a run date
 
 Outputs (bulletins/):
-    carousel_es.pdf, carousel_en.pdf   LinkedIn document posts (6 pages, 4:5, magazine design v5)
+    carousel_es.pdf, carousel_en.pdf   LinkedIn document posts (one idea per page, 4:5, magazine design v6)
     cover_es.png, cover_en.png         cover previews
     linkedin_post.md                   post copy (ES) + first comment (EN) + checklist
     latest_es.md, latest_en.md         one-page bulletins for GitHub
@@ -112,7 +112,8 @@ def post_md(s: dict, t: dict, v: dict, num: int) -> str:
          "- [ ] **Sin nota del autor esta semana:** escríbela en `config/nota_autor.yml` con la semana ISO actual y vuelve a correr el flujo."
          if not t["es"].get("note") else "- [x] Nota del autor lista."),
         "- [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).",
-        "- [ ] Abrir el PDF y confirmar que las 6 páginas se ven completas.",
+        "- [ ] Abrir el PDF y confirmar que todas las páginas se ven completas (una idea por página).",
+        "- [ ] Correr el agente `lector-scroll` (`.claude/agents/lector-scroll.md`) sobre `bulletins/slides_es/` y atender lo que marque como Rehacer.",
         "- [ ] Publicar entre 8:00 y 9:30 h (centro de México) y pegar el comentario en inglés en los primeros minutos.",
         "- [ ] Responder comentarios durante la primera hora.",
         "",
