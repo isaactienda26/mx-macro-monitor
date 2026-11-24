@@ -1,5 +1,9 @@
 name: Discover series (temporary)
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/linkedin-carousel-v2]
+    paths: [tools/**, .github/workflows/discover.yml]
 jobs:
   d:
     runs-on: ubuntu-latest
