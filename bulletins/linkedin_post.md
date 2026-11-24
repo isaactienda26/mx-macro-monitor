@@ -43,6 +43,6 @@ Official data from Banxico, INEGI and the Federal Reserve. Methodology, referenc
 ## 4. Checklist antes de publicar
 
 - [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).
-- [ ] Abrir el PDF y confirmar que las 7 láminas se ven completas.
+- [ ] Abrir el PDF y confirmar que las 5 láminas se ven completas.
 - [ ] Publicar entre 8:00 y 9:30 h (centro de México) y pegar el comentario en inglés en los primeros minutos.
 - [ ] Responder comentarios durante la primera hora.

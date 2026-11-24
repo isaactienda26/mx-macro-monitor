@@ -1,6 +1,6 @@
 # MX Macro Monitor
 
-Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**, **INEGI (BIE)** y la **Reserva Federal (FRED)**, calcula variaciones y señales estadísticas, redacta una lectura económica en español e inglés y genera un **carrusel de LinkedIn (PDF 4:5, 7 láminas)** listo para publicar.
+Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**, **INEGI (BIE)** y la **Reserva Federal (FRED)**, calcula variaciones y señales estadísticas, redacta una lectura económica en español e inglés y genera un **carrusel de LinkedIn (PDF 4:5, 5 láminas)** listo para publicar, con respaldo académico y fuentes trazables.
 
 <p align="center"><img src="bulletins/cover_es.png" width="420" alt="Portada del carrusel más reciente"></p>
 
@@ -8,7 +8,7 @@ Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**
 
 | Archivo | Uso |
 | :--- | :--- |
-| `bulletins/carousel_es.pdf` / `carousel_en.pdf` | Documento para la publicación de LinkedIn (portada, tablero, 4 láminas temáticas, agenda) |
+| `bulletins/carousel_es.pdf` / `carousel_en.pdf` | Documento para LinkedIn: portada, tema principal, tablero, segundo tema, agenda + método + referencias |
 | `bulletins/linkedin_post.md` | Texto del post en español, primer comentario en inglés y checklist de publicación |
 | `bulletins/latest_es.md` / `latest_en.md` | Boletín de una página (también en `bulletins/archive/`) |
 | `data/latest.json`, `data/history.csv` | Snapshot de la semana e historial de cada corrida |
@@ -23,12 +23,13 @@ Las láminas en PNG se adjuntan como *artifact* de cada corrida de GitHub Action
 | Inflación | Inflación general anual | INEGI vía Banxico SIE | `SP30578` |
 | | Inflación subyacente anual | INEGI vía Banxico SIE | `SP74662` |
 | | Expectativa de inflación 12 meses, general y subyacente (mediana) | Encuesta Banxico | `SR14195`, `SR14202` |
+| | Expectativa de inflación 12 meses, media (base de la tasa real ex ante) | Encuesta Banxico | `SR14194` |
 | Política monetaria | Tasa objetivo | Banxico SIE | `SF61745` |
 | | Rango de fondos federales, límite superior | Fed vía FRED | `DFEDTARU` |
 | Tipo de cambio | FIX | Banxico SIE | `SF43718` |
 | Actividad | IGAE, serie desestacionalizada (2018=100) | INEGI BIE | `737219` |
 
-Derivados: tasa real ex ante (tasa objetivo − expectativa a 12 meses), tasa real ex post, diferencial Banxico–Fed, variación semanal / mensual / anual del FIX, rango de 52 semanas y promedio móvil de 3 meses del IGAE.
+Derivados: tasa real ex ante (tasa objetivo − media de expectativas a 12 meses, definición de Banxico) comparada con el rango neutral estimado por Banxico (1.8%–3.6%), tasa real ex post, diferencial Banxico–Fed, variación semanal / mensual / anual del FIX, rango de 52 semanas y promedio móvil de 3 meses del IGAE.
 
 ## Metodología
 
@@ -38,7 +39,15 @@ Derivados: tasa real ex ante (tasa objetivo − expectativa a 12 meses), tasa re
 - **Lectura automática.** `src/narrative.py` redacta cada frase a partir del snapshot con reglas explícitas: describe dirección y magnitud, no atribuye causas que los datos no muestran. El titular se elige por valor noticioso (decisión de Banxico reciente > señal atípica del tipo de cambio > dato de inflación o IGAE publicado en la semana).
 - **Agenda.** `config/agenda.yml` contiene los calendarios oficiales de INEGI, Banxico y la Fed; el pipeline avisa en el log cuando la cobertura queda a menos de 30 días.
 - **Degradación controlada.** Si una fuente falla, se usa la última versión en caché y se declara en el boletín; solo se detiene la publicación si faltan inflación, tasa o tipo de cambio.
-- **Paleta de gráficas** validada para daltonismo (azul `#2A78D6` / naranja `#EB6834`, ΔE CVD 24.7) y tipografía Inter (OFL) incluida en `assets/fonts/`.
+- **Diseño:** ver [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) (tokens, tipografía, reglas de gráficas sin cuadrícula, plantillas y auditoría v2 → v3).
+
+## Referencias
+
+- Banco de México (2024). Actualización de la estimación de la tasa neutral en México. *Informe Trimestral abril–junio 2024*, Recuadro 7.
+- Capistrán, C., Ibarra, R. y Ramos-Francia, M. (2012). El traspaso de movimientos del tipo de cambio a los precios: un análisis para la economía mexicana. *El Trimestre Económico*, 79(316), 813–838.
+- Ángeles, D., Cortés, J. F. y Sámano, D. (2019). Evolution and Characteristics of the Exchange Rate Pass-Through to Prices in Mexico. Banco de México, Working Paper 2019-10.
+- Fama, E. F. (1984). Forward and spot exchange rates. *Journal of Monetary Economics*, 14(3), 319–338.
+- Heath, J. (2012). *Lo que indican los indicadores*. INEGI.
 
 ## Instalación local
 
@@ -65,6 +74,7 @@ src/
   macro_monitor.py  orquestador
 config/agenda.yml   calendario oficial de publicaciones
 docs/PLAYBOOK.md    rutina semanal de publicación en LinkedIn
+docs/DESIGN_SYSTEM.md  sistema de diseño (tokens, gráficas, redacción, auditoría)
 tests/              pruebas de regresión
 ```
 
@@ -80,6 +90,6 @@ tests/              pruebas de regresión
 
 ### English summary
 
-Weekly Python pipeline pulling official Mexican macro data (Banxico SIE, INEGI BIE) and the Fed funds target (FRED). It computes changes and out-of-sample z-score signals, writes a rule-based bilingual reading, and renders a 7-slide 4:5 LinkedIn carousel (PDF) plus post copy every Monday via GitHub Actions. Run `python src/macro_monitor.py --offline` to rebuild any week from the committed data cache.
+Weekly Python pipeline pulling official Mexican macro data (Banxico SIE, INEGI BIE) and the Fed funds target (FRED). It computes changes and out-of-sample z-score signals, writes a rule-based bilingual reading backed by academic references, and renders a 5-slide 4:5 LinkedIn carousel (PDF) plus post copy every Monday via GitHub Actions. Run `python src/macro_monitor.py --offline` to rebuild any week from the committed data cache.
 
 **Autor:** Isaac Tienda · Economista

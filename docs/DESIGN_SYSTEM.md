@@ -114,6 +114,6 @@ Agregar una referencia nueva exige verificar autor, año, título y publicación
 | 9 | Portada con 5 focos (titular + 4 recuadros) | Una cifra protagonista + titular + *sparkline* |
 | 10 | Columna "Señal" vacía en 6 de 8 filas | *Sparklines* de tendencia; señal solo cuando aplica |
 | 11 | Etiquetas de datos en color de serie (naranja 3.2:1) | Etiquetas en `navy`; el color solo en la marca |
-| 12 | 7 láminas: la mayoría de lectores no pasa de la tercera | 5 láminas, el hallazgo en la 1 y la 2 |
+| 12 | 7 láminas con datos repetidos entre tablero y láminas temáticas | 5 láminas; el hallazgo principal en la 1 y la 2 |
 | 13 | Agenda sin contexto metodológico | Sección "Cómo se lee" con la regla de señales y la definición de tasa real |
 | 14 | Pie redundante en dos bloques | Pie de una línea con fuente + autor |

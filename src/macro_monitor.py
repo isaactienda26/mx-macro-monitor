@@ -6,7 +6,7 @@ MX Macro Monitor - weekly pipeline.
     python src/macro_monitor.py --date 2026-11-30 --offline   # simulate a run date
 
 Outputs (bulletins/):
-    carousel_es.pdf, carousel_en.pdf   LinkedIn document posts (7 slides, 4:5)
+    carousel_es.pdf, carousel_en.pdf   LinkedIn document posts (5 slides, 4:5)
     cover_es.png, cover_en.png         cover previews
     linkedin_post.md                   post copy (ES) + first comment (EN) + checklist
     latest_es.md, latest_en.md         one-page bulletins for GitHub
@@ -105,7 +105,7 @@ def post_md(s: dict, t: dict) -> str:
         "", "## 3. Primer comentario (inglés)", "", "```text", t["en"]["post"], "```",
         "", "## 4. Checklist antes de publicar", "",
         "- [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).",
-        "- [ ] Abrir el PDF y confirmar que las 7 láminas se ven completas.",
+        "- [ ] Abrir el PDF y confirmar que las 5 láminas se ven completas.",
         "- [ ] Publicar entre 8:00 y 9:30 h (centro de México) y pegar el comentario en inglés en los primeros minutos.",
         "- [ ] Responder comentarios durante la primera hora.",
         "",
