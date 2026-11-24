@@ -11,7 +11,7 @@ from typing import Dict, Optional
 import numpy as np
 import pandas as pd
 
-from config import (INFLATION_BAND, INFLATION_TARGET, Z_ATYPICAL, Z_UNUSUAL,
+from config import (INFLATION_BAND, INFLATION_TARGET, NEUTRAL_REAL_RANGE, Z_ATYPICAL, Z_UNUSUAL,
                     ZSCORE_WINDOW_MONTHS, ZSCORE_WINDOW_WEEKS)
 
 
@@ -98,6 +98,9 @@ def expectations_block(d: Dict[str, pd.Series]) -> Optional[dict]:
     ec = d.get("exp_core_12m")
     if ec is not None and len(ec):
         out["exp_core_12m"] = _r(ec.iloc[-1])
+    em = d.get("exp_12m_mean")
+    if em is not None and len(em):
+        out["exp_12m_mean"] = _r(em.iloc[-1])
     return out
 
 
@@ -115,8 +118,15 @@ def policy_block(d: Dict[str, pd.Series], exp: Optional[dict], infl: dict) -> di
         "chg_12m_bp": _r((r.iloc[-1] - r12) * 100, 0) if r12 is not None else None,
         "real_ex_post": _r(r.iloc[-1] - infl["yoy"]),
     }
+    # Banxico's definition: policy rate minus the MEAN of 12-month expectations (median as fallback)
+    e_key = "exp_12m_mean" if d.get("exp_12m_mean") is not None else "exp_12m"
     if exp:
-        out["real_ex_ante"] = _r(r.iloc[-1] - exp["exp_12m"])
+        out["real_ex_ante"] = _r(r.iloc[-1] - (exp.get("exp_12m_mean") or exp["exp_12m"]))
+        out["real_basis"] = "mean" if e_key == "exp_12m_mean" else "median"
+        lo, hi = NEUTRAL_REAL_RANGE
+        out["neutral_range"] = [lo, hi]
+        ra = out["real_ex_ante"]
+        out["stance"] = "restrictive" if ra > hi else "accommodative" if ra < lo else "neutral"
     fed = d.get("fed_upper")
     if fed is not None and len(fed):
         f_now = asof_value(fed, today)
@@ -128,10 +138,12 @@ def policy_block(d: Dict[str, pd.Series], exp: Optional[dict], infl: dict) -> di
         out["fed_chart"] = _series_payload(m_fed, 37)
     out["chart"] = _series_payload(monthly_last(r), 37)
     # ex-ante real rate history (monthly): rate at month end minus survey expectation
-    if d.get("exp_12m") is not None:
-        e = d["exp_12m"]
+    if d.get(e_key) is not None:
+        e = d[e_key]
         rm = monthly_last(r).reindex(e.index, method="ffill")
         real = (rm - e).dropna()
+        if out.get("real_ex_ante") is not None:  # current reading (today's rate, latest survey)
+            real.loc[today] = out["real_ex_ante"]
         out["real_chart"] = _series_payload(real, 37)
         out["real_ex_ante_12m_ago"] = _r(asof_value(real, real.index[-1] - pd.DateOffset(months=12)))
     return out

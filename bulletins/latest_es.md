@@ -1,7 +1,7 @@
 # MX Macro Monitor · Semana 48
 **Datos al** 24-nov-2026 · **Autor:** Isaac Tienda · **Fuentes:** Banxico (SIE), INEGI (BIE), Reserva Federal (FRED)
 
-## El peso se deprecia 4.87% en la semana, su mayor movimiento semanal desde junio 2024
+## El peso se deprecia 4.9% en la semana
 
 | Indicador | Último | Cambio | Periodo | Señal |
 | :--- | ---: | ---: | :---: | :--- |
@@ -9,7 +9,7 @@
 | Inflación subyacente (% anual) | 3.80 | +0.05 pp | oct-2026 | — |
 | Expectativa de inflación 12m (mediana) | 4.04 | −0.12 pp | oct-2026 | — |
 | Tasa objetivo Banxico (%) | 6.25 | −100 pb 12m | 24-nov-2026 | — |
-| Tasa real ex ante (%) | 2.21 | — | oct-2026 | — |
+| Tasa real ex ante (%) | 2.23 | — | oct-2026 | — |
 | Diferencial Banxico–Fed (pb) | 225 | −100 12m | 24-nov-2026 | — |
 | Tipo de cambio FIX (MXN/USD) | 19.3668 | +4.87% sem. | 24-nov-2026 | Atípico |
 | IGAE a.e. (% mensual) | −0.7 | +3.0% anual | sep-2026 | Inusual |
@@ -41,7 +41,7 @@
 ### Tasa de Banxico en 6.25%; diferencial con la Fed de 225 pb
 
 - Último movimiento: −25 pb, vigente desde el 6-nov-2026; −100 pb en 12 meses.
-- Tasa real ex ante: 2.21% (tasa objetivo menos expectativa de inflación a 12 meses); ex post: 2.50%.
+- Tasa real ex ante: 2.23% (tasa objetivo menos expectativa de inflación a 12 meses); ex post: 2.50%.
 - Fed: rango 3.75%–4.00%. Diferencial Banxico–Fed (límite superior): 225 pb vs. 325 pb hace un año.
 
 > Por qué importa: un diferencial más estrecho reduce el rendimiento relativo de los activos en pesos, uno de los soportes del tipo de cambio.
@@ -50,7 +50,7 @@
 
 - **jue 26-nov**  · Informe Trimestral jul-sep (Banxico)
 - **jue 26-nov** 06:00 · Empleo y desempleo, ENOE (octubre) (INEGI)
-- **mar 1-dic** 09:00 · Encuesta de expectativas (noviembre) (Banxico) — exp. 12m previo: 4.04%
+- **mar 1-dic** 09:00 · Encuesta de expectativas (noviembre) (Banxico) — expectativa 12m previa: 4.02% (media)
 
 ---
 *Metodología: IGAE desestacionalizado (INEGI 737219). Inflación anual SP30578 y subyacente SP74662; expectativa a 12 meses SR14195 (mediana); tasa objetivo SF61745; FIX SF43718; Fed DFEDTARU. Tasa real ex ante = tasa objetivo − expectativa a 12 meses. Señal: puntaje z del último cambio frente a los 60 meses previos (FIX: 260 semanas), excluyendo el propio dato; inusual ≥ 1.5σ, atípico ≥ 2σ.*

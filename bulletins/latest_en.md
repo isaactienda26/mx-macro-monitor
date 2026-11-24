@@ -1,7 +1,7 @@
 # MX Macro Monitor · Week 48
 **Data as of** Nov 24, 2026 · **Author:** Isaac Tienda · **Sources:** Banxico (SIE), INEGI (BIE), Federal Reserve (FRED)
 
-## The peso weakens 4.87% on the week, its largest weekly move since June 2024
+## The peso weakens 4.9% on the week
 
 | Indicator | Latest | Change | Period | Signal |
 | :--- | ---: | ---: | :---: | :--- |
@@ -9,7 +9,7 @@
 | Core inflation (% y/y) | 3.80 | +0.05 pp | Oct-2026 | — |
 | 12m inflation expectation (median) | 4.04 | −0.12 pp | Oct-2026 | — |
 | Banxico policy rate (%) | 6.25 | −100 bp 12m | Nov 24, 2026 | — |
-| Ex-ante real rate (%) | 2.21 | — | Oct-2026 | — |
+| Ex-ante real rate (%) | 2.23 | — | Oct-2026 | — |
 | Banxico–Fed spread (bp) | 225 | −100 12m | Nov 24, 2026 | — |
 | USD/MXN FIX | 19.3668 | +4.87% w/w | Nov 24, 2026 | Atypical |
 | IGAE s.a. (% m/m) | −0.7 | +3.0% y/y | Sep-2026 | Unusual |
@@ -41,7 +41,7 @@
 ### Banxico rate at 6.25%; spread over the Fed at 225 bp
 
 - Last move: −25 bp, effective Nov 6, 2026; −100 bp over 12 months.
-- Ex-ante real rate: 2.21% (policy rate minus 12-month inflation expectation); ex-post: 2.50%.
+- Ex-ante real rate: 2.23% (policy rate minus 12-month inflation expectation); ex-post: 2.50%.
 - Fed: 3.75%–4.00% range. Banxico–Fed spread (upper bound): 225 bp vs. 325 bp a year ago.
 
 > Why it matters: a narrower spread lowers the relative yield on peso assets, one of the supports of the exchange rate.
@@ -50,7 +50,7 @@
 
 - **Thu Nov 26**  · Quarterly Report (Jul-Sep) (Banxico)
 - **Thu Nov 26** 06:00 · Labor force survey, ENOE (Oct) (INEGI)
-- **Tue Dec 1** 09:00 · Private-sector expectations survey (Nov) (Banxico) — exp. 12m prior: 4.04%
+- **Tue Dec 1** 09:00 · Private-sector expectations survey (Nov) (Banxico) — prior 12m expectation: 4.02% (mean)
 
 ---
 *Methodology: seasonally adjusted IGAE (INEGI 737219). Annual inflation SP30578, core SP74662; 12-month expectation SR14195 (median); policy rate SF61745; FIX SF43718; Fed DFEDTARU. Ex-ante real rate = policy rate − 12-month expectation. Signal: z-score of the latest change vs. the prior 60 months (FIX: 260 weeks), excluding the latest point; unusual ≥ 1.5σ, atypical ≥ 2σ.*
