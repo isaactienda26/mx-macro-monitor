@@ -36,6 +36,11 @@ Z_ATYPICAL = 2.0  # |z| >= 2.0 -> "atypical"
 INFLATION_TARGET = 3.0
 INFLATION_BAND = (2.0, 4.0)
 
+# Banxico's estimated range for the neutral real short-term rate (percent).
+# Source: Banco de México, Informe Trimestral abril-junio 2024, Recuadro 7
+# "Actualización de la estimación de la tasa neutral en México". Update if Banxico revises it.
+NEUTRAL_REAL_RANGE = (1.8, 3.6)
+
 # --- Series catalog ---------------------------------------------------------
 # key -> (source, series id, human description)
 SERIES = {
@@ -48,6 +53,8 @@ SERIES = {
     "policy_rate": ("banxico", "SF61745", "Tasa objetivo Banxico (%)"),
     "fix": ("banxico", "SF43718", "Tipo de cambio FIX (MXN por USD)"),
     "exp_12m": ("banxico", "SR14195", "Expectativa de inflación general 12 meses, mediana (%)"),
+    # Banxico computes the ex-ante real rate with the MEAN of 12-month expectations
+    "exp_12m_mean": ("banxico", "SR14194", "Expectativa de inflación general 12 meses, media (%)"),
     "exp_core_12m": ("banxico", "SR14202", "Expectativa de inflación subyacente 12 meses, mediana (%)"),
     # INEGI BIE (737219 = desestacionalizada; 737121 = cifras originales)
     "igae_sa": ("inegi", "737219", "IGAE, serie desestacionalizada (2018=100)"),
