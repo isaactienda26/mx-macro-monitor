@@ -102,8 +102,14 @@ def post_md(s: dict, t: dict) -> str:
         "", "## 2. Documento a adjuntar", "",
         "`bulletins/carousel_es.pdf` → en LinkedIn: *Iniciar publicación → Agregar documento*. Título sugerido del documento:",
         "", f"> MX Macro Monitor · {t['es']['headline']}",
+        "", "Texto alternativo (para quien usa lector de pantalla; pégalo en el primer comentario si lo necesitas):",
+        "", f"> Carrusel de 5 páginas. {t['es']['ed'][t['es']['order'][0]]['dek']}",
         "", "## 3. Primer comentario (inglés)", "", "```text", t["en"]["post"], "```",
         "", "## 4. Checklist antes de publicar", "",
+        ("- [ ] **Nota del autor en BORRADOR:** revísala o reescríbela en `config/nota_autor.yml` (estado: final) y vuelve a correr el flujo."
+         if t["es"].get("note") and t["es"]["note"]["estado"] != "final" else
+         "- [ ] **Sin nota del autor esta semana:** escríbela en `config/nota_autor.yml` con la semana ISO actual y vuelve a correr el flujo."
+         if not t["es"].get("note") else "- [x] Nota del autor lista."),
         "- [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).",
         "- [ ] Abrir el PDF y confirmar que las 5 láminas se ven completas.",
         "- [ ] Publicar entre 8:00 y 9:30 h (centro de México) y pegar el comentario en inglés en los primeros minutos.",

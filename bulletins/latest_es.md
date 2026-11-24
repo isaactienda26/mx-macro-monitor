@@ -1,7 +1,7 @@
 # MX Macro Monitor · Semana 48
 **Datos al** 24-nov-2026 · **Autor:** Isaac Tienda · **Fuentes:** Banxico (SIE), INEGI (BIE), Reserva Federal (FRED)
 
-## El peso se deprecia 4.9% en la semana
+## El peso registra su mayor depreciación semanal desde junio de 2024
 
 | Indicador | Último | Cambio | Periodo | Señal |
 | :--- | ---: | ---: | :---: | :--- |

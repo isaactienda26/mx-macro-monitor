@@ -1,0 +1,16 @@
+# Nota del autor (lámina 4 del carrusel y párrafo "Mi lectura" del post).
+# Escríbela cada lunes antes de publicar. Si `semana` no coincide con la semana ISO
+# de la corrida, el carrusel se genera sin nota y el checklist lo marca.
+# estado: borrador | final   (borrador = redactada como propuesta; revisar antes de publicar)
+semana: 2026-W48
+estado: borrador
+es: >
+  La depreciación de esta semana llega con la postura monetaria ya en terreno neutral:
+  la tasa real ex ante está en 2.2%, en la parte baja del rango que estima Banxico.
+  Si el tipo de cambio se sostiene en estos niveles, el espacio para nuevos recortes
+  se estrecha, aunque la evidencia para México apunta a un traspaso limitado a precios.
+en: >
+  This week's depreciation comes with the policy stance already in neutral territory:
+  the ex-ante real rate stands at 2.2%, in the lower part of Banxico's estimated range.
+  If the exchange rate holds at these levels, room for further cuts narrows, although
+  evidence for Mexico points to limited pass-through to prices.

@@ -1,119 +1,104 @@
-# Sistema de diseño · MX Macro Monitor
+# Sistema de diseño · MX Macro Monitor (v4)
 
-Reglas para todo material visual de la marca personal de Isaac Tienda en LinkedIn (carrusel semanal, gráficas sueltas, portadas). Los valores viven en código en `src/carousel.py`; este archivo y ese módulo deben mantenerse sincronizados.
+Estilo de boletín institucional para la marca personal de Isaac Tienda en LinkedIn. Los valores viven en `src/carousel.py`; este archivo y ese módulo se mantienen sincronizados.
 
 ## 1. Principios
 
-1. **Una idea por lámina.** Titular-hallazgo + una gráfica + una lectura + por qué importa. Máximo ~35 palabras de texto narrativo por lámina (sin contar fuente ni pie).
-2. **El dato primero.** El titular dice qué pasó con cifra y dirección ("El peso se deprecia 4.9% en la semana"), no el tema ("Tipo de cambio").
-3. **Legible en el teléfono.** LinkedIn muestra el documento a ~390 px de ancho (escala ≈ 0.36 sobre 1080 px). Ningún texto menor a 21 px en el lienzo de 1080.
-4. **Sin opinión, con respaldo.** Se describe dirección y magnitud; toda afirmación interpretativa lleva una referencia académica o institucional.
-5. **Fuentes oficiales y trazables.** Cada gráfica cierra con "Fuente: Elaboración propia con datos de [institución] ([sistema], serie [clave])."
+1. **Dos capas de lectura.** Titular y entrada en lenguaje llano para cualquier lector; unidades, ajustes, fuentes y referencias en notas al pie para economistas.
+2. **Convención institucional.** Cada gráfica lleva número y título descriptivo, subtítulo con unidades y frecuencia, notas, fuente y última observación, como en los informes de Banxico, el Banco Mundial o el Banco de Canadá.
+3. **La gráfica es el gancho.** La página 1 es la "Gráfica de la semana": titular, entrada y gráfica. No hay cifras gigantes decorativas.
+4. **Legible en el teléfono.** LinkedIn muestra la página a ~390 px (×0.36): cuerpo ≥ 34 px, notas ≥ 24 px sobre el lienzo de 1080.
+5. **Datos sin adorno; opinión firmada.** El texto de datos describe dirección y magnitud con fuente. La única opinión es la *Lectura del autor*, firmada y con aviso.
 
-## 2. Formato
+## 2. Estructura (5 páginas, 1080 × 1350)
 
-| Elemento | Valor |
-| :--- | :--- |
-| Lienzo | 1080 × 1350 px (4:5), PDF multipágina para publicación de documento |
-| Láminas | 5: portada · tema principal · tablero · segundo tema · agenda + método + referencias |
-| Margen exterior | 80 px |
-| Encabezado | `MX MACRO MONITOR · SEMANA nn` (22 px, azul, negritas) + `n/5` a la derecha |
-| Pie | línea 1.2 px `#DCE1E8`; fuente (21 px, máx. 2 líneas) a la izquierda; autor y rol a la derecha |
+| # | Página | Contenido |
+| :---: | :--- | :--- |
+| 1 | Gráfica de la semana | Cabecera completa (banda navy de 14 px, nombre, fecha, descriptor) · titular serif · entrada (2–3 frases, cita en línea) · Gráfica 1 con notas y fuente |
+| 2 | Indicadores clave | Tabla de 6 filas: indicador + unidad/periodo, tendencia, último dato, cambio; llamadas ¹ ² para señales; glosario y fuente |
+| 3 | Gráfica 2 | Segundo tema con la misma plantilla de la página 1 y cabecera corta |
+| 4 | Lectura del autor | Nota firmada (`config/nota_autor.yml`) + "Qué vigilar esta semana" |
+| 5 | Notas y referencias | Metodología, referencias completas, dónde consultar datos y código |
 
 ## 3. Color
 
-| Token | Hex | Uso | Contraste |
+| Token | Hex | Uso | Contraste sobre blanco |
 | :--- | :--- | :--- | :---: |
-| `navy` | `#0B1F33` | Fondo de portada, titulares, cifras, etiquetas de datos | 16.7:1 |
-| `text` | `#1B2533` | Texto de cuerpo | 15.5:1 |
-| `muted` | `#566070` | Texto secundario, kicker, fuentes | 6.4:1 |
-| `faint` | `#6B7585` | Etiquetas de ejes | 4.7:1 |
-| `rule` | `#DCE1E8` | Líneas divisorias, eje x | — |
-| `panel` | `#F3F6FA` | Recuadro "por qué importa" | — |
-| `blue` | `#2A78D6` | Serie 1, acento de marca | 4.4:1 |
-| `blue_dk` | `#1C5CAB` | Último dato resaltado (punto o barra) | 6.6:1 |
-| `blue_lt` | `#A9CBF3` | Barras de contexto | — |
-| `orange` | `#EB6834` | Serie 2 (solo comparación: subyacente, Fed) | 3.2:1 → nunca como texto |
-| `band` | `#E6EDF6` | Bandas de referencia (intervalo de Banxico, rango neutral) | — |
-| `gold` | `#F2B84B` | Cifra protagonista de la portada (solo sobre navy) | 9.3:1 |
-| `on_navy` | `#C9D4E3` | Texto secundario sobre navy | 11.1:1 |
-| `status.atypical` | `#B42318` + ▲ | Señal atípica (siempre con ícono y palabra) | 6.6:1 |
-| `status.unusual` | `#B54708` + ● | Señal inusual (siempre con ícono y palabra) | 5.4:1 |
+| `ink` | `#0B1F33` | Banda de cabecera, titulares, cifras, etiquetas de datos | 16.7:1 |
+| `text` | `#1F2933` | Cuerpo | 14.8:1 |
+| `muted` | `#52606D` | Subtítulos, notas, fuentes | 6.5:1 |
+| `axis` | `#66717F` | Etiquetas de ejes | 5.0:1 |
+| `rule` | `#D9DEE5` | Líneas divisorias y línea base | decorativo |
+| `tint` | `#F4F6F9` | Encabezado de tabla | decorativo |
+| `blue` | `#1F5FAD` | Serie principal, barra más reciente | 6.4:1 |
+| `blue-ctx` | `#6F95C9` | Barras de contexto | 3.1:1 |
+| `orange` | `#D9692B` | Segunda serie (solo comparación); nunca texto | 3.5:1 |
+| `band` | `#E9EEF5` | Bandas de referencia (meta, rango neutral) | decorativo |
 
-Reglas: el par azul/naranja pasa la validación para daltonismo (ΔE CVD 24.7; visión normal 33.6). Los colores de estado no se usan para series. No se usan rojo/verde para "bueno/malo": una depreciación no se colorea como pérdida. El dorado no entra en gráficas.
+El par `blue`/`orange` pasa la validación para daltonismo (ΔE CVD 23.9; visión normal 32.8). Sin rojo/verde de juicio, sin degradados, sin sombras, sin color de estado: las señales estadísticas se marcan con llamadas numeradas (¹, ²) y se explican al pie.
 
 ## 4. Tipografía
 
-Inter (OFL), incluida en `assets/fonts/`. Inter Display para titulares y cifras.
+Source Serif 4 (titulares y nota del autor) y Source Sans 3 (texto, datos, gráficas), ambas de Adobe con licencia OFL, incluidas en `assets/fonts/`.
 
-| Rol | Tamaño (px @1080) | Peso | Interlineado |
-| :--- | :---: | :---: | :---: |
-| Cifra de portada | 210 | Display Bold | — |
-| Titular de portada | 60 | Display Bold | 1.10 |
-| Titular de lámina | 58 (máx. 2 líneas) | Display Bold | 1.10 |
-| Cifra de tablero | 44 | Display Bold | — |
-| Lectura | 32 | Medium | 1.30 |
-| Kicker / subtítulo | 28 | Regular | 1.30 |
-| Por qué importa | 27 | Regular | 1.32 |
-| Etiquetas, leyenda, ejes, sección | 22 | Regular / Semibold | 1.30 |
-| Fuente y referencias | 21 | Regular | 1.30 |
+| Rol | Fuente | px @1080 |
+| :--- | :--- | :---: |
+| Nombre en cabecera | Source Serif 4 Display Semibold | 40 (p. 1) · 28 |
+| Titular | Source Serif 4 Display Semibold | 62 (p. 1) · 58 |
+| Nota del autor | Source Serif 4 Regular | 38 |
+| Entrada | Source Sans 3 Regular | 34 |
+| Cifra de tabla | Source Sans 3 Semibold | 42 |
+| Título de gráfica | Source Sans 3 Semibold | 30 |
+| Subtítulo de gráfica, ejes | Source Sans 3 Regular | 26 |
+| Etiquetas de datos | Source Sans 3 Semibold | 28 |
+| Notas, fuente, pie | Source Sans 3 Regular | 24 |
 
 ## 5. Gráficas
 
-- **Sin líneas de cuadrícula.** Solo línea base inferior (`rule`, 1.2 px) y 3 marcas en el eje y, sin línea de eje vertical.
-- **Etiquetas directas** del último dato (y del mínimo cuando aporta contexto) en `navy`; el color de la serie identifica, el texto siempre usa tokens de texto.
-- **Leyenda** en una fila arriba de la gráfica: siempre con ≥ 2 series; con una serie, la leyenda nombra la unidad ("Pesos por dólar (alza = peso más débil)").
-- **Un solo eje y.** Nunca doble eje.
-- **Bandas de referencia** en `band` con su nombre escrito dentro (intervalo 2%–4%, rango neutral 1.8%–3.6%).
-- Líneas de 3 px con extremos redondeados; barras con separación blanca de 2 px; la barra o punto más reciente en `blue_dk`.
-- Fechas del eje x: `ene 26`, `abr 26`… (inglés: `Jan 26`).
-- **Fuente obligatoria:** "Fuente: Elaboración propia con datos de Banxico (SIE, serie SF43718)." / "Source: Author's elaboration with data from …".
+- Bloque fijo: **"Gráfica n. Título descriptivo"** → subtítulo con unidades, frecuencia y periodo → gráfica → **Nota:** (lectura del eje, bandas, ajuste) y **Última observación** → **Fuente: Elaboración propia con datos de [institución] ([sistema], serie [clave]).**
+- Sin cuadrícula; solo línea base y 3–4 marcas en el eje y; sin marcas en el eje temporal.
+- Etiquetas directas con nombre y valor ("Subyacente 3.80%"); sin leyenda cuando la etiqueta directa basta.
+- Un solo eje y; bandas de referencia en `band`; la observación más reciente resaltada.
 
-## 6. Plantillas de lámina
+## 6. Redacción
 
-| # | Lámina | Contenido |
-| :---: | :--- | :--- |
-| 1 | Portada (fondo navy) | Etiqueta de la cifra (28 px) · cifra en dorado (210 px) · titular blanco (≤ 3 líneas) · subtítulo · *sparkline* de la serie sin ejes · autor · "Desliza →" |
-| 2 | Tema principal | Sección · titular-hallazgo · kicker · leyenda · gráfica · lectura (1 frase) · recuadro "por qué importa" + `Ref.:` · fuente |
-| 3 | Tablero | 6 filas: nombre + periodo (+ señal si aplica) · *sparkline* · cifra + cambio |
-| 4 | Segundo tema | Igual que la 2 |
-| 5 | Cierre | Qué sigue (3 eventos) · Cómo se lee (método) · Referencias numeradas · bloque navy de seguimiento |
+- Titular: hecho + dirección + magnitud o referencia temporal ("El peso registra su mayor depreciación semanal desde junio de 2024").
+- Entrada: frase 1 = qué pasó en palabras llanas ("El dólar pasó de 18.47 a 19.37 pesos"); frase 2 = qué significa, con cita en línea (autor, año).
+- Siglas explicadas en el glosario (a.e., pp, pb). Decimales: tasas e inflación 2, variaciones 1, tipo de cambio 2.
+- Post: pregunta y respuesta del tema principal, tres datos más, "Mi lectura" (de la nota firmada), agenda, pregunta de cierre, 3 *hashtags*. Sin viñetas decorativas.
 
-## 7. Redacción
+## 7. Benchmark institucional
 
-- Titular: verbo de dirección + cifra + periodo; ≤ 55 caracteres. Verbos permitidos: sube, baja, se mantiene, avanza, retrocede, se deprecia, se aprecia.
-- Decimales: inflación y tasas con 2; variaciones porcentuales con 1; tipo de cambio con 2; diferenciales en pb enteros. Signo menos tipográfico (−).
-- Sin adjetivos valorativos ("preocupante", "fuerte"). Sin pronósticos propios.
-- "Por qué importa": un mecanismo económico respaldado por la referencia citada.
-- Post: gancho ≤ 140 caracteres (cabe antes de "…ver más"), 3 viñetas, pregunta de cierre de bajo compromiso, 3 *hashtags*. El enlace al repositorio va en el primer comentario.
-
-## 8. Referencias base
-
-| Clave | Uso | Referencia |
+| Práctica | Referente | Aplicación |
 | :--- | :--- | :--- |
-| Traspaso cambiario | Lámina de tipo de cambio | Capistrán, Ibarra y Ramos-Francia (2012), *El Trimestre Económico* 79(316); Ángeles, Cortés y Sámano (2019), Banxico WP 2019-10 |
-| Tasa neutral | Postura monetaria, tablero | Banco de México (2024), Informe Trimestral abr–jun, Recuadro 7 (rango 1.8%–3.6%) |
-| Diferencial de tasas | Política monetaria | Fama (1984), *Journal of Monetary Economics* 14(3) |
-| Lectura de indicadores | Actividad, inflación | Heath (2012), *Lo que indican los indicadores*, INEGI |
-| Expectativas | Inflación | Banxico, Encuesta sobre las Expectativas de los Especialistas en Economía del Sector Privado |
+| Título + subtítulo con unidades y "a.e./ Cifras con ajuste estacional" | Banxico, Informe Trimestral | Bloque de gráfica y glosario |
+| "Los datos son los últimos disponibles al…" y glosario de siglas | Banxico, infografía de indicadores clave | Página 2 |
+| Orden notas → notas al pie → fuente | Eurostat | Pie de cada gráfica |
+| Leyenda solo si no hay etiqueta directa; ~5 marcas por eje; sin marcas en eje temporal | Banco Mundial | Etiquetas directas y ejes |
+| Título, subtítulo en tipo oración, notas, fuentes y última observación | Banco de Canadá | Bloque de gráfica |
+| Una gráfica con historia como pieza semanal; aviso de que las opiniones son de los autores | FMI, *Chart of the Week* | Página 1 y nota firmada |
 
-Agregar una referencia nueva exige verificar autor, año, título y publicación en la fuente original.
+## 8. Auditoría v3 → v4
 
-## 9. Auditoría de diseño (v2 → v3, noviembre de 2026)
+### Atención y comprensión
 
-| # | Hallazgo en v2 | Corrección en v3 |
-| :---: | :--- | :--- |
-| 1 | Textos de 17–19 px: ~6–7 px reales en teléfono | Mínimo 21 px; cuerpo 27–32 px |
-| 2 | 60–90 palabras por lámina temática (3 viñetas + recuadro) | ≤ ~35 palabras: una lectura + por qué importa |
-| 3 | Titulares de 3–4 líneas (hasta 90 caracteres) | Titular ≤ 55 caracteres; el contexto pasa al kicker |
-| 4 | Sobreprecisión (4.87%, 19.3668, z = +3.39) | 1 decimal en variaciones, 2 en niveles; z solo como etiqueta |
-| 5 | Cuadrícula y 6–7 marcas en el eje y | Sin cuadrícula, 3 marcas, etiquetas directas |
-| 6 | Fuente sin formato académico | "Elaboración propia con datos de …" con clave de serie |
-| 7 | Sin respaldo académico | `Ref.:` en cada lámina + referencias completas al cierre |
-| 8 | Tasa real ex ante con la mediana de expectativas | Media (definición de Banxico) y banda del rango neutral |
-| 9 | Portada con 5 focos (titular + 4 recuadros) | Una cifra protagonista + titular + *sparkline* |
-| 10 | Columna "Señal" vacía en 6 de 8 filas | *Sparklines* de tendencia; señal solo cuando aplica |
-| 11 | Etiquetas de datos en color de serie (naranja 3.2:1) | Etiquetas en `navy`; el color solo en la marca |
-| 12 | 7 láminas con datos repetidos entre tablero y láminas temáticas | 5 láminas; el hallazgo principal en la 1 y la 2 |
-| 13 | Agenda sin contexto metodológico | Sección "Cómo se lee" con la regla de señales y la definición de tasa real |
-| 14 | Pie redundante en dos bloques | Pie de una línea con fuente + autor |
+| Hallazgo en v3 | Corrección en v4 |
+| :--- | :--- |
+| Portada navy con cifra dorada de 210 px: patrón de plantilla publicitaria, compite con el dato | La gráfica es la portada; titular serif y entrada en lenguaje llano |
+| Recuadro con borde izquierdo y etiqueta "Por qué importa": patrón genérico de contenido generado | Entrada en prosa con cita en línea, sin recuadros |
+| Etiquetas en mayúsculas, flechas y símbolos ▲ ● | Tipo oración; señales como llamadas numeradas al pie |
+| Lenguaje técnico en primer plano (tasa real, z, pb) | Primera capa en lenguaje llano; tecnicismos al pie y en el glosario |
+| Sin voz del autor: poco motivo para seguir la serie | *Lectura del autor* firmada, con aviso de opinión personal |
+| Inter en todo: tipografía genérica | Source Serif 4 + Source Sans 3, par editorial-institucional |
+
+### Accesibilidad (WCAG 2.1 AA aplicado a documento PDF)
+
+| Criterio | v3 | v4 |
+| :--- | :--- | :--- |
+| 1.4.3 Contraste de texto | Cumple (mín. 4.7:1) | Cumple (mín. 5.0:1) |
+| 1.4.11 Contraste no textual | Barras de contexto `#A9CBF3` 1.7:1 | `#6F95C9` 3.1:1 |
+| 1.4.1 Uso del color | Series identificadas por color + leyenda | Etiqueta directa con nombre de la serie |
+| Legibilidad móvil | Notas de 21 px (≈ 7.6 px en teléfono) | Notas 24 px, cuerpo 34 px |
+| 1.1.1 Alternativa textual | Sin texto alternativo | PDF con texto real y metadatos; texto alternativo listo en `linkedin_post.md` |
+| 3.1.4 Abreviaturas | Parcial | Glosario en página 2 y notas por gráfica |
+| 1.3.2 Orden de lectura | No verificable en PDF generado | Sin cambio: LinkedIn no lee PDF etiquetado; el post repite los datos clave en texto |

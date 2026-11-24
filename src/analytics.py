@@ -169,7 +169,7 @@ def fx_block(d: Dict[str, pd.Series]) -> dict:
     same = prior[(np.sign(prior) == np.sign(cur)) & (prior.abs() >= abs(cur))] if cur else prior.iloc[0:0]
     largest_since = same.index[-1].strftime("%Y-%m-%d") if len(same) else None
     return {
-        "date": t.strftime("%Y-%m-%d"), "value": round(v, 4),
+        "date": t.strftime("%Y-%m-%d"), "value": round(v, 4), "value_1w_ago": round(w, 4) if w else None,
         "chg_1w_pct": _r(pct(v, w)), "chg_1m_pct": _r(pct(v, m)), "chg_12m_pct": _r(pct(v, y)),
         "low_52w": round(lo, 4), "high_52w": round(hi, 4),
         "low_52w_date": last52.idxmin().strftime("%Y-%m-%d"), "high_52w_date": last52.idxmax().strftime("%Y-%m-%d"),

@@ -1,6 +1,6 @@
 # MX Macro Monitor
 
-Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**, **INEGI (BIE)** y la **Reserva Federal (FRED)**, calcula variaciones y señales estadísticas, redacta una lectura económica en español e inglés y genera un **carrusel de LinkedIn (PDF 4:5, 5 láminas)** listo para publicar, con respaldo académico y fuentes trazables.
+Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**, **INEGI (BIE)** y la **Reserva Federal (FRED)**, calcula variaciones y señales estadísticas, redacta una lectura económica en español e inglés y genera un **boletín de LinkedIn en formato institucional (PDF 4:5, 5 páginas)** listo para publicar, con respaldo académico, fuentes trazables y una nota firmada del autor.
 
 <p align="center"><img src="bulletins/cover_es.png" width="420" alt="Portada del carrusel más reciente"></p>
 
@@ -8,7 +8,8 @@ Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**
 
 | Archivo | Uso |
 | :--- | :--- |
-| `bulletins/carousel_es.pdf` / `carousel_en.pdf` | Documento para LinkedIn: portada, tema principal, tablero, segundo tema, agenda + método + referencias |
+| `bulletins/carousel_es.pdf` / `carousel_en.pdf` | Documento para LinkedIn: gráfica de la semana, indicadores clave, segunda gráfica, lectura del autor + agenda, notas y referencias |
+| `config/nota_autor.yml` | Nota firmada de la semana (la escribe el autor; si no corresponde a la semana en curso, el boletín sale sin ella) |
 | `bulletins/linkedin_post.md` | Texto del post en español, primer comentario en inglés y checklist de publicación |
 | `bulletins/latest_es.md` / `latest_en.md` | Boletín de una página (también en `bulletins/archive/`) |
 | `data/latest.json`, `data/history.csv` | Snapshot de la semana e historial de cada corrida |

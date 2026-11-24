@@ -265,8 +265,14 @@ def build(s: dict, agenda: dict) -> Dict[str, dict]:
         out[lang]["cards"] = cards(s, lang)
         out[lang]["post"] = (post_v3_es(s, order, out[lang]["cards"], out[lang]["agenda"]) if lang == "es"
                              else comment_v3_en(s, order, out[lang]["cards"]))
-        out[lang]["headline"] = out[lang]["cards"][order[0]]["title"]
-        out[lang]["subhead"] = out[lang]["cards"][order[1]]["title"]
+        out[lang]["ed"] = editorial(s, lang)
+        note = load_author_note(s["run_date"])
+        out[lang]["note"] = ({"text": note[lang] or note["es"], "estado": note["estado"]} if note and (note.get(lang) or lang == "es")
+                             else None)
+        out[lang]["post"] = (post_v4_es(s, order, out[lang]["ed"], out[lang]["agenda"], note) if lang == "es"
+                             else comment_v4_en(s, order, out[lang]["ed"], note))
+        out[lang]["headline"] = out[lang]["ed"][order[0]]["head"]
+        out[lang]["subhead"] = out[lang]["ed"][order[1]]["head"]
     return out
 
 
@@ -565,4 +571,202 @@ def comment_v3_en(s: dict, order: List[str], cd: Dict[str, dict]) -> str:
     lead = cd[order[0]]
     lines = "\n".join(f"▪ {cd[k]['title']}." for k in order[1:] if k in cd)
     return (f"English version · {lead['title']}: {lead['kicker'][0].lower() + lead['kicker'][1:]}.\n\n{lines}\n\n"
+            f"Official data from Banxico, INEGI and the Federal Reserve. Methodology, references and open-source code: {REPO_URL}")
+
+
+# =====================================================================================
+# v4 editorial layer: institutional two-layer copy (plain language + technical notes)
+# =====================================================================================
+def _mon_long(period: str, lang: str) -> str:
+    return month_only(period, lang)
+
+
+def editorial(s: dict, lang: str) -> Dict[str, dict]:
+    es = lang == "es"
+    i, e, p, f, a = s["inflation"], s.get("expectations") or {}, s["policy"], s["fx"], s.get("activity")
+    out: Dict[str, dict] = {}
+    obs = ("Última observación: " if es else "Last observation: ")
+
+    # --- FX
+    w = f["chg_1w_pct"]
+    dep = w > 0
+    atyp = f["signal"] in ("unusual", "atypical") and f.get("largest_since")
+    since = _since_label(f, lang) if f.get("largest_since") else ""
+    if abs(w) < 0.25:
+        head = "El peso se mantiene estable frente al dólar" if es else "The peso holds steady against the dollar"
+    elif es:
+        head = (f"El peso registra su mayor {'depreciación' if dep else 'apreciación'} semanal desde {since}" if atyp
+                else f"El peso se {'deprecia' if dep else 'aprecia'} {abs(w):.1f}% en la semana")
+    else:
+        head = (f"The peso posts its largest weekly {'loss' if dep else 'gain'} since {since}" if atyp
+                else f"The peso {'weakens' if dep else 'strengthens'} {abs(w):.1f}% on the week")
+    v0 = f.get("value_1w_ago")
+    if es:
+        dek = (f"El dólar pasó de {v0:.2f} a {f['value']:.2f} pesos en siete días ({signed(w,1)}%). "
+               "El efecto sobre los precios suele ser acotado: el traspaso cambiario en México es bajo desde la "
+               "adopción de metas de inflación (Capistrán et al., 2012).")
+        q = "¿Qué tanto se notará en los precios?"
+        ans = "La evidencia para México sugiere que poco: el traspaso del tipo de cambio a la inflación es bajo desde que Banxico adoptó metas de inflación."
+    else:
+        dek = (f"The dollar went from {v0:.2f} to {f['value']:.2f} pesos in seven days ({signed(w,1)}%). "
+               "The effect on prices tends to be limited: Mexico's exchange-rate pass-through has been low since "
+               "inflation targeting (Capistrán et al., 2012).")
+        q = "How much will prices feel it?"
+        ans = "Evidence for Mexico suggests not much: pass-through to inflation has been low since inflation targeting."
+    out["fx"] = {
+        "head": head, "dek": dek, "q": q, "ans": ans,
+        "chart_title": "Tipo de cambio FIX" if es else "USD/MXN FIX exchange rate",
+        "chart_sub": "Pesos por dólar, datos diarios, últimas 52 semanas" if es else "Pesos per dollar, daily, last 52 weeks",
+        "note": (("Nota: un alza indica depreciación del peso. " if es else "Note: a rise means a weaker peso. ")
+                 + obs + day_year(f["date"], lang) + "."),
+        "source": SOURCE_LINE["fx"][lang],
+    }
+
+    # --- Activity
+    if a:
+        mm, q3 = a["mom"], a["q3_vs_prev3"]
+        mon, prevmon = _mon_long(a["period"], lang), MES_L[(int(a["period"][5:7]) - 2) % 12] if es else MON_L[(int(a["period"][5:7]) - 2) % 12]
+        if es:
+            head = (f"La actividad económica {'retrocede' if mm < 0 else 'avanza'} {abs(mm):.1f}% en {mon}"
+                    if abs(mm) >= 0.05 else f"La actividad económica se mantiene en {mon}")
+            trend = "al alza" if q3 > 0.05 else "a la baja" if q3 < -0.05 else "estable"
+            dek = (f"La actividad fue {abs(mm):.1f}% {'menor' if mm < 0 else 'mayor'} que en {prevmon}, según el IGAE, "
+                   f"el indicador mensual que anticipa al PIB. El promedio de tres meses sigue {trend} ({signed(q3,1)}%): "
+                   "un solo mes no define la tendencia (Heath, 2012).")
+            q = "¿Es el inicio de una desaceleración?"
+            ans = f"Un mes no basta para decirlo: el promedio de tres meses sigue {trend} ({signed(q3,1)}%)."
+        else:
+            head = (f"Economic activity {'contracts' if mm < 0 else 'grows'} {abs(mm):.1f}% in {mon}"
+                    if abs(mm) >= 0.05 else f"Economic activity is flat in {mon}")
+            trend = "up" if q3 > 0.05 else "down" if q3 < -0.05 else "flat"
+            dek = (f"Activity was {abs(mm):.1f}% {'lower' if mm < 0 else 'higher'} than in {prevmon}, according to IGAE, "
+                   f"the monthly indicator that anticipates GDP. The three-month average is still {trend} ({signed(q3,1)}%): "
+                   "one month does not set the trend (Heath, 2012).")
+            q = "Is this the start of a slowdown?"
+            ans = f"One month is not enough to tell: the three-month average is still {trend} ({signed(q3,1)}%)."
+        out["activity"] = {
+            "head": head, "dek": dek, "q": q, "ans": ans,
+            "chart_title": "Indicador Global de la Actividad Económica (IGAE)" if es else "Global Economic Activity Indicator (IGAE)",
+            "chart_sub": "Variación % mensual, a.e., últimos 24 meses" if es else "Monthly % change, s.a., last 24 months",
+            "note": (("a.e./ Cifras con ajuste estacional. " if es else "s.a./ Seasonally adjusted. ")
+                     + obs + month(a["period"], lang) + "."),
+            "source": SOURCE_LINE["activity"][lang],
+        }
+
+    # --- Inflation
+    gap = i["yoy"] - i["target"]
+    dpp = i["delta_pp"]
+    if es:
+        verb = "sube a" if dpp >= 0.05 else "baja a" if dpp <= -0.05 else "se mantiene en"
+        head = f"La inflación {verb} {i['yoy']:.2f}% en {_mon_long(i['period'], lang)}"
+        dek = (f"Los precios al consumidor subieron {i['yoy']:.2f}% en los últimos 12 meses, {abs(gap):.2f} pp "
+               f"{'por encima' if gap > 0 else 'por debajo'} de la meta de 3% de Banxico. La inflación subyacente, que excluye "
+               f"los precios más volátiles, se ubicó en {i.get('core', 0):.2f}%.")
+        q = "¿Qué significa para Banxico?"
+        ans = (f"La subyacente ({i.get('core', 0):.2f}%) es la medida que pesa en sus decisiones; sigue "
+               f"{'por encima' if i.get('core', 0) > 3 else 'por debajo'} de la meta.")
+    else:
+        verb = "rises to" if dpp >= 0.05 else "falls to" if dpp <= -0.05 else "holds at"
+        head = f"Inflation {verb} {i['yoy']:.2f}% in {_mon_long(i['period'], lang)}"
+        dek = (f"Consumer prices rose {i['yoy']:.2f}% over 12 months, {abs(gap):.2f} pp {'above' if gap > 0 else 'below'} "
+               f"Banxico's 3% target. Core inflation, which excludes the most volatile prices, stood at {i.get('core', 0):.2f}%.")
+        q = "What does it mean for Banxico?"
+        ans = f"Core inflation ({i.get('core', 0):.2f}%) weighs most in its decisions and remains {'above' if i.get('core', 0) > 3 else 'below'} target."
+    out["inflation"] = {
+        "head": head, "dek": dek, "q": q, "ans": ans,
+        "chart_title": "Inflación general y subyacente" if es else "Headline and core inflation",
+        "chart_sub": "Variación % anual, últimos 36 meses" if es else "Annual % change, last 36 months",
+        "note": (("Nota: la banda sombreada es el intervalo de variabilidad de Banxico (2%–4%); la línea punteada, la meta de 3%. "
+                  if es else "Note: the shaded band is Banxico's 2%–4% variability interval; the dotted line, the 3% target. ")
+                 + obs + month(i["period"], lang) + "."),
+        "source": SOURCE_LINE["inflation"][lang],
+    }
+
+    # --- Policy
+    ra, st = p.get("real_ex_ante"), p.get("stance", "neutral")
+    lo, hi = p.get("neutral_range", [1.8, 3.6])
+    sp, sp12 = p.get("spread_bp"), p.get("spread_12m_ago_bp")
+    if es:
+        st_t = {"neutral": "dentro del rango neutral", "restrictive": "por encima del rango neutral",
+                "accommodative": "por debajo del rango neutral"}[st]
+        head = f"La tasa real de Banxico, {st_t}"
+        dek = (f"Descontando la inflación esperada, la tasa de {p['rate']:.2f}% equivale a {ra:.2f}% real, "
+               f"{st_t} que estima el banco central ({lo:.1f}%–{hi:.1f}%; Banxico, 2024). "
+               f"El diferencial con la Fed es de {sp:.0f} pb, frente a {sp12:.0f} pb hace un año.").replace(
+                   f"{st_t} que estima", "dentro del rango que estima" if st == "neutral" else f"{st_t} que estima")
+        q = "¿Hay espacio para más recortes?"
+        ans = f"Con la tasa real en {ra:.2f}%, la postura ya está {st_t} estimado por Banxico ({lo:.1f}%–{hi:.1f}%)."
+    else:
+        st_t = {"neutral": "inside the neutral range", "restrictive": "above the neutral range",
+                "accommodative": "below the neutral range"}[st]
+        head = f"Banxico's real rate, {st_t}"
+        dek = (f"Net of expected inflation, the {p['rate']:.2f}% policy rate equals {ra:.2f}% in real terms, {st_t} "
+               f"estimated by the central bank ({lo:.1f}%–{hi:.1f}%; Banxico, 2024). The spread over the Fed is {sp:.0f} bp, "
+               f"versus {sp12:.0f} bp a year ago.")
+        q = "Is there room for more cuts?"
+        ans = f"With the real rate at {ra:.2f}%, the stance is already {st_t} ({lo:.1f}%–{hi:.1f}%)."
+    out["policy"] = {
+        "head": head, "dek": dek, "q": q, "ans": ans,
+        "chart_title": "Tasa real ex ante" if es else "Ex-ante real policy rate",
+        "chart_sub": ("%, tasa objetivo menos expectativa de inflación a 12 meses (media)" if es
+                      else "%, policy rate minus mean 12-month inflation expectation"),
+        "note": (("Nota: la banda sombreada es el rango estimado de la tasa neutral real (Banxico, 2024). " if es
+                  else "Note: the shaded band is Banxico's (2024) estimated neutral real rate range. ")
+                 + obs + day_year(p["date"], lang) + "."),
+        "source": SOURCE_LINE["policy"][lang],
+    }
+    return out
+
+
+def load_author_note(run_date: str) -> Optional[dict]:
+    import yaml
+    from config import ROOT
+    path = ROOT / "config" / "nota_autor.yml"
+    if not path.exists():
+        return None
+    d = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    y, wk, _ = date.fromisoformat(run_date).isocalendar()
+    if str(d.get("semana", "")).strip() != f"{y}-W{wk:02d}":
+        return None
+    es, en = (d.get("es") or "").strip(), (d.get("en") or "").strip()
+    if not es:
+        return None
+    return {"es": es, "en": en or None, "estado": d.get("estado", "final")}
+
+
+def post_v4_es(s: dict, order: List[str], ed: Dict[str, dict], agenda_rows: List[dict], note: Optional[dict]) -> str:
+    lead = ed[order[0]]
+    i, p, f, a = s["inflation"], s["policy"], s["fx"], s.get("activity")
+    facts = {
+        "fx": f"Tipo de cambio: {f['value']:.2f} pesos por dólar ({signed(f['chg_1w_pct'],1)}% en la semana).",
+        "inflation": f"Inflación: {i['yoy']:.2f}% anual en {month_only(i['period'], 'es')}; subyacente, {i.get('core', 0):.2f}%.",
+        "policy": f"Tasa real ex ante: {p.get('real_ex_ante'):.2f}%, {'dentro del' if p.get('stance') == 'neutral' else 'fuera del'} rango neutral de Banxico.",
+        "activity": (f"IGAE: {signed(a['mom'],1)}% mensual en {month_only(a['period'], 'es')} ({signed(a['yoy'],1)}% anual)." if a else ""),
+    }
+    lead_line = lead["head"]
+    if order[0] == "fx" and f.get("value_1w_ago"):
+        lead_line += f": el dólar pasó de {f['value_1w_ago']:.2f} a {f['value']:.2f} pesos"
+    others = "\n".join(facts[k] for k in order[1:] if facts.get(k))
+    days: Dict[str, List[str]] = {}
+    for r in agenda_rows[:3]:
+        days.setdefault(r["day"], []).append(r["what"])
+    nxt = "; ".join(f"{d_}, {' y '.join(w_)}" for d_, w_ in list(days.items())[:2])
+    mine = ""
+    if note:
+        t_ = note["es"].strip()
+        mine = f"Mi lectura: {t_[0].lower() + t_[1:]}\n\n"
+    return (f"{lead_line}.\n\n"
+            f"{lead['q']} {lead['ans']}\n\n"
+            f"Los otros datos de la semana:\n{others}\n\n"
+            f"{mine}"
+            f"Esta semana: {nxt}.\n\n"
+            f"{CTA_ES[order[0]]}\n\n"
+            f"#EconomíaMexicana #Banxico #Macroeconomía")
+
+
+def comment_v4_en(s: dict, order: List[str], ed: Dict[str, dict], note: Optional[dict]) -> str:
+    lead = ed[order[0]]
+    others = "\n".join(f"{ed[k]['head']}." for k in order[1:] if k in ed)
+    mine = f"My take: {note['en']}\n\n" if note and note.get("en") else ""
+    return (f"English version. {lead['head']}. {lead['q']} {lead['ans']}\n\n{others}\n\n{mine}"
             f"Official data from Banxico, INEGI and the Federal Reserve. Methodology, references and open-source code: {REPO_URL}")

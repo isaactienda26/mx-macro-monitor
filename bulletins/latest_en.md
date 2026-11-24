@@ -1,7 +1,7 @@
 # MX Macro Monitor · Week 48
 **Data as of** Nov 24, 2026 · **Author:** Isaac Tienda · **Sources:** Banxico (SIE), INEGI (BIE), Federal Reserve (FRED)
 
-## The peso weakens 4.9% on the week
+## The peso posts its largest weekly loss since June 2024
 
 | Indicator | Latest | Change | Period | Signal |
 | :--- | ---: | ---: | :---: | :--- |
