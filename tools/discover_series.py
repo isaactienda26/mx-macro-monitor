@@ -1,11 +1,11 @@
 """One-off helper: print Banxico SIE metadata (title, frequency, period) for candidate IDs."""
-import os, sys, requests
+import os, re, sys, requests
 tok = os.environ["BANXICO_TOKEN"]
 ids = []
 for spec in sys.argv[1:]:
-    if "-" in spec:
-        pre = spec.rstrip("0123456789-").split("-")[0]
-        a, b = spec[len(pre):].split("-")
+    m = re.fullmatch(r"([A-Z]+)(\d+)-[A-Z]*(\d+)", spec)
+    if m:
+        pre, a, b = m.groups()
         ids += [f"{pre}{i}" for i in range(int(a), int(b) + 1)]
     else:
         ids.append(spec)
