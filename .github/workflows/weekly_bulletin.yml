@@ -1,0 +1,43 @@
+name: Weekly Mexico Macro Bulletin
+
+on:
+  schedule:
+    # Every Monday at 07:00 Monterrey time (CST, UTC-6 -> 13:00 UTC)
+    - cron: "0 13 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-bulletin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run macro monitor script
+        env:
+          BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+          INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
+          STD_WINDOW_MONTHS: "60"
+        run: python src/macro_monitor.py
+
+      - name: Commit updated bulletins and PNG tables
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bulletins/latest_es.md bulletins/latest_en.md bulletins/table_es.png bulletins/table_en.png
+          git diff --staged --quiet || git commit -m "chore: update weekly macro bulletin and PNG tables ($(date -u +'%Y-%m-%d'))"
+          git push
