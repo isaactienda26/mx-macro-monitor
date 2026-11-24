@@ -9,8 +9,8 @@ for spec in sys.argv[1:]:
         ids += [f"{pre}{i}" for i in range(int(a), int(b) + 1)]
     else:
         ids.append(spec)
-for i in range(0, len(ids), 80):
-    chunk = ",".join(ids[i:i+80])
+for i in range(0, len(ids), 20):
+    chunk = ",".join(ids[i:i+20])
     r = requests.get(f"https://www.banxico.org.mx/SieAPIRest/service/v1/series/{chunk}",
                      headers={"Bmx-Token": tok}, timeout=60)
     if r.status_code != 200:
