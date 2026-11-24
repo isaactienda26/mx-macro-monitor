@@ -474,14 +474,15 @@ def page_peers(s, v, t, lang, num, run) -> Page:
         above = [r for r in pr["rows"][: pr["mx_rank"] - 1]]
         below = [r for r in pr["rows"][pr["mx_rank"]:]]
         nm = PEER_NAMES[lang]
+        ab = [f"{nm[r['c']]} ({n(r['real'])}%)" for r in above]
         if es:
             dek = (f"Con una tasa real ex post de {n(mx['real'])}%, México ocupa el lugar {pr['mx_rank']} de {pr['n']}: "
-                   + (f"debajo de {' y '.join(f'{nm[r['c']]} ({n(r['real'])}%)' for r in above)}" if above else "")
+                   + (f"debajo de {' y '.join(ab)}" if above else "")
                    + (f", pero arriba de {', '.join(nm[r['c']] for r in below[:-1])} y {nm[below[-1]['c']]}" if len(below) > 1 else "")
                    + ". Más tasa real es más colchón frente a choques, pero también crédito más caro.")
         else:
             dek = (f"With an ex-post real rate of {n(mx['real'])}%, Mexico ranks {pr['mx_rank']} of {pr['n']}: "
-                   + (f"below {' and '.join(f'{nm[r['c']]} ({n(r['real'])}%)' for r in above)}" if above else "")
+                   + (f"below {' and '.join(ab)}" if above else "")
                    + (f", but above {', '.join(nm[r['c']] for r in below[:-1])} and {nm[below[-1]['c']]}" if len(below) > 1 else "")
                    + ". A higher real rate is a bigger cushion against shocks, but also costlier credit.")
         y = pg.justify(M, y + 4, dek, 27, CW, 1.34, INK, SERIF_D, "medium", "italic") + 20
