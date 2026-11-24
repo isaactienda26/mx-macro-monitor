@@ -1,41 +1,85 @@
-# Mexico Macro Monitor
+# MX Macro Monitor
 
-Automated Python ETL pipeline that queries official Mexican macroeconomic series from **Banxico (SIE API)** and **INEGI (BIE API v2.0)**, computes month-over-month (MoM) and year-over-year (YoY) changes, flags movements exceeding 1 standard deviation over a 60-month rolling window, publishes bilingual one-page Markdown bulletins, and exports high-resolution PNG tables (300 DPI) ready for LinkedIn every Monday.
+Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**, **INEGI (BIE)** y la **Reserva Federal (FRED)**, calcula variaciones y señales estadísticas, redacta una lectura económica en español e inglés y genera un **carrusel de LinkedIn (PDF 4:5, 7 láminas)** listo para publicar.
 
-## Indicators Tracked
+<p align="center"><img src="bulletins/cover_es.png" width="420" alt="Portada del carrusel más reciente"></p>
 
-| Indicator | Source | Series ID | Frequency | Variation Metric |
-| :--- | :--- | :---: | :---: | :---: |
-| Headline Inflation (CPI / INPC) | Banxico SIE | `SP1` | Monthly | % MoM / % YoY |
-| Policy Interest Rate | Banxico SIE | `SF61745` | Daily | bps MoM / bps YoY |
-| USD/MXN FIX Exchange Rate | Banxico SIE | `SF43718` | Daily (Close) | % MoM / % YoY |
-| Economic Activity (IGAE SA, 2018=100) | INEGI BIE | `737121` | Monthly | % MoM / % YoY |
+## Qué produce cada lunes (07:00 h, centro de México)
 
-## Outputs Generated
+| Archivo | Uso |
+| :--- | :--- |
+| `bulletins/carousel_es.pdf` / `carousel_en.pdf` | Documento para la publicación de LinkedIn (portada, tablero, 4 láminas temáticas, agenda) |
+| `bulletins/linkedin_post.md` | Texto del post en español, primer comentario en inglés y checklist de publicación |
+| `bulletins/latest_es.md` / `latest_en.md` | Boletín de una página (también en `bulletins/archive/`) |
+| `data/latest.json`, `data/history.csv` | Snapshot de la semana e historial de cada corrida |
+| `data/raw/*.csv` | Caché de las series descargadas: permite reconstruir y auditar cualquier semana |
 
-- `bulletins/latest_es.md` and `bulletins/latest_en.md`: One-page executive Markdown bulletins.
-- `bulletins/table_es.png` and `bulletins/table_en.png`: 300 DPI institutional table visuals formatted for LinkedIn.
+Las láminas en PNG se adjuntan como *artifact* de cada corrida de GitHub Actions (90 días).
 
-## Methodological Design
+## Indicadores
 
-- **60-Month Rolling Window:** Standard deviations are evaluated over a 60-month rolling window to avoid distortion from historical regime breaks (e.g., pre-2001 monetary policy regimes).
-- **Basis Points for Policy Rate:** Policy rate shifts are computed in basis points rather than percentage changes.
-- **Exact Calendar Lookup (`asof`):** Daily series (FIX and Policy Rate) compare the latest business day close against the nearest prior observation 1 month and 12 months earlier.
+| Bloque | Serie | Fuente | Clave |
+| :--- | :--- | :--- | :---: |
+| Inflación | Inflación general anual | INEGI vía Banxico SIE | `SP30578` |
+| | Inflación subyacente anual | INEGI vía Banxico SIE | `SP74662` |
+| | Expectativa de inflación 12 meses, general y subyacente (mediana) | Encuesta Banxico | `SR14195`, `SR14202` |
+| Política monetaria | Tasa objetivo | Banxico SIE | `SF61745` |
+| | Rango de fondos federales, límite superior | Fed vía FRED | `DFEDTARU` |
+| Tipo de cambio | FIX | Banxico SIE | `SF43718` |
+| Actividad | IGAE, serie desestacionalizada (2018=100) | INEGI BIE | `737219` |
 
-## Setup
+Derivados: tasa real ex ante (tasa objetivo − expectativa a 12 meses), tasa real ex post, diferencial Banxico–Fed, variación semanal / mensual / anual del FIX, rango de 52 semanas y promedio móvil de 3 meses del IGAE.
 
-1. Clone the repository and install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Obtain free API tokens from [Banxico SIE](https://www.banxico.org.mx/SieAPIRest/service/v1/token) and [INEGI API](https://www.inegi.org.mx/app/api/indicadores/interna_v1_1/tokenVerify.aspx).
-3. Copy `.env.example` to `.env` and add your tokens.
-4. Run locally:
-   ```bash
-   python src/macro_monitor.py
-   ```
-5. For GitHub Actions automation, add `BANXICO_TOKEN` and `INEGI_TOKEN` under **Settings > Secrets and variables > Actions**.
+## Metodología
 
-## Author
+- **Señal estadística.** Puntaje z del último cambio frente a la ventana previa (60 meses; 260 semanas para el FIX). El dato más reciente **no** entra en su propia media ni desviación estándar. *Inusual* si |z| ≥ 1.5; *atípico* si |z| ≥ 2.
+- **Variaciones calendario.** Los datos diarios se comparan contra la observación hábil más cercana anterior (`asof`) a 7 días, 1 mes y 12 meses.
+- **Tasa en puntos base.** Los cambios de tasa y del diferencial se reportan en pb, no en porcentaje.
+- **Lectura automática.** `src/narrative.py` redacta cada frase a partir del snapshot con reglas explícitas: describe dirección y magnitud, no atribuye causas que los datos no muestran. El titular se elige por valor noticioso (decisión de Banxico reciente > señal atípica del tipo de cambio > dato de inflación o IGAE publicado en la semana).
+- **Agenda.** `config/agenda.yml` contiene los calendarios oficiales de INEGI, Banxico y la Fed; el pipeline avisa en el log cuando la cobertura queda a menos de 30 días.
+- **Degradación controlada.** Si una fuente falla, se usa la última versión en caché y se declara en el boletín; solo se detiene la publicación si faltan inflación, tasa o tipo de cambio.
+- **Paleta de gráficas** validada para daltonismo (azul `#2A78D6` / naranja `#EB6834`, ΔE CVD 24.7) y tipografía Inter (OFL) incluida en `assets/fonts/`.
 
-**Isaac Tienda**
+## Instalación local
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env            # agrega tus tokens gratuitos de Banxico e INEGI
+python src/macro_monitor.py     # descarga y genera todo
+python src/macro_monitor.py --offline   # reconstruye desde data/raw sin tokens
+python -m pytest -q tests
+```
+
+Tokens: [Banxico SIE](https://www.banxico.org.mx/SieAPIRest/service/v1/token) · [INEGI](https://www.inegi.org.mx/app/api/indicadores/interna_v1_1/tokenVerify.aspx). En GitHub, guárdalos como `BANXICO_TOKEN` e `INEGI_TOKEN` en *Settings → Secrets and variables → Actions*.
+
+## Estructura
+
+```
+src/
+  config.py       catálogo de series, umbrales y rutas
+  sources.py      clientes Banxico / INEGI / FRED + caché CSV
+  analytics.py    métricas y señales (snapshot)
+  narrative.py    lectura en ES/EN, titular, texto del post
+  agenda.py       próximos eventos y publicaciones recientes
+  carousel.py     render del carrusel 1080×1350 (PDF + PNG)
+  macro_monitor.py  orquestador
+config/agenda.yml   calendario oficial de publicaciones
+docs/PLAYBOOK.md    rutina semanal de publicación en LinkedIn
+tests/              pruebas de regresión
+```
+
+## Cambios de la versión 2 (auditoría de noviembre de 2026)
+
+- **IGAE corregido:** la serie `737121` corresponde a cifras originales; se reemplazó por la desestacionalizada `737219`. La versión anterior reportaba −2.16% mensual para septiembre de 2026; INEGI publicó −0.7%.
+- La fila de inflación ahora muestra la tasa anual (3.75%) y no el nivel del índice.
+- El puntaje z excluye el dato evaluado y usa umbrales de 1.5σ / 2σ (antes 1σ, que por construcción marcaba ~32% de los meses).
+- Nuevos indicadores: subyacente, expectativas, tasa real ex ante, diferencial con la Fed y agenda.
+- Formato LinkedIn 4:5 en carrusel PDF; lectura interpretativa; historial y caché de datos; pruebas automáticas.
+
+---
+
+### English summary
+
+Weekly Python pipeline pulling official Mexican macro data (Banxico SIE, INEGI BIE) and the Fed funds target (FRED). It computes changes and out-of-sample z-score signals, writes a rule-based bilingual reading, and renders a 7-slide 4:5 LinkedIn carousel (PDF) plus post copy every Monday via GitHub Actions. Run `python src/macro_monitor.py --offline` to rebuild any week from the committed data cache.
+
+**Autor:** Isaac Tienda · Economista

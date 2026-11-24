@@ -1,0 +1,2 @@
+run_date,inflation_period,inflation_yoy,core_yoy,exp_12m,policy_rate,real_ex_ante,fed_upper,spread_bp,fix,fix_chg_1w_pct,fix_signal,igae_period,igae_mom,igae_yoy,igae_signal
+2026-11-24,2026-10,3.75,3.8,4.04,6.25,2.21,4.0,225.0,19.3668,4.87,atypical,2026-09,-0.67,3.03,unusual
