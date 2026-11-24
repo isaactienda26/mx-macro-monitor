@@ -1,0 +1,12 @@
+name: Discover series (temporary)
+on: workflow_dispatch
+jobs:
+  d:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install requests
+      - env: {BANXICO_TOKEN: "${{ secrets.BANXICO_TOKEN }}"}
+        run: python tools/discover_series.py SP1 SF61745 SF43718 SP30577-SP30580 SP74620-SP74680 SP56330-SP56340 SR14130-SR14260 SR16700-SR16760 SF60648 SF43783 SF331451
