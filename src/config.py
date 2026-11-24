@@ -60,6 +60,9 @@ SERIES = {
     "igae_sa": ("inegi", "737219", "IGAE, serie desestacionalizada (2018=100)"),
     # Federal Reserve (via FRED public CSV, no key required)
     "fed_upper": ("fred", "DFEDTARU", "Fed funds target range, upper limit (%)"),
+    "usd_brl": ("fred", "DEXBZUS", "Reales por dólar (H.10, Reserva Federal)"),
+    "usd_mxn_h10": ("fred", "DEXMXUS", "Pesos por dólar (H.10, Reserva Federal)"),
+    "usd_broad": ("fred", "DTWEXBGS", "Índice amplio del dólar (Reserva Federal)"),
 }
 
 # Series without which the bulletin is not published (pipeline exits 1).

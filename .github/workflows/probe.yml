@@ -2,7 +2,7 @@ name: Probe peer data (temporary)
 on:
   push:
     branches: [feat/linkedin-carousel-v2]
-    paths: [tools/probe_bis.py, src/sources.py, .github/workflows/probe.yml]
+    paths: [tools/probe_bis.py, src/sources.py, src/config.py, .github/workflows/probe.yml]
 jobs:
   p:
     runs-on: ubuntu-latest
@@ -12,4 +12,4 @@ jobs:
         with: {python-version: "3.11"}
       - run: pip install requests pandas && python tools/probe_bis.py
       - uses: actions/upload-artifact@v4
-        with: {name: bis, path: data/raw/bis_*.csv}
+        with: {name: bis, path: data/raw/*.csv}
