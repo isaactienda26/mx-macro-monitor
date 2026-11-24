@@ -6,7 +6,7 @@ MX Macro Monitor - weekly pipeline.
     python src/macro_monitor.py --date 2026-11-30 --offline   # simulate a run date
 
 Outputs (bulletins/):
-    carousel_es.pdf, carousel_en.pdf   LinkedIn document posts (5 slides, 4:5)
+    carousel_es.pdf, carousel_en.pdf   LinkedIn document posts (6 pages, 4:5, magazine design v5)
     cover_es.png, cover_en.png         cover previews
     linkedin_post.md                   post copy (ES) + first comment (EN) + checklist
     latest_es.md, latest_en.md         one-page bulletins for GitHub
@@ -34,11 +34,12 @@ load_dotenv()
 
 import agenda as agenda_mod  # noqa: E402
 import analytics
-import carousel
+import magazine
+import valueadd
 import narrative
 from config import AUTHOR, CRITICAL, DATA_DIR, OUTPUT_DIR, REPO_URL, SERIES
 from narrative import SIGNAL_LABEL, day_year, month, n, signed
-from sources import fetch_all
+from sources import fetch_all, fetch_peers
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s", datefmt="%H:%M:%S")
 logger = logging.getLogger("macro_monitor")
@@ -94,16 +95,16 @@ def bulletin_md(s: dict, t: dict, lang: str, warnings: list) -> str:
     return "\n".join(lines) + "\n"
 
 
-def post_md(s: dict, t: dict) -> str:
+def post_md(s: dict, t: dict, v: dict, num: int) -> str:
     return "\n".join([
         f"# Publicación LinkedIn · semana {date.fromisoformat(s['run_date']).isocalendar()[1]} ({s['run_date']})",
         "", "## 1. Texto del post (español)", "", "```text", t["es"]["post"], "```",
         f"_{len(t['es']['post'])} caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de \"…ver más\")._",
         "", "## 2. Documento a adjuntar", "",
         "`bulletins/carousel_es.pdf` → en LinkedIn: *Iniciar publicación → Agregar documento*. Título sugerido del documento:",
-        "", f"> MX Macro Monitor · {t['es']['headline']}",
+        "", f"> MX Macro Monitor Nº {num} · {t['es']['headline']}",
         "", "Texto alternativo (para quien usa lector de pantalla; pégalo en el primer comentario si lo necesitas):",
-        "", f"> Carrusel de 5 páginas. {t['es']['ed'][t['es']['order'][0]]['dek']}",
+        "", f"> {magazine.alt_text(s, v, t, num)}",
         "", "## 3. Primer comentario (inglés)", "", "```text", t["en"]["post"], "```",
         "", "## 4. Checklist antes de publicar", "",
         ("- [ ] **Nota del autor en BORRADOR:** revísala o reescríbela en `config/nota_autor.yml` (estado: final) y vuelve a correr el flujo."
@@ -111,7 +112,7 @@ def post_md(s: dict, t: dict) -> str:
          "- [ ] **Sin nota del autor esta semana:** escríbela en `config/nota_autor.yml` con la semana ISO actual y vuelve a correr el flujo."
          if not t["es"].get("note") else "- [x] Nota del autor lista."),
         "- [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).",
-        "- [ ] Abrir el PDF y confirmar que las 5 láminas se ven completas.",
+        "- [ ] Abrir el PDF y confirmar que las 6 páginas se ven completas.",
         "- [ ] Publicar entre 8:00 y 9:30 h (centro de México) y pegar el comentario en inglés en los primeros minutos.",
         "- [ ] Responder comentarios durante la primera hora.",
         "",
@@ -159,21 +160,31 @@ def main() -> int:
     snap = analytics.build_snapshot(data, run_date)
     ag = agenda_mod.window(run_date, run_time)
     text = narrative.build(snap, ag)
+    peers, pw = fetch_peers(offline=args.offline)
+    warnings += pw
+    for w in pw:
+        logger.warning(w)
+    va = valueadd.build(snap, data, peers)
+    num = magazine.edition_number(run_date)
+    text["es"]["post"] = magazine.post_es(snap, va, text, num)
+    text["en"]["post"] = magazine.comment_en(snap, va, text, num)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "archive").mkdir(exist_ok=True)
     for lang in ("es", "en"):
-        res = carousel.render(snap, text, lang, OUTPUT_DIR)
+        res = magazine.render(snap, va, text, lang, OUTPUT_DIR, num)
         shutil.copy(res["png_dir"] / "01.png", OUTPUT_DIR / f"cover_{lang}.png")
         md = bulletin_md(snap, text, lang, warnings)
         (OUTPUT_DIR / f"latest_{lang}.md").write_text(md, encoding="utf-8")
         if lang == "es":
             (OUTPUT_DIR / "archive" / f"{snap['run_date']}_es.md").write_text(md, encoding="utf-8")
         logger.info("Carrusel %s: %s (%d láminas)", lang.upper(), res["pdf"].name, res["n"])
-    (OUTPUT_DIR / "linkedin_post.md").write_text(post_md(snap, text), encoding="utf-8")
+    (OUTPUT_DIR / "linkedin_post.md").write_text(post_md(snap, text, va, num), encoding="utf-8")
 
     DATA_DIR.mkdir(exist_ok=True)
-    (DATA_DIR / "latest.json").write_text(json.dumps(snap, ensure_ascii=False, indent=1), encoding="utf-8")
+    va_out = {**va, "fx_rank": {k: x for k, x in va["fx_rank"].items() if k != "weeks"}}
+    (DATA_DIR / "latest.json").write_text(json.dumps({**snap, "edition": num, "value_add": va_out}, ensure_ascii=False, indent=1),
+                                          encoding="utf-8")
     append_history(snap)
 
     summary = os.getenv("GITHUB_STEP_SUMMARY")

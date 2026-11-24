@@ -36,7 +36,7 @@ jobs:
       - name: Run tests
         run: python -m pytest -q tests
 
-      - name: Build bulletin and LinkedIn carousel
+      - name: Build bulletin and LinkedIn issue (magazine v5)
         env:
           BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
           INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}

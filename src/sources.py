@@ -173,7 +173,6 @@ def fetch_all(offline: bool = False) -> tuple[Dict[str, pd.Series], List[str]]:
 # --- BIS (peers) ---------------------------------------------------------------------
 BIS_URL = "https://stats.bis.org/api/v1/data"
 PEERS = ["MX", "BR", "CL", "CO", "PE"]
-PEER_CCY = {"MX": "MXN", "BR": "BRL", "CL": "CLP", "CO": "COP", "PE": "PEN"}
 
 
 def _bis_csv(session: requests.Session, flow: str, key: str, start: str) -> pd.DataFrame:
@@ -185,18 +184,16 @@ def _bis_csv(session: requests.Session, flow: str, key: str, start: str) -> pd.D
 
 
 def fetch_peers(offline: bool = False) -> tuple[Dict[str, pd.DataFrame], List[str]]:
-    """Policy rates (monthly), CPI y/y (monthly) and FX vs USD (daily) for Mexico and LatAm peers + US rate."""
-    paths = {k: RAW_DIR / f"bis_{k}.csv" for k in ("policy", "cpi", "fx")}
+    """Central bank policy rates (daily) and CPI y/y (monthly) for Mexico, LatAm peers and the US (BIS)."""
+    paths = {k: RAW_DIR / f"bis_{k}.csv" for k in ("policy", "cpi")}
     if offline:
         out = {k: pd.read_csv(p) for k, p in paths.items() if p.exists()}
-        return out, ([] if len(out) == 3 else ["Sin caché BIS completa."])
+        return out, ([] if len(out) == 2 else ["Sin caché BIS completa."])
     session, warnings, out = build_session(), [], {}
-    y2 = (date.today() - timedelta(days=800)).isoformat()
     areas = "+".join(PEERS)
     jobs = {
-        "policy": ("WS_CBPOL", f"M.{areas}+US", y2[:7]),
-        "cpi": ("WS_LONG_CPI", f"M.{areas}+US.771", y2[:7]),
-        "fx": ("WS_XRU", f"D.{areas}.{'+'.join(PEER_CCY.values())}.A", y2),
+        "policy": ("WS_CBPOL", f"D.{areas}+US", (date.today() - timedelta(days=120)).isoformat()),
+        "cpi": ("WS_LONG_CPI", f"M.{areas}+US.771", (date.today() - timedelta(days=500)).isoformat()[:7]),
     }
     for k, (flow, key, start) in jobs.items():
         try:

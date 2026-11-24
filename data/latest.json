@@ -1139,5 +1139,131 @@
     3.0277
    ]
   }
+ },
+ "edition": 1,
+ "value_add": {
+  "fx_rank": {
+   "chg": 4.87,
+   "n_weeks": 416,
+   "n_larger": 5,
+   "rank": 6,
+   "pct_rank": 98.8,
+   "start": "2018-12-07"
+  },
+  "import_cost": {
+   "usd": 100000,
+   "mxn_now": 1936680,
+   "mxn_1w": 1846770,
+   "diff": 89910
+  },
+  "thermometer": [
+   {
+    "key": "inflation",
+    "value": 3.75,
+    "unit": "%",
+    "state": "vigilancia",
+    "rule": "band"
+   },
+   {
+    "key": "core",
+    "value": 3.8,
+    "unit": "%",
+    "state": "vigilancia",
+    "rule": "band"
+   },
+   {
+    "key": "expectations",
+    "value": 4.02,
+    "unit": "%",
+    "state": "tension",
+    "rule": "band"
+   },
+   {
+    "key": "real_rate",
+    "value": 2.23,
+    "unit": "%",
+    "state": "estable",
+    "rule": "neutral"
+   },
+   {
+    "key": "fx",
+    "value": 4.87,
+    "unit": "%",
+    "state": "tension",
+    "rule": "z",
+    "z": 3.39
+   },
+   {
+    "key": "activity",
+    "value": -0.67,
+    "unit": "%",
+    "state": "vigilancia",
+    "rule": "z",
+    "z": -1.58
+   }
+  ],
+  "thermo_score": {
+   "estable": 1,
+   "vigilancia": 3,
+   "tension": 2,
+   "index": 58
+  },
+  "peers": {
+   "rows": [
+    {
+     "c": "BR",
+     "rate": 13.75,
+     "cpi": 4.58,
+     "real": 9.17,
+     "rate_date": "2026-10"
+    },
+    {
+     "c": "CO",
+     "rate": 12.25,
+     "cpi": 6.29,
+     "real": 5.96,
+     "rate_date": "2026-10"
+    },
+    {
+     "c": "MX",
+     "rate": 6.25,
+     "cpi": 3.45,
+     "real": 2.8,
+     "rate_date": "2026-10"
+    },
+    {
+     "c": "CL",
+     "rate": 4.5,
+     "cpi": 4.08,
+     "real": 0.42,
+     "rate_date": "2026-10"
+    },
+    {
+     "c": "US",
+     "rate": 3.88,
+     "cpi": 3.74,
+     "real": 0.14,
+     "rate_date": "2026-10"
+    },
+    {
+     "c": "PE",
+     "rate": 4.25,
+     "cpi": 4.55,
+     "real": -0.3,
+     "rate_date": "2026-10"
+    }
+   ],
+   "cpi_month": "2026-09",
+   "rate_date": "2026-10",
+   "mx_rank": 3,
+   "n": 6
+  },
+  "dollar": {
+   "end": "2026-11-20",
+   "usd_mxn_h10": 2.53,
+   "start": "2026-11-13",
+   "usd_brl": 5.38,
+   "usd_broad": 0.77
+  }
  }
 }

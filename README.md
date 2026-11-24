@@ -2,13 +2,15 @@
 
 Pipeline en Python que cada lunes descarga series oficiales de **Banxico (SIE)**, **INEGI (BIE)** y la **Reserva Federal (FRED)**, calcula variaciones y señales estadísticas, redacta una lectura económica en español e inglés y genera un **boletín de LinkedIn en formato institucional (PDF 4:5, 5 páginas)** listo para publicar, con respaldo académico, fuentes trazables y una nota firmada del autor.
 
-<p align="center"><img src="bulletins/cover_es.png" width="420" alt="Portada del carrusel más reciente"></p>
+<p align="center"><img src="assets/logo/mxmm-lockup-paper.png" width="420" alt="Logo de MX Macro Monitor"></p>
+
+<p align="center"><img src="bulletins/cover_es.png" width="420" alt="Portada del número más reciente"></p>
 
 ## Qué produce cada lunes (07:00 h, centro de México)
 
 | Archivo | Uso |
 | :--- | :--- |
-| `bulletins/carousel_es.pdf` / `carousel_en.pdf` | Documento para LinkedIn: gráfica de la semana, indicadores clave, segunda gráfica, lectura del autor + agenda, notas y referencias |
+| `bulletins/carousel_es.pdf` / `carousel_en.pdf` | Número semanal para LinkedIn (6 páginas, 4:5): portada con gráfica protagonista, Termómetro MX Macro, México frente a sus pares, Para tu empresa, agenda + nota del autor, contraportada |
 | `config/nota_autor.yml` | Nota firmada de la semana (la escribe el autor; si no corresponde a la semana en curso, el boletín sale sin ella) |
 | `bulletins/linkedin_post.md` | Texto del post en español, primer comentario en inglés y checklist de publicación |
 | `bulletins/latest_es.md` / `latest_en.md` | Boletín de una página (también en `bulletins/archive/`) |
@@ -67,17 +69,27 @@ Tokens: [Banxico SIE](https://www.banxico.org.mx/SieAPIRest/service/v1/token) ·
 ```
 src/
   config.py       catálogo de series, umbrales y rutas
-  sources.py      clientes Banxico / INEGI / FRED + caché CSV
+  sources.py      clientes Banxico / INEGI / FRED / BIS + caché CSV
   analytics.py    métricas y señales (snapshot)
   narrative.py    lectura en ES/EN, titular, texto del post
   agenda.py       próximos eventos y publicaciones recientes
-  carousel.py     render del carrusel 1080×1350 (PDF + PNG)
+  valueadd.py     métricas propias: termómetro, pares, efecto en pesos, cálculo de la semana
+  brand.py        tokens, fuentes y logo (python src/brand.py exporta assets/logo/)
+  magazine.py     render del número 1080×1350 (PDF + PNG), texto justificado
   macro_monitor.py  orquestador
 config/agenda.yml   calendario oficial de publicaciones
 docs/PLAYBOOK.md    rutina semanal de publicación en LinkedIn
-docs/DESIGN_SYSTEM.md  sistema de diseño (tokens, gráficas, redacción, auditoría)
+docs/DESIGN_SYSTEM.md  sistema de diseño v5 (logo, color, tipografía, gráficas, redacción, crítica)
+docs/METODOLOGIA.md    reglas públicas de las métricas propias
+assets/logo/           logo en SVG y PNG
 tests/              pruebas de regresión
 ```
+
+## Versión 5: revista económica de autor (Nº 1, 24 de noviembre de 2026)
+
+- Identidad propia: logo (azul, negro y verde), número de edición, titulares en Archivo condensada, texto justificado en Newsreader.
+- Métricas propias con regla pública ([docs/METODOLOGIA.md](docs/METODOLOGIA.md)): Termómetro MX Macro, tasa real frente a Brasil, Chile, Colombia, Perú y EE. UU. (BIS), «¿fue el peso o el dólar?» (Fed H.10), efecto en pesos de una importación de USD 100,000 y el cálculo de la semana.
+- Contacto: isaac.tienda01@gmail.com.
 
 ## Cambios de la versión 2 (auditoría de noviembre de 2026)
 
@@ -91,6 +103,6 @@ tests/              pruebas de regresión
 
 ### English summary
 
-Weekly Python pipeline pulling official Mexican macro data (Banxico SIE, INEGI BIE) and the Fed funds target (FRED). It computes changes and out-of-sample z-score signals, writes a rule-based bilingual reading backed by academic references, and renders a 5-slide 4:5 LinkedIn carousel (PDF) plus post copy every Monday via GitHub Actions. Run `python src/macro_monitor.py --offline` to rebuild any week from the committed data cache.
+Weekly Python pipeline pulling official data (Banxico SIE, INEGI BIE, BIS, Federal Reserve H.10/FRED). It computes out-of-sample z-score signals and its own public-rule metrics (MX Macro thermometer, peer real rates, peso-vs-dollar decomposition, business cost in pesos), writes a bilingual reading backed by academic references, and renders a numbered 6-page 4:5 magazine-style LinkedIn document (PDF) plus post copy every Monday via GitHub Actions. Run `python src/macro_monitor.py --offline` to rebuild any week from the committed data cache.
 
 **Autor:** Isaac Tienda · Economista

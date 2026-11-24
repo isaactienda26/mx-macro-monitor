@@ -21,7 +21,7 @@ Si el lunes es festivo o hay un dato mayor el martes (por ejemplo, decisión de 
 2. **Cifra principal contra el boletín oficial:** comparar el dato del titular con el comunicado de INEGI o Banxico de esa semana (redondeo a un decimal).
 3. **Señales "Inusual" o "Atípico":** revisar que el movimiento no sea un error de captura de la fuente (abrir `data/raw/<serie>.csv`).
 4. **Avisos de datos:** si `latest_es.md` termina con "Avisos de datos", alguna fuente falló y se usó caché; mencionarlo o posponer.
-5. **Revisión visual:** abrir las 5 láminas del PDF (reglas en `docs/DESIGN_SYSTEM.md`).
+5. **Revisión visual:** abrir las 6 páginas del PDF (reglas en `docs/DESIGN_SYSTEM.md`).
 
 ## Ajustes manuales permitidos
 

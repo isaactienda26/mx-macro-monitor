@@ -1,6 +1,6 @@
 """
 Metric engine: turns raw series into a Snapshot (plain dict, JSON-serialisable)
-that the narrative, the carousel and the Markdown bulletin all read from.
+that the narrative, the magazine and the Markdown bulletin all read from.
 """
 
 from __future__ import annotations
