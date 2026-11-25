@@ -8,3 +8,4 @@ tzdata>=2024.1
 pytest>=8.0
 uharfbuzz>=0.40
 fonttools>=4.47
+num2words>=0.5

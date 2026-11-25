@@ -1,5 +1,5 @@
 # MX Macro Monitor · Week 48
-**Data as of** Nov 24, 2026 · **Author:** Isaac Tienda · **Sources:** Banxico (SIE), INEGI (BIE), Federal Reserve (FRED)
+**Data as of** Nov 25, 2026 · **Author:** Isaac Tienda · **Sources:** Banxico (SIE), INEGI (BIE), Federal Reserve (FRED)
 
 ## The peso posts its largest weekly loss since June 2024
 
@@ -11,14 +11,14 @@
 | Banxico policy rate (%) | 6.25 | −100 bp 12m | Nov 25, 2026 | — |
 | Ex-ante real rate (%) | 2.23 | — | Oct-2026 | — |
 | Banxico–Fed spread (bp) | 225 | −100 12m | Nov 25, 2026 | — |
-| USD/MXN FIX | 19.3668 | +4.87% w/w | Nov 24, 2026 | Atypical |
+| USD/MXN FIX | 19.7040 | +5.53% w/w | Nov 25, 2026 | Atypical |
 | IGAE s.a. (% m/m) | −0.7 | +3.0% y/y | Sep-2026 | Unusual |
 
-### The peso weakens 4.87% on the week, its largest weekly move since June 2024
+### The peso weakens 5.53% on the week, its largest weekly move since June 2024
 
-- FIX at 19.3668 MXN per USD (Nov 24, 2026): +4.87% w/w, +3.75% m/m, +4.69% y/y. A higher FIX means a weaker peso.
-- Statistical signal: atypical (+3.39 standard deviations vs. weekly moves over the past 5 years); the largest weekly move in that direction since the week of Jun 7, 2024.
-- 52-week range: 16.87 (Sep 4, 2026) to 19.37 (Nov 24, 2026); the current level is the period high.
+- FIX at 19.7040 MXN per USD (Nov 25, 2026): +5.53% w/w, +5.56% m/m, +6.91% y/y. A higher FIX means a weaker peso.
+- Statistical signal: atypical (+3.85 standard deviations vs. weekly moves over the past 5 years); the largest weekly move in that direction since the week of Jun 7, 2024.
+- 52-week range: 16.87 (Sep 4, 2026) to 19.70 (Nov 25, 2026); the current level is the period high.
 
 > Why it matters: the exchange rate passes through to imported-goods prices and to costs of firms with dollar inputs.
 
@@ -51,6 +51,8 @@
 - **Thu Nov 26**  · Quarterly Report (Jul-Sep) (Banxico)
 - **Thu Nov 26** 06:00 · Labor force survey, ENOE (Oct) (INEGI)
 - **Tue Dec 1** 09:00 · Private-sector expectations survey (Nov) (Banxico) — prior 12m expectation: 4.02% (mean)
+- **Wed Dec 9** 06:00 · November CPI (INEGI) — prior: 3.75% (Oct-2026)
+- **Wed Dec 9** 13:00 · Fed (FOMC) decision (Fed) — current range: 3.75%–4.00%
 
 ---
 *Methodology: seasonally adjusted IGAE (INEGI 737219). Annual inflation SP30578, core SP74662; 12-month expectation SR14195 (median); policy rate SF61745; FIX SF43718; Fed DFEDTARU. Ex-ante real rate = policy rate − 12-month expectation. Signal: z-score of the latest change vs. the prior 60 months (FIX: 260 weeks), excluding the latest point; unusual ≥ 1.5σ, atypical ≥ 2σ.*

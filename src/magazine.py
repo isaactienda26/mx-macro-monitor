@@ -512,7 +512,7 @@ def page_peers(s, v, t, lang, num, run) -> Page:
             "en": ["", "1ST", "2ND", "3RD", "4TH", "5TH", "6TH"]}
     if es:
         title = f"MÉXICO, {ordn['es'][pr['mx_rank']]} EN TASA REAL"
-        dek = (f"Solo {' y '.join(above)} están más arriba." if above else "La más alta del grupo.")
+        dek = (f"Solo por debajo de {' y '.join(above)}." if above else "La más alta del grupo.")
     else:
         title = f"MEXICO RANKS {ordn['en'][pr['mx_rank']]} IN REAL RATES"
         dek = (f"Behind only {' and '.join(above)}." if above else "The highest in the group.")
@@ -702,12 +702,15 @@ def post_es(s: dict, v: dict, t: dict, num: int) -> str:
              + f", {sc['vigilancia']} en vigilancia y {sc['estable']} estable" + ("s" if sc["estable"] != 1 else "") + "."]
     if pr:
         mx = next(r for r in pr["rows"] if r["c"] == "MX")
-        lines.append(f"→ México, lugar {pr['mx_rank']} de {pr['n']} en tasa real ({n(mx['real'])}%).")
+        nm_es = {"BR": "Brasil", "CO": "Colombia", "CL": "Chile", "PE": "Perú", "US": "Estados Unidos"}
+        above_es = [nm_es[r["c"]] for r in pr["rows"][: pr["mx_rank"] - 1]]
+        lines.append(f"→ Por su tasa de interés real ({n(mx['real'])} pp), México ocupa el lugar {pr['mx_rank']} de {pr['n']}"
+                     + (f", solo por debajo de {' y '.join(above_es)}." if above_es else "."))
     if db:
         lines.append(f"→ ¿Por qué cayó el peso? Del {dshort(db['start'], 'es')} al {dshort(db['end'], 'es')}: "
                      f"real {n(-db['usd_brl'], 1, True)}%, peso {n(-db['usd_mxn_h10'], 1, True)}% y dólar frente a una "
                      f"canasta amplia {n(db['usd_broad'], 1, True)}%.")
-    lines.append(f"→ Importar USD 100,000 cuesta ${abs(ic['diff']):,.0f} pesos {'más' if ic['diff'] >= 0 else 'menos'} que hace una semana.")
+    lines.append(f"→ Importar USD 100,000 cuesta {abs(ic['diff']):,.0f} pesos {'más' if ic['diff'] >= 0 else 'menos'} que hace una semana.")
     mine = f"Mi lectura: {tl['note']['text'][0].lower() + tl['note']['text'][1:]}\n\n" if tl.get("note") else ""
     how = ["Cómo lo calculo:",
            f"• Importación: USD 100,000 × FIX de hoy ({n(f['value'], 2)}) menos USD 100,000 × FIX de hace 7 días ({n(f['value_1w_ago'], 2)}).",

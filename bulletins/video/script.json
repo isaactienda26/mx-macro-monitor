@@ -1,0 +1,39 @@
+{
+ "scenes": [
+  {
+   "id": "hook",
+   "vo": "El peso tuvo su peor semana desde junio de 2024. Esto es MX Macro Monitor, número 1.",
+   "speech": "El peso tuvo su peor semana desde junio de dos mil veinticuatro. Esto es Eme Equis Macro Monitor, número uno."
+  },
+  {
+   "id": "peso",
+   "vo": "El dólar subió a 19.70 pesos: el peso perdió 5.5% en una semana. Desde 2018, solo 4 semanas fueron peores.",
+   "speech": "El dólar subió a diecinueve punto setenta pesos: el peso perdió cinco punto cinco por ciento en una semana. Desde dos mil dieciocho, solo cuatro semanas fueron peores."
+  },
+  {
+   "id": "why",
+   "vo": "¿Fue un dólar fuerte? No. El real brasileño cayó más que el peso, y el dólar apenas subió 0.8% frente a otras monedas.",
+   "speech": "¿Fue un dólar fuerte? No. El real brasileño cayó más que el peso, y el dólar apenas subió cero punto ocho por ciento frente a otras monedas."
+  },
+  {
+   "id": "thermo",
+   "vo": "En nuestro termómetro, 2 de 6 señales están en rojo: las expectativas de inflación y el tipo de cambio.",
+   "speech": "En nuestro termómetro, dos de seis señales están en rojo: las expectativas de inflación y el tipo de cambio."
+  },
+  {
+   "id": "peers",
+   "vo": "Por su tasa de interés real, México ocupa el tercer lugar entre 6 economías, solo por debajo de Brasil y Colombia.",
+   "speech": "Por su tasa de interés real, México ocupa el tercer lugar entre seis economías, solo por debajo de Brasil y Colombia."
+  },
+  {
+   "id": "biz",
+   "vo": "¿Qué significa para tu empresa? Importar cien mil dólares cuesta hoy unos 103 mil pesos más que hace una semana.",
+   "speech": "¿Qué significa para tu empresa? Importar cien mil dólares cuesta hoy unos ciento tres mil pesos más que hace una semana."
+  },
+  {
+   "id": "close",
+   "vo": "El martes 1 de diciembre, Banxico publica su encuesta de expectativas, y ese mismo día la analizamos en el número 2. Mantente atento. Hasta pronto.",
+   "speech": "El martes primero de diciembre, Banxico publica su encuesta de expectativas, y ese mismo día la analizamos en el número dos. Mantente atento. Hasta pronto."
+  }
+ ]
+}
