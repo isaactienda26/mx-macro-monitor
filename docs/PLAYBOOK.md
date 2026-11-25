@@ -53,3 +53,8 @@ Impresiones, interacciones (reacciones + comentarios + compartidos), tasa de int
 | Junio de 2027 | Agregar el calendario de INEGI del segundo semestre de 2027 (`cal_2027.pdf`) |
 | Si falla una corrida | Revisar el log de Actions: token vencido (renovar en Banxico/INEGI y actualizar *Secrets*) o cambio de endpoint |
 | Trimestral | Revisar en el log de la corrida que cada serie muestre un último dato reciente (si una serie se congela, la clave pudo cambiar) |
+
+
+## Calendario y excepciones
+
+Un número por semana, los lunes a las 07:00. Para mover un número (por ejemplo, para incluir un dato que sale el martes), agrega una excepción en `config/ediciones.yml`. El flujo programado corre lunes 07:00 y martes 10:00 y solo publica en la fecha que toca. El Nº 2 sale el **martes 1 de diciembre de 2026** para incluir la Encuesta de Expectativas de Banxico (09:00 h).

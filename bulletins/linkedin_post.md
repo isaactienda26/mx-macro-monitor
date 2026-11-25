@@ -21,12 +21,12 @@ Cómo lo calculo:
 • Tasa real de pares: tasa de política menos inflación anual de sep-2026.
 Fuentes: Banxico, INEGI, BIS y Reserva Federal (H.10).
 
-Cada lunes, un número nuevo. Sígueme para recibir el Nº 2 el lunes 30 de noviembre.
+Cada semana, un número nuevo. Sígueme para recibir el Nº 2 el martes 1 de diciembre.
 Contacto: isaac.tienda01@gmail.com
 
 #EconomíaMexicana #Banxico #TipoDeCambio
 ```
-_1535 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
+_1536 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
 
 ## 2. Documento a adjuntar
 

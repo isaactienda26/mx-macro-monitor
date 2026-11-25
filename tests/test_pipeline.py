@@ -93,4 +93,15 @@ def test_justify_fills_measure():
     txt = "La inflación general se ubicó en 3.75 por ciento y la subyacente en 3.80 por ciento durante octubre de este año."
     lines = pg.wrap(txt, 28, 500, magazine.SERIF)
     assert len(lines) > 1 and all(pg.width(" ".join(l), 28, magazine.SERIF) <= 500 for l in lines)
-    assert magazine.edition_number(date(2026, 11, 24)) == 1 and magazine.edition_number(date(2026, 11, 30)) == 2
+    assert magazine.edition_number(date(2026, 11, 24)) == 1 and magazine.edition_number(date(2026, 12, 1)) == 2
+
+
+def test_publication_calendar():
+    import calendario
+    assert calendario.issue_date(1) == date(2026, 11, 23)
+    assert calendario.issue_date(2) == date(2026, 12, 1)       # exception: Tuesday, after Banxico's survey
+    assert calendario.issue_date(3) == date(2026, 12, 7)
+    assert calendario.edition_number(date(2026, 11, 30)) == 1   # Monday 30-nov is skipped
+    assert not calendario.is_publication_day(date(2026, 11, 30))
+    assert calendario.edition_number(date(2026, 12, 1)) == 2 and calendario.is_publication_day(date(2026, 12, 1))
+    assert not calendario.is_publication_day(date(2026, 12, 8))

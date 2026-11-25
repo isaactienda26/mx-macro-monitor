@@ -2,8 +2,10 @@ name: Weekly Mexico Macro Bulletin
 
 on:
   schedule:
-    # Every Monday 07:00 Monterrey / Mexico City (UTC-6, no DST since 2022) -> 13:00 UTC
+    # Monday 07:00 and Tuesday 10:00 Monterrey / Mexico City (UTC-6, no DST since 2022).
+    # The script publishes only on each issue's date (config/ediciones.yml); other runs exit without changes.
     - cron: "0 13 * * 1"
+    - cron: "0 16 * * 2"
   workflow_dispatch:
   pull_request:
     paths: ["src/**", "config/**", "tests/**", "requirements.txt", ".github/workflows/weekly_bulletin.yml"]

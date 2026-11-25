@@ -21,6 +21,7 @@ from typing import Dict, List, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
+import calendario
 import typeset
 import pandas as pd
 from matplotlib.backends.backend_pdf import PdfPages
@@ -629,11 +630,11 @@ def page_back(s, v, t, lang, num, run) -> Page:
         y += 56
     y += 30
     pg.hline(y, color=ON_INK, lw=0.8)
-    nxt = _next_monday(run)
+    nxt = calendario.issue_date(num + 1)
     pg.text(M, y + 40, track("SIGUIENTE NÚMERO" if es else "NEXT ISSUE"), 22, BLUE_LT, SANS, "extra bold")
-    nl = (f"Nº {num + 1}: LUNES {nxt.day} DE {MES_L[nxt.month - 1].upper()}" if es
-          else f"NO. {num + 1}: MONDAY, {MON_L[nxt.month - 1].upper()} {nxt.day}")
-    lines, size = head_lines(pg, nl, 96)
+    lines = ([f"Nº {num + 1}", f"{calendario.weekday(nxt, 'es').upper()} {nxt.day} DE {MES_L[nxt.month - 1].upper()}"] if es
+             else [f"NO. {num + 1}", f"{calendario.weekday(nxt, 'en').upper()}, {MON_L[nxt.month - 1].upper()} {nxt.day}"])
+    size = min(96, pg.fit(lines, CW))
     yy = y + 86
     for k, l in enumerate(lines):
         pg.text(M, yy + k * size, l, size, PAPER, DISPLAY, "extra bold")
@@ -683,13 +684,8 @@ def render(s: dict, v: dict, t: dict, lang: str, out_dir: Path, num: int = 1) ->
 
 
 # --- post copy -----------------------------------------------------------------------------------
-def edition_number(run: date, first_monday: date = date(2026, 11, 23)) -> int:
-    """Nº 1 = ISO week of 23-nov-2026; one number per week."""
-    return max(1, (run - first_monday).days // 7 + 1)
-
-
-def _next_monday(run: date) -> date:
-    return run + timedelta(days=(7 - run.weekday()) % 7 or 7)
+def edition_number(run: date) -> int:
+    return calendario.edition_number(run)
 
 
 def post_es(s: dict, v: dict, t: dict, num: int) -> str:
@@ -720,10 +716,10 @@ def post_es(s: dict, v: dict, t: dict, num: int) -> str:
            "la tasa real, frente al rango neutral de Banxico (1.8%–3.6%); tipo de cambio y actividad, por desviaciones estándar frente a su historia (tensión desde 2).",
            "• Tasa real de pares: tasa de política menos inflación anual" + (f" de {mshort(pr['cpi_month'], 'es')}" if pr else "") + "."]
     src = "Fuentes: Banxico, INEGI, BIS y Reserva Federal (H.10)."
-    nm = _next_monday(run)
+    nm = calendario.issue_date(num + 1)
     return (f"MX Macro Monitor Nº {num} · {' '.join(cc['lines']).capitalize()}.\n\n{cc['short']}"
             + "\n\n" + "\n".join(lines) + "\n\n" + mine + "\n".join(how) + f"\n{src}\n\n"
-            f"Cada lunes, un número nuevo. Sígueme para recibir el Nº {num + 1} el lunes {nm.day} de {MES_L[nm.month - 1]}.\n"
+            f"Cada semana, un número nuevo. Sígueme para recibir el Nº {num + 1} el {calendario.weekday(nm, 'es')} {nm.day} de {MES_L[nm.month - 1]}.\n"
             f"Contacto: {EMAIL}\n\n#EconomíaMexicana #Banxico #TipoDeCambio")
 
 

@@ -34,6 +34,7 @@ load_dotenv()
 
 import agenda as agenda_mod  # noqa: E402
 import analytics
+import calendario
 import magazine
 import valueadd
 import narrative
@@ -146,6 +147,11 @@ def main() -> int:
     now = datetime.now(TZ)
     run_date = date.fromisoformat(args.date) if args.date else now.date()
     run_time = "23:59" if args.date else now.strftime("%H:%M")
+
+    if os.getenv("GITHUB_EVENT_NAME") == "schedule" and not calendario.is_publication_day(run_date):
+        nxt = calendario.issue_date(calendario.edition_number(run_date) + 1)
+        logger.info("Hoy no toca publicar (config/ediciones.yml). Siguiente número: %s.", nxt.isoformat())
+        return 0
 
     data, warnings = fetch_all(offline=args.offline)
     for w in warnings:
