@@ -1,21 +1,21 @@
-# Publicación LinkedIn · semana 48 (2026-11-24)
+# Publicación LinkedIn · semana 48 (2026-11-25)
 
 ## 1. Texto del post (español)
 
 ```text
-MX Macro Monitor Nº 1 · El peso cae 4.9%.
+MX Macro Monitor Nº 1 · El peso cae 5.5%.
 
-Solo 5 de 416 semanas desde 2018 fueron peores.
+Solo 4 de 416 semanas desde 2018 fueron peores.
 
 → Termómetro MX Macro: 2 señales en rojo (expectativas y tipo de cambio), 3 en vigilancia y 1 estable.
-→ México, lugar 3 de 6 en tasa real (2.8%).
+→ México, tercero de 6 en tasa real (2.8 pp); solo Brasil y Colombia la tienen más alta.
 → ¿Por qué cayó el peso? Del 13-nov al 20-nov: real −5.4%, peso −2.5% y dólar frente a una canasta amplia +0.8%.
-→ Importar USD 100,000 cuesta $89,910 pesos más que hace una semana.
+→ Importar USD 100,000 cuesta 103,170 pesos más que hace una semana.
 
 Mi lectura: la depreciación de esta semana llega con la postura monetaria ya en terreno neutral: la tasa real ex ante está en 2.2%, en la parte baja del rango que estima Banxico. Si el tipo de cambio se sostiene en estos niveles, el espacio para nuevos recortes se estrecha, aunque la evidencia para México apunta a un traspaso limitado a precios.
 
 Cómo lo calculo:
-• Importación: USD 100,000 × FIX de hoy (19.37) menos USD 100,000 × FIX de hace 7 días (18.47).
+• Importación: USD 100,000 × FIX de hoy (19.70) menos USD 100,000 × FIX de hace 7 días (18.67).
 • Ranking: 416 cambios semanales del FIX desde dic-2018 (cierre del viernes).
 • Termómetro: inflación, subyacente y expectativas son estables a ±0.5 pp de la meta de 3% y entran en tensión fuera de 2%–4%; la tasa real, frente al rango neutral de Banxico (1.8%–3.6%); tipo de cambio y actividad, por desviaciones estándar frente a su historia (tensión desde 2).
 • Tasa real de pares: tasa de política menos inflación anual de sep-2026.
@@ -26,7 +26,7 @@ Contacto: isaac.tienda01@gmail.com
 
 #EconomíaMexicana #Banxico #TipoDeCambio
 ```
-_1536 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
+_1581 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
 
 ## 2. Documento a adjuntar
 
@@ -36,12 +36,12 @@ _1536 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver má
 
 Texto alternativo (para quien usa lector de pantalla; pégalo en el primer comentario si lo necesitas):
 
-> Documento de 6 páginas, MX Macro Monitor Nº 1, por Isaac Tienda. Portada: el peso cae 4.9%; Solo 5 de 416 semanas desde 2018 fueron peores. Página 2: 2 de 6 señales del termómetro en rojo. Página 3: tasa real de México frente a Brasil, Colombia, Chile, Estados Unidos y Perú. Página 4: el real y el peso cayeron más de lo que subió el dólar. Página 5: importar USD 100,000 cuesta 89,910 pesos más que hace una semana. Página 6: agenda, siguiente número y contacto.
+> Documento de 6 páginas, MX Macro Monitor Nº 1, por Isaac Tienda. Portada: el peso cae 5.5%; Solo 4 de 416 semanas desde 2018 fueron peores. Página 2: 2 de 6 señales del termómetro en rojo. Página 3: tasa real de México frente a Brasil, Colombia, Chile, Estados Unidos y Perú. Página 4: el real y el peso cayeron más de lo que subió el dólar. Página 5: importar USD 100,000 cuesta 103,170 pesos más que hace una semana. Página 6: agenda, siguiente número y contacto.
 
 ## 3. Primer comentario (inglés)
 
 ```text
-English version · MX Macro Monitor No. 1: Peso falls 4.9%. Only 5 of 416 weeks since 2018 were worse for the peso. MX Macro thermometer: 2 of 6 signals flashing red, 3 on watch, 1 stable. Mexico's ex-post real rate (2.8 pp) ranks #3 of 6 among its peers. Not dollar strength: the real fell 5.4% and the peso 2.5%, while the broad dollar index rose just 0.8%. A USD 100,000 import now costs MXN 89,910 more than a week ago.
+English version · MX Macro Monitor No. 1: Peso falls 5.5%. Only 4 of 416 weeks since 2018 were worse for the peso. MX Macro thermometer: 2 of 6 signals flashing red, 3 on watch, 1 stable. Mexico's ex-post real rate (2.8 pp) ranks #3 of 6 among its peers. Not dollar strength: the real fell 5.4% and the peso 2.5%, while the broad dollar index rose just 0.8%. A USD 100,000 import now costs MXN 103,170 more than a week ago.
 
 My take: This week's depreciation comes with the policy stance already in neutral territory: the ex-ante real rate stands at 2.2%, in the lower part of Banxico's estimated range. If the exchange rate holds at these levels, room for further cuts narrows, although evidence for Mexico points to limited pass-through to prices.
 

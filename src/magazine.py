@@ -702,12 +702,12 @@ def post_es(s: dict, v: dict, t: dict, num: int) -> str:
              + f", {sc['vigilancia']} en vigilancia y {sc['estable']} estable" + ("s" if sc["estable"] != 1 else "") + "."]
     if pr:
         mx = next(r for r in pr["rows"] if r["c"] == "MX")
-        lines.append(f"→ México, lugar {pr['mx_rank']} de {pr['n']} en tasa real ({n(mx['real'])}%).")
+        lines.append(f"→ México, tercero de {pr['n']} en tasa real ({n(mx['real'])} pp); solo Brasil y Colombia la tienen más alta." if pr['mx_rank'] == 3 and [r['c'] for r in pr['rows'][:2]] == ['BR', 'CO'] else f"→ México, lugar {pr['mx_rank']} de {pr['n']} en tasa real ({n(mx['real'])} pp).")
     if db:
         lines.append(f"→ ¿Por qué cayó el peso? Del {dshort(db['start'], 'es')} al {dshort(db['end'], 'es')}: "
                      f"real {n(-db['usd_brl'], 1, True)}%, peso {n(-db['usd_mxn_h10'], 1, True)}% y dólar frente a una "
                      f"canasta amplia {n(db['usd_broad'], 1, True)}%.")
-    lines.append(f"→ Importar USD 100,000 cuesta ${abs(ic['diff']):,.0f} pesos {'más' if ic['diff'] >= 0 else 'menos'} que hace una semana.")
+    lines.append(f"→ Importar USD 100,000 cuesta {abs(ic['diff']):,.0f} pesos {'más' if ic['diff'] >= 0 else 'menos'} que hace una semana.")
     mine = f"Mi lectura: {tl['note']['text'][0].lower() + tl['note']['text'][1:]}\n\n" if tl.get("note") else ""
     how = ["Cómo lo calculo:",
            f"• Importación: USD 100,000 × FIX de hoy ({n(f['value'], 2)}) menos USD 100,000 × FIX de hace 7 días ({n(f['value_1w_ago'], 2)}).",

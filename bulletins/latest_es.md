@@ -1,5 +1,5 @@
 # MX Macro Monitor · Semana 48
-**Datos al** 24-nov-2026 · **Autor:** Isaac Tienda · **Fuentes:** Banxico (SIE), INEGI (BIE), Reserva Federal (FRED)
+**Datos al** 25-nov-2026 · **Autor:** Isaac Tienda · **Fuentes:** Banxico (SIE), INEGI (BIE), Reserva Federal (FRED)
 
 ## El peso registra su mayor depreciación semanal desde junio de 2024
 
@@ -11,14 +11,14 @@
 | Tasa objetivo Banxico (%) | 6.25 | −100 pb 12m | 25-nov-2026 | — |
 | Tasa real ex ante (%) | 2.23 | — | oct-2026 | — |
 | Diferencial Banxico–Fed (pb) | 225 | −100 12m | 25-nov-2026 | — |
-| Tipo de cambio FIX (MXN/USD) | 19.3668 | +4.87% sem. | 24-nov-2026 | Atípico |
+| Tipo de cambio FIX (MXN/USD) | 19.7040 | +5.53% sem. | 25-nov-2026 | Atípico |
 | IGAE a.e. (% mensual) | −0.7 | +3.0% anual | sep-2026 | Inusual |
 
-### El peso se deprecia 4.87% en la semana, su mayor movimiento semanal desde junio 2024
+### El peso se deprecia 5.53% en la semana, su mayor movimiento semanal desde junio 2024
 
-- FIX en 19.3668 pesos por dólar (24-nov-2026): +4.87% semanal, +3.75% mensual y +4.69% anual. Un alza del FIX equivale a depreciación del peso.
-- Señal estadística: atípico (+3.39 desviaciones estándar frente a las variaciones semanales de los últimos 5 años); es el mayor movimiento semanal en esa dirección desde la semana del 7-jun-2024.
-- Rango de 52 semanas: 16.87 (4-sep-2026) a 19.37 (24-nov-2026); el nivel actual es el máximo del periodo.
+- FIX en 19.7040 pesos por dólar (25-nov-2026): +5.53% semanal, +5.56% mensual y +6.91% anual. Un alza del FIX equivale a depreciación del peso.
+- Señal estadística: atípico (+3.85 desviaciones estándar frente a las variaciones semanales de los últimos 5 años); es el mayor movimiento semanal en esa dirección desde la semana del 7-jun-2024.
+- Rango de 52 semanas: 16.87 (4-sep-2026) a 19.70 (25-nov-2026); el nivel actual es el máximo del periodo.
 
 > Por qué importa: el tipo de cambio se transmite a los precios de bienes importados y a los costos de empresas con insumos en dólares.
 
@@ -51,6 +51,8 @@
 - **jue 26-nov**  · Informe Trimestral jul-sep (Banxico)
 - **jue 26-nov** 06:00 · Empleo y desempleo, ENOE (octubre) (INEGI)
 - **mar 1-dic** 09:00 · Encuesta de expectativas (noviembre) (Banxico) — expectativa 12m previa: 4.02% (media)
+- **mié 9-dic** 06:00 · Inflación de noviembre (INEGI) — previo: 3.75% (oct-2026)
+- **mié 9-dic** 13:00 · Decisión de la Fed (FOMC) (Fed) — rango actual: 3.75%–4.00%
 
 ---
 *Metodología: IGAE desestacionalizado (INEGI 737219). Inflación anual SP30578 y subyacente SP74662; expectativa a 12 meses SR14195 (mediana); tasa objetivo SF61745; FIX SF43718; Fed DFEDTARU. Tasa real ex ante = tasa objetivo − expectativa a 12 meses. Señal: puntaje z del último cambio frente a los 60 meses previos (FIX: 260 semanas), excluyendo el propio dato; inusual ≥ 1.5σ, atípico ≥ 2σ.*
