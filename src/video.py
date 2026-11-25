@@ -86,7 +86,7 @@ def build_script(s: dict) -> List[dict]:
     names = {"BR": "Brasil", "CO": "Colombia", "CL": "Chile", "PE": "Perú", "US": "Estados Unidos"}
     nxt = calendario.issue_date(num + 1)
     dia = calendario.weekday(nxt, "es")
-    ordw = ["", "primero", "segundo", "tercero", "cuarto", "quinto", "sexto"]
+    ordw = ["", "primer", "segundo", "tercer", "cuarto", "quinto", "sexto"]
 
     hook = (f"El peso tuvo su peor semana desde {MES_L[since.month - 1]} de {since.year}." if (up and since)
             else f"El peso {'cayó' if up else 'subió'} {n(abs(f['chg_1w_pct']))}% en una semana.")
@@ -108,14 +108,15 @@ def build_script(s: dict) -> List[dict]:
         if red else "En nuestro termómetro, ninguna señal está en rojo."})
     if mx:
         lines.append({"id": "peers", "vo": (
-            f"Por su tasa real, México es {ordw[pr['mx_rank']]} entre 6 economías"
-            + (f": solo {' y '.join(names[c] for c in above)} la tienen más alta." if above else ": la más alta del grupo."))})
+            f"Por su tasa de interés real, México ocupa el {ordw[pr['mx_rank']]} lugar entre 6 economías"
+            + (f", solo por debajo de {' y '.join(names[c] for c in above)}." if above else ": la más alta del grupo."))})
     thousands = int(abs(ic["diff"]) // 1000)
     lines.append({"id": "biz", "vo": (
-        f"¿Y tu empresa? Importar cien mil dólares cuesta hoy unos {thousands} mil pesos "
+        f"¿Qué significa para tu empresa? Importar cien mil dólares cuesta hoy unos {thousands} mil pesos "
         f"{'más' if ic['diff'] >= 0 else 'menos'} que hace una semana.")})
     lines.append({"id": "close", "vo": (
-        f"Soy {AUTHOR}. El número {num + 1} sale el {dia} {nxt.day} de {MES_L[nxt.month - 1]}. Sígueme para recibirlo.")})
+        f"El {dia} {nxt.day} de {MES_L[nxt.month - 1]}, Banxico publica su encuesta de expectativas, "
+        f"y ese mismo día la analizamos en el número {num + 1}. Mantente atento. Hasta pronto.")})
     return lines
 
 
@@ -389,11 +390,12 @@ def scene_close(pg: Page, t: float, d: float, s: dict, num: int):
         pg.text(M, 550, f"{calendario.weekday(nxt, 'es').upper()} {nxt.day} DE {MES_L[nxt.month - 1].upper()}", 96, PAPER, DISPLAY, "extra bold")
     r = seg(t, 1.2, 1.8)
     if r > 0:
-        pg.text(M, 700, "Sígueme para recibirlo.", 48, PAPER, SERIF_D, "medium", "italic")
-        pg.rect(M, 820, CW, 1, "#5E5A52")
-        pg.text(M, 860, AUTHOR, 64, PAPER, DISPLAY, "extra bold")
-        pg.text(M, 950, "Economista Senior", 34, "#CFC7B8", SERIF_D, "medium", "italic")
-        pg.text(M, 1010, EMAIL, 34, BLUE_LT, SANS, "semibold")
+        pg.text(M, 700, "Con la Encuesta de Expectativas de Banxico.", 40, PAPER, SERIF_D, "medium", "italic")
+    z = seg(t, d - 2.8, d - 2.0)
+    if z > 0:
+        pg.rect(M, 820, CW * z, 1, "#5E5A52")
+        pg.text(M, 860 + 30 * (1 - z), "HASTA PRONTO.", 150, BLUE_LT, DISPLAY, "extra bold")
+    pg.text(M, H - 70, EMAIL, 24, "#CFC7B8", SANS, "semibold")
 
 
 DRAW = {"hook": scene_hook, "peso": scene_peso, "why": scene_why, "thermo": scene_thermo, "peers": scene_peers,

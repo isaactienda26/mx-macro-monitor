@@ -8,7 +8,7 @@ MX Macro Monitor Nº 1 · El peso cae 5.5%.
 Solo 4 de 416 semanas desde 2018 fueron peores.
 
 → Termómetro MX Macro: 2 señales en rojo (expectativas y tipo de cambio), 3 en vigilancia y 1 estable.
-→ México, tercero de 6 en tasa real (2.8 pp); solo Brasil y Colombia la tienen más alta.
+→ Por su tasa de interés real (2.8 pp), México ocupa el lugar 3 de 6, solo por debajo de Brasil y Colombia.
 → ¿Por qué cayó el peso? Del 13-nov al 20-nov: real −5.4%, peso −2.5% y dólar frente a una canasta amplia +0.8%.
 → Importar USD 100,000 cuesta 103,170 pesos más que hace una semana.
 
@@ -26,7 +26,7 @@ Contacto: isaac.tienda01@gmail.com
 
 #EconomíaMexicana #Banxico #TipoDeCambio
 ```
-_1581 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
+_1600 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
 
 ## 2. Documento a adjuntar
 

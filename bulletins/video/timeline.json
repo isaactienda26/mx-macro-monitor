@@ -4,55 +4,55 @@
   "vo": "El peso tuvo su peor semana desde junio de 2024. Esto es MX Macro Monitor, número 1.",
   "speech": "El peso tuvo su peor semana desde junio de dos mil veinticuatro. Esto es Eme Equis Macro Monitor, número uno.",
   "start": 0.3,
-  "vo_dur": 9.796,
-  "dur": 10.196
+  "vo_dur": 7.523,
+  "dur": 7.923
  },
  {
   "id": "peso",
   "vo": "El dólar subió a 19.70 pesos: el peso perdió 5.5% en una semana. Desde 2018, solo 4 semanas fueron peores.",
   "speech": "El dólar subió a diecinueve punto setenta pesos: el peso perdió cinco punto cinco por ciento en una semana. Desde dos mil dieciocho, solo cuatro semanas fueron peores.",
-  "start": 10.796,
-  "vo_dur": 11.807,
-  "dur": 12.607
+  "start": 8.523,
+  "vo_dur": 10.684,
+  "dur": 11.484
  },
  {
   "id": "why",
   "vo": "¿Fue un dólar fuerte? No. El real brasileño cayó más que el peso, y el dólar apenas subió 0.8% frente a otras monedas.",
   "speech": "¿Fue un dólar fuerte? No. El real brasileño cayó más que el peso, y el dólar apenas subió cero punto ocho por ciento frente a otras monedas.",
-  "start": 23.703,
-  "vo_dur": 10.449,
-  "dur": 10.849
+  "start": 20.307,
+  "vo_dur": 9.221,
+  "dur": 9.621
  },
  {
   "id": "thermo",
   "vo": "En nuestro termómetro, 2 de 6 señales están en rojo: las expectativas de inflación y el tipo de cambio.",
   "speech": "En nuestro termómetro, dos de seis señales están en rojo: las expectativas de inflación y el tipo de cambio.",
-  "start": 34.852,
-  "vo_dur": 7.576,
-  "dur": 7.976
+  "start": 30.229,
+  "vo_dur": 6.661,
+  "dur": 7.061
  },
  {
   "id": "peers",
-  "vo": "Por su tasa real, México es tercero entre 6 economías: solo Brasil y Colombia la tienen más alta.",
-  "speech": "Por su tasa real, México es tercero entre seis economías: solo Brasil y Colombia la tienen más alta.",
-  "start": 43.128,
-  "vo_dur": 7.471,
-  "dur": 7.871
+  "vo": "Por su tasa de interés real, México ocupa el tercer lugar entre 6 economías, solo por debajo de Brasil y Colombia.",
+  "speech": "Por su tasa de interés real, México ocupa el tercer lugar entre seis economías, solo por debajo de Brasil y Colombia.",
+  "start": 37.59,
+  "vo_dur": 7.419,
+  "dur": 7.819
  },
  {
   "id": "biz",
-  "vo": "¿Y tu empresa? Importar cien mil dólares cuesta hoy unos 103 mil pesos más que hace una semana.",
-  "speech": "¿Y tu empresa? Importar cien mil dólares cuesta hoy unos ciento tres mil pesos más que hace una semana.",
-  "start": 51.299,
-  "vo_dur": 7.941,
-  "dur": 8.741
+  "vo": "¿Qué significa para tu empresa? Importar cien mil dólares cuesta hoy unos 103 mil pesos más que hace una semana.",
+  "speech": "¿Qué significa para tu empresa? Importar cien mil dólares cuesta hoy unos ciento tres mil pesos más que hace una semana.",
+  "start": 45.709,
+  "vo_dur": 7.131,
+  "dur": 7.931
  },
  {
   "id": "close",
-  "vo": "Soy Isaac Tienda. El número 2 sale el martes 1 de diciembre. Sígueme para recibirlo.",
-  "speech": "Soy Isaac Tienda. El número dos sale el martes primero de diciembre. Sígueme para recibirlo.",
-  "start": 60.34,
-  "vo_dur": 7.445,
-  "dur": 7.845
+  "vo": "El martes 1 de diciembre, Banxico publica su encuesta de expectativas, y ese mismo día la analizamos en el número 2. Mantente atento. Hasta pronto.",
+  "speech": "El martes primero de diciembre, Banxico publica su encuesta de expectativas, y ese mismo día la analizamos en el número dos. Mantente atento. Hasta pronto.",
+  "start": 53.94,
+  "vo_dur": 9.561,
+  "dur": 9.961
  }
 ]

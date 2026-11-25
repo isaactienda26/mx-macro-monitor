@@ -22,18 +22,18 @@
   },
   {
    "id": "peers",
-   "vo": "Por su tasa real, México es tercero entre 6 economías: solo Brasil y Colombia la tienen más alta.",
-   "speech": "Por su tasa real, México es tercero entre seis economías: solo Brasil y Colombia la tienen más alta."
+   "vo": "Por su tasa de interés real, México ocupa el tercer lugar entre 6 economías, solo por debajo de Brasil y Colombia.",
+   "speech": "Por su tasa de interés real, México ocupa el tercer lugar entre seis economías, solo por debajo de Brasil y Colombia."
   },
   {
    "id": "biz",
-   "vo": "¿Y tu empresa? Importar cien mil dólares cuesta hoy unos 103 mil pesos más que hace una semana.",
-   "speech": "¿Y tu empresa? Importar cien mil dólares cuesta hoy unos ciento tres mil pesos más que hace una semana."
+   "vo": "¿Qué significa para tu empresa? Importar cien mil dólares cuesta hoy unos 103 mil pesos más que hace una semana.",
+   "speech": "¿Qué significa para tu empresa? Importar cien mil dólares cuesta hoy unos ciento tres mil pesos más que hace una semana."
   },
   {
    "id": "close",
-   "vo": "Soy Isaac Tienda. El número 2 sale el martes 1 de diciembre. Sígueme para recibirlo.",
-   "speech": "Soy Isaac Tienda. El número dos sale el martes primero de diciembre. Sígueme para recibirlo."
+   "vo": "El martes 1 de diciembre, Banxico publica su encuesta de expectativas, y ese mismo día la analizamos en el número 2. Mantente atento. Hasta pronto.",
+   "speech": "El martes primero de diciembre, Banxico publica su encuesta de expectativas, y ese mismo día la analizamos en el número dos. Mantente atento. Hasta pronto."
   }
  ]
 }
