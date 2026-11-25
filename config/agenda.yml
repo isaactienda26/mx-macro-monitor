@@ -1,0 +1,81 @@
+# Calendario de publicaciones que alimenta la lámina "Agenda" y el apartado "Qué sigue".
+#
+# Fuentes oficiales (consultadas el 2026-11-24):
+#   INEGI  - Calendario de difusión 2026 y primer semestre 2027
+#            https://www.inegi.org.mx/contenidos/saladeprensa/doc/cal_2026.pdf
+#            https://www.inegi.org.mx/contenidos/saladeprensa/doc/cal_2027.pdf
+#   Banxico - Calendario 2026 de anuncios de política monetaria y minutas;
+#            calendario 2026 de la Encuesta de Expectativas.
+#   Fed    - Calendario FOMC 2026 y calendario revisado 2027 (12-nov-2026).
+#
+# Mantenimiento: agregar el calendario de Banxico 2027 cuando se publique
+# (el pipeline avisa en el log cuando la cobertura queda a menos de 30 días).
+#
+# key: enlaza el evento con el dato "previo" que muestra la agenda.
+#   inpc_m (inflación mensual) | inpc_q (1a quincena) | igae | ioae | imai | pib_o
+#   enoe | banxico | minutas | encuesta | informe | fomc
+# hora: hora del centro de México.
+
+coverage_until: 2027-06-30
+
+events:
+  # ---------------- 2026 ----------------
+  - {date: 2026-11-19, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (octubre)", en: "Timely Economic Activity Indicator (Oct)"}
+  - {date: 2026-11-19, time: "", src: Banxico, key: minutas, es: "Minutas de la decisión del 5-nov", en: "Minutes of the Nov 5 decision"}
+  - {date: 2026-11-23, time: "06:00", src: INEGI, key: igae, es: "IGAE (septiembre)", en: "IGAE economic activity (Sep)"}
+  - {date: 2026-11-24, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de noviembre", en: "CPI, 1st half of November"}
+  - {date: 2026-11-26, time: "06:00", src: INEGI, key: enoe, es: "Empleo y desempleo, ENOE (octubre)", en: "Labor force survey, ENOE (Oct)"}
+  - {date: 2026-11-26, time: "", src: Banxico, key: informe, es: "Informe Trimestral jul-sep", en: "Quarterly Report (Jul-Sep)"}
+  - {date: 2026-12-01, time: "09:00", src: Banxico, key: encuesta, es: "Encuesta de expectativas (noviembre)", en: "Private-sector expectations survey (Nov)"}
+  - {date: 2026-12-09, time: "06:00", src: INEGI, key: inpc_m, es: "Inflación de noviembre", en: "November CPI"}
+  - {date: 2026-12-09, time: "13:00", src: Fed, key: fomc, es: "Decisión de la Fed (FOMC)", en: "Fed (FOMC) decision"}
+  - {date: 2026-12-11, time: "06:00", src: INEGI, key: imai, es: "Actividad industrial (octubre)", en: "Industrial production (Oct)"}
+  - {date: 2026-12-15, time: "09:00", src: Banxico, key: encuesta, es: "Encuesta de expectativas (diciembre)", en: "Private-sector expectations survey (Dec)"}
+  - {date: 2026-12-17, time: "13:00", src: Banxico, key: banxico, es: "Decisión de política monetaria de Banxico", en: "Banxico monetary policy decision"}
+  - {date: 2026-12-18, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (noviembre)", en: "Timely Economic Activity Indicator (Nov)"}
+  - {date: 2026-12-23, time: "06:00", src: INEGI, key: igae, es: "IGAE (octubre)", en: "IGAE economic activity (Oct)"}
+  - {date: 2026-12-23, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de diciembre", en: "CPI, 1st half of December"}
+  - {date: 2026-12-24, time: "06:00", src: INEGI, key: enoe, es: "Empleo y desempleo, ENOE (noviembre)", en: "Labor force survey, ENOE (Nov)"}
+  # ---------------- 2027 ----------------
+  - {date: 2027-01-07, time: "06:00", src: INEGI, key: inpc_m, es: "Inflación de diciembre 2026", en: "December 2026 CPI"}
+  - {date: 2027-01-07, time: "", src: Banxico, key: minutas, es: "Minutas de la decisión del 17-dic", en: "Minutes of the Dec 17 decision"}
+  - {date: 2027-01-11, time: "06:00", src: INEGI, key: imai, es: "Actividad industrial (noviembre)", en: "Industrial production (Nov)"}
+  - {date: 2027-01-20, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (diciembre)", en: "Timely Economic Activity Indicator (Dec)"}
+  - {date: 2027-01-21, time: "06:00", src: INEGI, key: enoe, es: "Empleo y desempleo, ENOE (diciembre)", en: "Labor force survey, ENOE (Dec)"}
+  - {date: 2027-01-22, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de enero", en: "CPI, 1st half of January"}
+  - {date: 2027-01-25, time: "06:00", src: INEGI, key: igae, es: "IGAE (noviembre)", en: "IGAE economic activity (Nov)"}
+  - {date: 2027-01-27, time: "13:00", src: Fed, key: fomc, es: "Decisión de la Fed (FOMC)", en: "Fed (FOMC) decision"}
+  - {date: 2027-01-29, time: "06:00", src: INEGI, key: pib_o, es: "PIB oportuno 4T-2026", en: "GDP flash estimate Q4-2026"}
+  - {date: 2027-02-09, time: "06:00", src: INEGI, key: inpc_m, es: "Inflación de enero", en: "January CPI"}
+  - {date: 2027-02-11, time: "06:00", src: INEGI, key: imai, es: "Actividad industrial (diciembre)", en: "Industrial production (Dec)"}
+  - {date: 2027-02-19, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (enero)", en: "Timely Economic Activity Indicator (Jan)"}
+  - {date: 2027-02-24, time: "06:00", src: INEGI, key: igae, es: "IGAE (diciembre)", en: "IGAE economic activity (Dec)"}
+  - {date: 2027-02-24, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de febrero", en: "CPI, 1st half of February"}
+  - {date: 2027-03-04, time: "06:00", src: INEGI, key: enoe, es: "Empleo y desempleo, ENOE (enero)", en: "Labor force survey, ENOE (Jan)"}
+  - {date: 2027-03-09, time: "06:00", src: INEGI, key: inpc_m, es: "Inflación de febrero", en: "February CPI"}
+  - {date: 2027-03-12, time: "06:00", src: INEGI, key: imai, es: "Actividad industrial (enero)", en: "Industrial production (Jan)"}
+  - {date: 2027-03-17, time: "12:00", src: Fed, key: fomc, es: "Decisión de la Fed (FOMC)", en: "Fed (FOMC) decision"}
+  - {date: 2027-03-19, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (febrero)", en: "Timely Economic Activity Indicator (Feb)"}
+  - {date: 2027-03-23, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de marzo", en: "CPI, 1st half of March"}
+  - {date: 2027-03-24, time: "06:00", src: INEGI, key: igae, es: "IGAE (enero)", en: "IGAE economic activity (Jan)"}
+  - {date: 2027-04-06, time: "06:00", src: INEGI, key: enoe, es: "Empleo y desempleo, ENOE (febrero)", en: "Labor force survey, ENOE (Feb)"}
+  - {date: 2027-04-08, time: "06:00", src: INEGI, key: inpc_m, es: "Inflación de marzo", en: "March CPI"}
+  - {date: 2027-04-09, time: "06:00", src: INEGI, key: imai, es: "Actividad industrial (febrero)", en: "Industrial production (Feb)"}
+  - {date: 2027-04-19, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (marzo)", en: "Timely Economic Activity Indicator (Mar)"}
+  - {date: 2027-04-22, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de abril", en: "CPI, 1st half of April"}
+  - {date: 2027-04-23, time: "06:00", src: INEGI, key: igae, es: "IGAE (febrero)", en: "IGAE economic activity (Feb)"}
+  - {date: 2027-04-28, time: "12:00", src: Fed, key: fomc, es: "Decisión de la Fed (FOMC)", en: "Fed (FOMC) decision"}
+  - {date: 2027-04-29, time: "06:00", src: INEGI, key: enoe, es: "Empleo y desempleo, ENOE (marzo)", en: "Labor force survey, ENOE (Mar)"}
+  - {date: 2027-04-30, time: "06:00", src: INEGI, key: pib_o, es: "PIB oportuno 1T-2027", en: "GDP flash estimate Q1-2027"}
+  - {date: 2027-05-07, time: "06:00", src: INEGI, key: inpc_m, es: "Inflación de abril", en: "April CPI"}
+  - {date: 2027-05-12, time: "06:00", src: INEGI, key: imai, es: "Actividad industrial (marzo)", en: "Industrial production (Mar)"}
+  - {date: 2027-05-18, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (abril)", en: "Timely Economic Activity Indicator (Apr)"}
+  - {date: 2027-05-24, time: "06:00", src: INEGI, key: igae, es: "IGAE (marzo)", en: "IGAE economic activity (Mar)"}
+  - {date: 2027-05-24, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de mayo", en: "CPI, 1st half of May"}
+  - {date: 2027-06-03, time: "06:00", src: INEGI, key: enoe, es: "Empleo y desempleo, ENOE (abril)", en: "Labor force survey, ENOE (Apr)"}
+  - {date: 2027-06-09, time: "06:00", src: INEGI, key: inpc_m, es: "Inflación de mayo", en: "May CPI"}
+  - {date: 2027-06-09, time: "12:00", src: Fed, key: fomc, es: "Decisión de la Fed (FOMC)", en: "Fed (FOMC) decision"}
+  - {date: 2027-06-11, time: "06:00", src: INEGI, key: imai, es: "Actividad industrial (abril)", en: "Industrial production (Apr)"}
+  - {date: 2027-06-18, time: "06:00", src: INEGI, key: ioae, es: "Indicador Oportuno de la Actividad (mayo)", en: "Timely Economic Activity Indicator (May)"}
+  - {date: 2027-06-24, time: "06:00", src: INEGI, key: igae, es: "IGAE (abril)", en: "IGAE economic activity (Apr)"}
+  - {date: 2027-06-24, time: "06:00", src: INEGI, key: inpc_q, es: "Inflación 1a quincena de junio", en: "CPI, 1st half of June"}

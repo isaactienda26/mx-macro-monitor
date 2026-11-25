@@ -1,0 +1,9 @@
+# Calendario del MX Macro Monitor.
+# Regla: un número por semana, cada lunes a las 07:00 (centro de México). Nº 1 = lunes 23-nov-2026.
+# Excepciones: un número se mueve a otra fecha, por ejemplo para incluir un dato que sale después del lunes.
+# El flujo programado corre lunes 07:00 y martes 10:00; solo publica en la fecha que toca a cada número.
+primer_lunes: 2026-11-23
+excepciones:
+  - numero: 2
+    fecha: 2026-12-01   # martes; se omite el lunes 30-nov
+    motivo: Incluir la Encuesta de Expectativas de Banxico (1-dic, 09:00 h)

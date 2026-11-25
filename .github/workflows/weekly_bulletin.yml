@@ -2,17 +2,24 @@ name: Weekly Mexico Macro Bulletin
 
 on:
   schedule:
-    # Every Monday at 07:00 Monterrey time (CST, UTC-6 -> 13:00 UTC)
+    # Monday 07:00 and Tuesday 10:00 Monterrey / Mexico City (UTC-6, no DST since 2022).
+    # The script publishes only on each issue's date (config/ediciones.yml); other runs exit without changes.
     - cron: "0 13 * * 1"
+    - cron: "0 16 * * 2"
   workflow_dispatch:
+  pull_request:
+    paths: ["src/**", "config/**", "tests/**", "requirements.txt", ".github/workflows/weekly_bulletin.yml"]
 
 permissions:
   contents: write
 
+concurrency:
+  group: weekly-bulletin-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   generate-bulletin:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -21,23 +28,36 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: "3.11"
+          cache: pip
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run macro monitor script
+      - name: Run tests
+        run: python -m pytest -q tests
+
+      - name: Build bulletin and LinkedIn issue (magazine v5)
         env:
           BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
           INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
-          STD_WINDOW_MONTHS: "60"
         run: python src/macro_monitor.py
 
-      - name: Commit updated bulletins and PNG tables
+      - name: Upload carousel (PDF + slide PNGs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: mx-macro-monitor-${{ github.run_number }}
+          path: |
+            bulletins/
+            data/
+          retention-days: 90
+
+      - name: Commit weekly outputs
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add bulletins/latest_es.md bulletins/latest_en.md bulletins/table_es.png bulletins/table_en.png
-          git diff --staged --quiet || git commit -m "chore: update weekly macro bulletin and PNG tables ($(date -u +'%Y-%m-%d'))"
+          git add bulletins/*.pdf bulletins/*.png bulletins/*.md bulletins/archive data/
+          git diff --staged --quiet || git commit -m "chore: weekly macro bulletin ($(TZ=America/Mexico_City date +'%Y-%m-%d'))"
           git push
