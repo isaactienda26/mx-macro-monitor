@@ -6,3 +6,5 @@ __pycache__/
 .pytest_cache/
 bulletins/slides_*/
 bulletins/video/frames/
+projects/*/fuentes_privado.md
+fuentes_privado.md

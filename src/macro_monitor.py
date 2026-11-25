@@ -99,14 +99,18 @@ def bulletin_md(s: dict, t: dict, lang: str, warnings: list) -> str:
 def post_md(s: dict, t: dict, v: dict, num: int) -> str:
     return "\n".join([
         f"# Publicación LinkedIn · semana {date.fromisoformat(s['run_date']).isocalendar()[1]} ({s['run_date']})",
-        "", "## 1. Texto del post (español)", "", "```text", t["es"]["post"], "```",
-        f"_{len(t['es']['post'])} caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de \"…ver más\")._",
+        "", "_Inglés primero: la mayor parte de la red lee en inglés (organismos multilaterales y banca)._",
+        "", "## 1. Texto del post (inglés)", "", "```text", t["en"]["post"], "```",
+        f"_{len(t['en']['post'])} caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de \"…see more\")._",
         "", "## 2. Documento a adjuntar", "",
-        "`bulletins/carousel_es.pdf` → en LinkedIn: *Iniciar publicación → Agregar documento*. Título sugerido del documento:",
-        "", f"> MX Macro Monitor Nº {num} · {t['es']['headline']}",
-        "", "Texto alternativo (para quien usa lector de pantalla; pégalo en el primer comentario si lo necesitas):",
-        "", f"> {magazine.alt_text(s, v, t, num)}",
-        "", "## 3. Primer comentario (inglés)", "", "```text", t["en"]["post"], "```",
+        "`bulletins/carousel_en.pdf` → en LinkedIn: *Iniciar publicación → Agregar documento*. Título sugerido del documento:",
+        "", f"> MX Macro Monitor No. {num} · {t['en']['headline']}",
+        "", "Texto alternativo (alt text):",
+        "", f"> {magazine.alt_text_en(s, v, t, num)}",
+        "", "## 3. Primer comentario (español)", "", "```text", t["es"]["comment"], "```",
+        f"_{len(t['es']['comment'])} caracteres (límite de comentario en LinkedIn: {magazine.COMMENT_MAX:,})._",
+        "", "<details><summary>Post completo en español (respaldo, no se publica)</summary>", "", "```text", t["es"]["post"], "```",
+        "", "</details>",
         "", "## 4. Checklist antes de publicar", "",
         ("- [ ] **Nota del autor en BORRADOR:** revísala o reescríbela en `config/nota_autor.yml` (estado: final) y vuelve a correr el flujo."
          if t["es"].get("note") and t["es"]["note"]["estado"] != "final" else
@@ -114,8 +118,9 @@ def post_md(s: dict, t: dict, v: dict, num: int) -> str:
          if not t["es"].get("note") else "- [x] Nota del autor lista."),
         "- [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).",
         "- [ ] Abrir el PDF y confirmar que todas las páginas se ven completas (una idea por página).",
-        "- [ ] Correr el agente `lector-scroll` (`.claude/agents/lector-scroll.md`) sobre `bulletins/slides_es/` y atender lo que marque como Rehacer.",
-        "- [ ] Publicar entre 8:00 y 9:30 h (centro de México) y pegar el comentario en inglés en los primeros minutos.",
+        "- [ ] Correr el agente `lector-scroll` (`.claude/agents/lector-scroll.md`) sobre `bulletins/slides_en/` y atender lo que marque como Rehacer.",
+        "- [ ] Revisar que la nota del autor tenga versión `en` y `cita_en` finales (no traducción literal).",
+        "- [ ] Publicar entre 8:00 y 9:30 h del centro de México (en invierno: 9:00–10:30 en Washington, 15:00–16:30 en Basilea) y pegar el comentario en español en los primeros minutos.",
         "- [ ] Responder comentarios durante la primera hora.",
         "",
     ])
@@ -174,7 +179,8 @@ def main() -> int:
     va = valueadd.build(snap, data, peers)
     num = magazine.edition_number(run_date)
     text["es"]["post"] = magazine.post_es(snap, va, text, num)
-    text["en"]["post"] = magazine.comment_en(snap, va, text, num)
+    text["en"]["post"] = magazine.post_en(snap, va, text, num)
+    text["es"]["comment"] = magazine.comment_es(snap, va, text, num)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "archive").mkdir(exist_ok=True)

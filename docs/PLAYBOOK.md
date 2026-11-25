@@ -1,5 +1,7 @@
 # Playbook de publicación semanal · MX Macro Monitor en LinkedIn
 
+> Inglés primero desde el Nº 2 (1-dic-2026): la red lee sobre todo en inglés. Plan completo en [`PLAN_CONTENIDO.md`](PLAN_CONTENIDO.md).
+
 Objetivo: una publicación cada semana con el mismo formato, construida solo con datos oficiales y en menos de 20 minutos de trabajo manual.
 
 ## Rutina de cada lunes
@@ -7,10 +9,10 @@ Objetivo: una publicación cada semana con el mismo formato, construida solo con
 | Hora (centro de México) | Paso | Tiempo |
 | :--- | :--- | :---: |
 | 07:00 | GitHub Actions genera carrusel, texto y boletín y los sube a `bulletins/` | automático |
-| 08:00 | Abrir `bulletins/linkedin_post.md` y `bulletins/carousel_es.pdf` en GitHub (o descargar el *artifact* de la corrida) | 2 min |
+| 08:00 | Abrir `bulletins/linkedin_post.md` y `bulletins/carousel_en.pdf` en GitHub (o descargar el *artifact* de la corrida) | 2 min |
 | 08:05 | **Control de calidad** (abajo) | 5–10 min |
-| 08:30 | Publicar: *Iniciar publicación → Agregar documento → carousel_es.pdf*; pegar el texto del post; título del documento sugerido en el mismo archivo | 3 min |
-| 08:35 | Pegar como primer comentario la versión en inglés (incluye el enlace al repositorio; los enlaces en el cuerpo del post reducen el alcance) | 1 min |
+| 08:30 | Publicar en inglés: *Iniciar publicación → Agregar documento → carousel_en.pdf*; pegar el texto del post; título del documento sugerido en el mismo archivo | 3 min |
+| 08:35 | Pegar como primer comentario la versión en español (máximo 1,250 caracteres, sin enlaces) | 1 min |
 | 08:35–09:30 | Responder cada comentario; las respuestas en la primera hora son las que más alcance generan | 10 min |
 
 Si el lunes es festivo o hay un dato mayor el martes (por ejemplo, decisión de Banxico el jueves), se puede correr de nuevo el flujo desde *Actions → Weekly Mexico Macro Bulletin → Run workflow* y publicar ese día.

@@ -745,6 +745,81 @@ def comment_en(s: dict, v: dict, t: dict, num: int) -> str:
     return " ".join(parts) + mine + "\n\nOfficial data from Banxico, INEGI, the BIS and the Federal Reserve."
 
 
+COMMENT_MAX = 1250  # LinkedIn comment limit (characters)
+PEER_EN = {"BR": "Brazil", "CO": "Colombia", "CL": "Chile", "PE": "Peru", "US": "the United States"}
+
+
+def post_en(s: dict, v: dict, t: dict, num: int) -> str:
+    """Main post (English first). The audience is mostly senior economists at multilaterals and banks:
+    pages stay light; method, assumptions and sources live here."""
+    tl = t["en"]
+    lead = tl["order"][0]
+    cc = cover_copy(s, v, lead, "en")
+    f, sc, pr, db, ic, rk = s["fx"], v["thermo_score"], v["peers"], v["dollar"], v["import_cost"], v["fx_rank"]
+    names = {"inflation": "inflation", "core": "core", "expectations": "expectations", "real_rate": "real rate",
+             "fx": "exchange rate", "activity": "activity"}
+    red = [names[r["key"]] for r in v["thermometer"] if r["state"] == "tension"]
+    lines = [f"→ MX Macro thermometer: {sc['tension']} of 6 signals in tension" + (f" ({' and '.join(red)})" if red else "")
+             + f", {sc['vigilancia']} on watch and {sc['estable']} stable."]
+    if pr:
+        mx = next(r for r in pr["rows"] if r["c"] == "MX")
+        above = [PEER_EN[r["c"]] for r in pr["rows"][: pr["mx_rank"] - 1]]
+        lines.append(f"→ Ex-post real policy rate: Mexico at {n(mx['real'])} pp ranks #{pr['mx_rank']} of {pr['n']} peers"
+                     + (f", behind only {' and '.join(above)}." if above else "."))
+    if db:
+        lines.append(f"→ Peso or dollar? {dshort(db['start'], 'en')}–{dshort(db['end'], 'en')}: BRL {n(-db['usd_brl'], 1, True)}%, "
+                     f"MXN {n(-db['usd_mxn_h10'], 1, True)}%, broad dollar index {n(db['usd_broad'], 1, True)}% (Fed H.10, Friday to Friday).")
+    lines.append(f"→ A USD 100,000 import costs MXN {abs(ic['diff']):,.0f} {'more' if ic['diff'] >= 0 else 'less'} than a week ago.")
+    mine = f"My take: {tl['note']['text']}\n\n" if tl.get("note") else ""
+    how = ["How I calculate it:",
+           f"• Import cost: USD 100,000 × today's FIX ({n(f['value'], 2)}) minus USD 100,000 × the FIX 7 days earlier ({n(f['value_1w_ago'], 2)}).",
+           f"• Ranking: {rk['n_weeks']} weekly changes in the FIX since {mshort(rk['start'], 'en')} (Friday close).",
+           "• Thermometer: headline, core and expectations are stable within ±0.5 pp of the 3% target and in tension outside 2%–4%; "
+           "the real rate is read against Banxico's neutral range (1.8%–3.6%, 2024 estimate); FX and activity by standard deviations "
+           "versus their own history (tension from 2σ).",
+           "• Peer real rates: policy rate minus annual CPI inflation" + (f" for {mshort(pr['cpi_month'], 'en')}" if pr else "")
+           + " (ex post; the thermometer uses the ex-ante rate, hence the gap)."]
+    src = "Sources: Banco de México, INEGI, BIS and Federal Reserve (H.10)."
+    nm = calendario.issue_date(num + 1)
+    return (f"MX Macro Monitor No. {num} · {' '.join(cc['lines']).capitalize()}.\n\n{cc['short']}"
+            + "\n\n" + "\n".join(lines) + "\n\n" + mine + "\n".join(how) + f"\n{src}\n\n"
+            f"A new issue every week. Follow for No. {num + 1} on {calendario.weekday(nm, 'en')}, {MON_L[nm.month - 1]} {nm.day}.\n"
+            f"Contact: {EMAIL}\n\nVersión en español en el primer comentario.\n\n#Mexico #MonetaryPolicy #EmergingMarkets")
+
+
+def comment_es(s: dict, v: dict, t: dict, num: int) -> str:
+    """Spanish version for the first comment, trimmed to LinkedIn's comment limit."""
+    tl = t["es"]
+    cc = cover_copy(s, v, tl["order"][0], "es")
+    sc, ic, pr, db = v["thermo_score"], v["import_cost"], v["peers"], v["dollar"]
+    head = f"Versión en español · MX Macro Monitor Nº {num}: {cc['lines'][0].capitalize()}. {cc['short']}"
+    opt = []  # dropped first if the comment is too long
+    if db:
+        opt.append(f"¿Peso o dólar? Real {n(-db['usd_brl'], 1, True)}%, peso {n(-db['usd_mxn_h10'], 1, True)}% y dólar amplio "
+                   f"{n(db['usd_broad'], 1, True)}% (Fed H.10).")
+    if pr:
+        mx = next(r for r in pr["rows"] if r["c"] == "MX")
+        opt.insert(0, f"Por su tasa real ex post ({n(mx['real'])} pp), México ocupa el lugar {pr['mx_rank']} de {pr['n']} pares.")
+    core = [f"Termómetro MX Macro: {sc['tension']} de 6 señales en tensión, {sc['vigilancia']} en vigilancia y {sc['estable']} estable"
+            + ("s" if sc["estable"] != 1 else "") + ".",
+            f"Importar USD 100,000 cuesta {abs(ic['diff']):,.0f} pesos {'más' if ic['diff'] >= 0 else 'menos'} que hace una semana."]
+    tail = (f"\n\nMi lectura: {tl['note']['text']}" if tl.get("note") else "") + "\n\nDatos oficiales de Banxico, INEGI, BIS y Reserva Federal."
+    while True:
+        body = " ".join([head, core[0], *opt, core[1]]) + tail
+        if len(body) <= COMMENT_MAX or not opt:
+            return body
+        opt.pop()
+
+
+def alt_text_en(s: dict, v: dict, t: dict, num: int) -> str:
+    cc = cover_copy(s, v, t["en"]["order"][0], "en")
+    sc, ic = v["thermo_score"], v["import_cost"]
+    return (f"{TOTAL}-page document, MX Macro Monitor No. {num}, by Isaac Tienda. Cover: {cc['lines'][0].lower()}; {cc['short']} "
+            f"Inside: {sc['tension']} of 6 thermometer signals in tension; Mexico's real rate versus Brazil, Colombia, Chile, the "
+            f"United States and Peru; whether the move came from the peso or the dollar; a USD 100,000 import costs MXN "
+            f"{abs(ic['diff']):,.0f} {'more' if ic['diff'] >= 0 else 'less'} than a week ago; the week ahead and contact.")
+
+
 def alt_text(s: dict, v: dict, t: dict, num: int) -> str:
     cc = cover_copy(s, v, t["es"]["order"][0], "es")
     sc, ic = v["thermo_score"], v["import_cost"]
