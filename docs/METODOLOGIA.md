@@ -38,3 +38,10 @@ Tasas: BIS, Central bank policy rates (diaria); para México, Banxico (SF61745).
 Variación de MXN, BRL e índice amplio del dólar (Reserva Federal, H.10, vía FRED: DEXMXUS, DEXBZUS, DTWEXBGS)
 entre la última fecha común y siete días antes. Se usa H.10 para que las tres series tengan la misma hora de
 cierre; por eso la ventana puede diferir del FIX de la portada.
+
+## 6. Convención de signos
+
+En todo el número, el signo sigue a la moneda: **negativo = la moneda se debilita frente al dólar**. La magnitud
+es la variación del tipo de cambio (USD/MXN, FIX), la misma que reportan Banxico y la prensa (19.37 contra 18.47 =
+el peso −4.9%). El índice amplio del dólar va con su propio signo: positivo = el dólar se fortalece. Los datos se
+guardan en `data/` como tipo de cambio (positivo = más pesos por dólar); el cambio de signo es solo de presentación.

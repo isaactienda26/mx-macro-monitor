@@ -296,40 +296,51 @@ def annotate(pg: Page, ax, xy, offset, label, color=INK, rad=0.3, size=27, ha="l
 
 
 def chart_fx_weeks(pg: Page, s: dict, v: dict, lang: str, x, y, w, h, simple: bool = False):
+    """Weekly change of the peso vs the dollar. Sign follows the peso: negative = weaker peso
+    (magnitude = change in the FIX, the convention Banxico and the press use)."""
     wk = v["fx_rank"]["weeks"]
     dts = pd.to_datetime(wk["dates"])
-    vals = np.array(wk["values"])
+    vals = -np.array(wk["values"])
     es = lang == "es"
-    pg.text(x, y, ("Cambio semanal del FIX, % · arriba = peso más débil" if es
-                   else "Weekly change in the peso vs. the dollar (FIX), % · up = weaker peso"), 22, MUTED, SANS)
+    pg.text(x, y, ("Variación semanal del peso frente al dólar, % (FIX) · abajo = peso más débil" if es
+                   else "Weekly change in the peso vs. the dollar, % (FIX) · down = weaker peso"), 22, MUTED, SANS)
     ax = pg.axes(x + 44, y + 44, w - 44, h - 44)
     ax.bar(dts[:-1], vals[:-1], width=5.2, color=CTX, linewidth=0)
     ax.bar(dts[-1:], vals[-1:], width=16, color=BLUE, linewidth=0, zorder=5)
     ax.axhline(0, color=INK, lw=1.0)
-    lo, hi = min(vals.min(), -4), max(vals.max(), 6) * 1.12
-    ax.set_ylim(lo * 1.1, hi)
+    lo, hi = min(vals.min(), -6) * 1.45, max(vals.max(), 4) * 1.15
+    ax.set_ylim(lo, hi)
     ax.set_xlim(dts[0] - pd.Timedelta(days=20), dts[-1] + pd.Timedelta(days=40))
-    ticks = [t for t in (-5, 0, 5, 10) if lo * 1.1 <= t <= hi]
+    ticks = [t for t in (-10, -5, 0, 5) if lo <= t <= hi]
     ax.set_yticks(ticks, [n(t, 0) if t else "0" for t in ticks])
     years = pd.date_range(f"{dts[0].year + 1}-01-01", dts[-1], freq="YS")
     ax.set_xticks(years, [str(t.year) for t in years])
     ax.tick_params(axis="x", pad=8)
     ax.tick_params(axis="y", pad=6)
-    # annotations: this week + known episodes (largest move in each)
     pg.fig.canvas.draw()
     cur = vals[-1]
-    annotate(pg, ax, (dts[-1], cur), (-30, -150), ("Esta semana" if es else "This week"),
-             BLUE, rad=-0.35, size=32, ha="right")
+    annotate_below(pg, ax, (dts[-1], cur), (-40, 70), ("Esta semana" if es else "This week"), BLUE, rad=0.35, size=32, ha="right")
     ser = pd.Series(vals, index=dts)
     for key, lab in EPISODES.items():
         sub = ser[ser.index.strftime("%Y-%m") == key]
-        if sub.empty or sub.max() < cur:
+        if sub.empty or sub.min() > cur:
             continue
-        t = sub.idxmax()
+        t = sub.idxmin()
         left = (t - dts[0]).days / (dts[-1] - dts[0]).days < 0.5
-        annotate(pg, ax, (t, sub.max()), (70, -20) if left else (-70, -20), f"{lab[lang]}\n{mshort(key, lang)}", INK,
-                 rad=0.3 if left else -0.3, size=26, ha="left" if left else "right")
+        annotate_below(pg, ax, (t, sub.min()), (60, 30) if left else (-60, 30), f"{lab[lang]}\n{mshort(key, lang)}", INK,
+                       rad=-0.3 if left else 0.3, size=26, ha="left" if left else "right")
     return ax
+
+
+def annotate_below(pg: Page, ax, xy, offset, label, color=INK, rad=0.3, size=27, ha="left"):
+    """Like annotate(), for a bar that hangs below zero: the label sits under the bar end."""
+    px, py = data_px(pg, ax, xy)
+    tx, ty = px + offset[0], py + offset[1]
+    pg.text(tx, ty, label, size, color, SERIF_D, "medium", "italic", ha=ha, va="top", linespacing=1.0)
+    sx = tx - 8 if ha == "left" else tx + 8
+    arr = FancyArrowPatch((sx, ty + size * 0.35), (px, py + 8), connectionstyle=f"arc3,rad={rad}",
+                          arrowstyle="-|>,head_length=9,head_width=4.5", color=color, lw=1.6, zorder=20, shrinkA=0, shrinkB=0)
+    pg.ax.add_patch(arr)
 
 
 def chart_line(pg: Page, payload: dict, title: str, sub: str, x, y, w, h, band=None):
@@ -452,9 +463,9 @@ def page_thermo(s, v, t, lang, num, run) -> Page:
     pg = Page()
     sc, rows = v["thermo_score"], v["thermometer"]
     names = {"es": {"inflation": "Inflación general", "core": "Inflación subyacente", "expectations": "Expectativas de inflación",
-                    "real_rate": "Tasa real (ex ante)", "fx": "Tipo de cambio (semanal)", "activity": "Actividad (mensual)"},
+                    "real_rate": "Tasa real (ex ante)", "fx": "Peso frente al dólar (semanal)", "activity": "Actividad (mensual)"},
              "en": {"inflation": "Headline inflation", "core": "Core inflation", "expectations": "Inflation expectations",
-                    "real_rate": "Real rate (ex ante)", "fx": "Exchange rate (w/w)", "activity": "Economic activity (m/m)"}}[lang]
+                    "real_rate": "Real rate (ex ante)", "fx": "Peso vs. dollar (w/w)", "activity": "Economic activity (m/m)"}}[lang]
     word = {"es": {"estable": "Estable", "vigilancia": "Vigilancia", "tension": "Tensión", "na": "s. d."},
             "en": {"estable": "Stable", "vigilancia": "Watch", "tension": "Alert", "na": "n/a"}}[lang]
     red = [names[r["key"]].lower() for r in rows if r["state"] == "tension"]
@@ -475,6 +486,8 @@ def page_thermo(s, v, t, lang, num, run) -> Page:
         pg.rect(M, cy - 14, 28, 28, STATE_COLOR.get(r["state"], MUTED))
         pg.text(M + 52, cy, names[r["key"]], 34, INK, SANS, "semibold", va="center")
         val = r["value"]
+        if r["key"] == "fx" and val is not None:
+            val = -val  # peso convention: negative = weaker peso
         vs = (n(val, 1, r["key"] in ("fx", "activity")) + "%") if val is not None else "–"
         pg.text(M + 680, cy, vs, 56, INK, DISPLAY, "extra bold", ha="right", va="center")
         pg.text(W - M, cy, word[r["state"]], 30, STATE_COLOR.get(r["state"], MUTED), SANS, "extra bold", ha="right", va="center")
@@ -530,36 +543,47 @@ def page_peers(s, v, t, lang, num, run) -> Page:
 
 
 def page_dollar(s, v, t, lang, num, run) -> Page:
+    """Was the peso's fall broad dollar strength? Currencies: negative = weaker vs the dollar;
+    dollar index: positive = stronger dollar."""
     es = lang == "es"
     pg = Page()
     db = v["dollar"]
     peso_only = db["usd_broad"] < db["usd_mxn_h10"] / 2
     if es:
-        title = "NO FUE EL DÓLAR" if peso_only else "FUE EL DÓLAR"
+        title = "NO FUE UN DÓLAR FUERTE" if peso_only else "FUE UN DÓLAR FUERTE"
         dek = ("El real y el peso cayeron mucho más de lo que subió el dólar." if peso_only
-               else "El dólar se fortaleció frente a casi todas las monedas.")
+               else "El dólar subió frente a casi todas las monedas.")
     else:
-        title = "IT WASN’T THE DOLLAR" if peso_only else "IT WAS THE DOLLAR"
+        title = "NOT DOLLAR STRENGTH" if peso_only else "IT WAS DOLLAR STRENGTH"
         dek = ("The real and the peso fell far more than the dollar rose." if peso_only
-               else "The dollar strengthened against almost every currency.")
-    y = inner(pg, "¿Peso o dólar?" if es else "Peso or dollar?", title, dek, num, run, lang, 4)
+               else "The dollar rose against almost every currency.")
+    y = inner(pg, "¿Por qué cayó el peso?" if es else "Why did the peso fall?", title, dek, num, run, lang, 4)
     st, en_ = pd.Timestamp(db["start"]), pd.Timestamp(db["end"])
-    pg.text(M, y - 10, (f"Del {st.day} al {dshort(db['end'], 'es')}, % · datos de la Fed (otra semana que el FIX)" if es
+    pg.text(M, y - 10, (f"Variación del {st.day} al {dshort(db['end'], 'es')}, % · datos de la Fed (otra semana que el FIX)" if es
                         else f"{MES['en'][st.month - 1]}. {st.day}–{en_.day}, % change · Fed data (differs from the FIX week)"), 22, MUTED, SANS)
     y += 40
-    items = [("Real brasileño: se depreció" if es else "Brazilian real: weakened", db["usd_brl"], CTX, False),
-             ("Peso mexicano: se depreció" if es else "Mexican peso: weakened", db["usd_mxn_h10"], BLUE, True),
-             ("Índice amplio del dólar: se fortaleció" if es else "Broad dollar index: strengthened", db["usd_broad"], INK, False)]
-    vmax = max(abs(x) for _, x, _, _ in items)
-    bw, bh = CW - 150, 84
+    items = [("Real brasileño frente al dólar" if es else "Brazilian real vs. dollar", -db["usd_brl"], CTX, False),
+             ("Peso mexicano frente al dólar" if es else "Mexican peso vs. dollar", -db["usd_mxn_h10"], BLUE, True),
+             ("Dólar frente a una canasta amplia" if es else "Dollar vs. a broad basket", db["usd_broad"], INK, False)]
+    lo = min(0, min(x for _, x, _, _ in items))
+    hi = max(0, max(x for _, x, _, _ in items))
+    lab_room = 150
+    scale = (CW - 2 * lab_room) / (hi - lo)
+    zero = M + lab_room + (-lo) * scale
+    bh = 84
     step = (Y_SRC - 60 - y) / 3
     for k, (lab, val, col, bold) in enumerate(items):
         yy = y + k * step + (step - bh - 44) / 2
         pg.text(M, yy, lab, 30, INK, SANS, "extra bold" if bold else "regular")
-        pg.rect(M, yy + 44, max(abs(val) / vmax * bw, 3), bh, col, z=3)
-        pg.text(M + abs(val) / vmax * bw + 16, yy + 44 + bh / 2, f"{n(val, 1, True)}%", 40, INK, DISPLAY, "extra bold", va="center")
-    src_line(pg, "Fuente: Elaboración propia con datos de la Reserva Federal (H.10); el FIX de Banxico usa otro corte de fechas." if es
-             else "Source: Author’s calculations based on Federal Reserve H.10 data; Banxico’s FIX uses a different window.")
+        x0, x1 = sorted([zero, zero + val * scale])
+        pg.rect(x0, yy + 44, max(x1 - x0, 3), bh, col, z=3)
+        if val < 0:
+            pg.text(x0 - 14, yy + 44 + bh / 2, f"{n(val, 1, True)}%", 40, INK, DISPLAY, "extra bold", ha="right", va="center")
+        else:
+            pg.text(x1 + 14, yy + 44 + bh / 2, f"{n(val, 1, True)}%", 40, INK, DISPLAY, "extra bold", va="center")
+        pg.vline(zero, yy + 34, yy + 44 + bh + 10, INK, 1.4)
+    src_line(pg, "Fuente: Elaboración propia con datos de la Reserva Federal (H.10). Negativo = la moneda se debilita." if es
+             else "Source: Author’s calculations based on Federal Reserve H.10 data. Negative = weaker currency.")
     footer(pg, 4, lang)
     return pg
 
@@ -684,8 +708,9 @@ def post_es(s: dict, v: dict, t: dict, num: int) -> str:
         mx = next(r for r in pr["rows"] if r["c"] == "MX")
         lines.append(f"→ México, lugar {pr['mx_rank']} de {pr['n']} en tasa real ({n(mx['real'])}%).")
     if db:
-        lines.append(f"→ Del {dshort(db['start'], 'es')} al {dshort(db['end'], 'es')}: real {n(db['usd_brl'], 1, True)}%, "
-                     f"peso {n(db['usd_mxn_h10'], 1, True)}%, dólar amplio {n(db['usd_broad'], 1, True)}%.")
+        lines.append(f"→ ¿Por qué cayó el peso? Del {dshort(db['start'], 'es')} al {dshort(db['end'], 'es')}: "
+                     f"real {n(-db['usd_brl'], 1, True)}%, peso {n(-db['usd_mxn_h10'], 1, True)}% y dólar frente a una "
+                     f"canasta amplia {n(db['usd_broad'], 1, True)}%.")
     lines.append(f"→ Importar USD 100,000 cuesta ${abs(ic['diff']):,.0f} pesos {'más' if ic['diff'] >= 0 else 'menos'} que hace una semana.")
     mine = f"Mi lectura: {tl['note']['text'][0].lower() + tl['note']['text'][1:]}\n\n" if tl.get("note") else ""
     how = ["Cómo lo calculo:",
@@ -713,7 +738,7 @@ def comment_en(s: dict, v: dict, t: dict, num: int) -> str:
         mx = next(r for r in pr["rows"] if r["c"] == "MX")
         parts.append(f"Mexico's ex-post real rate ({n(mx['real'])} pp) ranks #{pr['mx_rank']} of {pr['n']} among its peers.")
     if db:
-        parts.append(f"It wasn't the dollar: the real fell {n(db['usd_brl'])}% and the peso {n(db['usd_mxn_h10'])}%, "
+        parts.append(f"Not dollar strength: the real fell {n(db['usd_brl'])}% and the peso {n(db['usd_mxn_h10'])}%, "
                      f"while the broad dollar index rose just {n(db['usd_broad'])}%." if db["usd_broad"] < db["usd_mxn_h10"] / 2 else
                      f"The broad dollar index rose {n(db['usd_broad'])}%.")
     parts.append(f"A USD 100,000 import now costs MXN {abs(ic['diff']):,.0f} {'more' if ic['diff'] >= 0 else 'less'} than a week ago.")
