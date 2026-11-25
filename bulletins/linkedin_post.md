@@ -12,7 +12,7 @@ Solo 4 de 416 semanas desde 2018 fueron peores.
 → ¿Por qué cayó el peso? Del 13-nov al 20-nov: real −5.4%, peso −2.5% y dólar frente a una canasta amplia +0.8%.
 → Importar USD 100,000 cuesta 103,170 pesos más que hace una semana.
 
-Mi lectura: la depreciación de esta semana llega con la postura monetaria ya en terreno neutral: la tasa real ex ante está en 2.2%, en la parte baja del rango que estima Banxico. Si el tipo de cambio se sostiene en estos niveles, el espacio para nuevos recortes se estrecha, aunque la evidencia para México apunta a un traspaso limitado a precios.
+Mi lectura: la depreciación del peso llega con una tasa de interés real de 2.2%, en la parte baja del rango neutral que estima Banxico. Si el tipo de cambio se mantiene en estos niveles, Banxico tendrá menos margen para recortar su tasa de interés. Sin embargo, los estudios para México muestran que una depreciación tiene un efecto limitado en los precios.
 
 Cómo lo calculo:
 • Importación: USD 100,000 × FIX de hoy (19.70) menos USD 100,000 × FIX de hace 7 días (18.67).
@@ -26,7 +26,7 @@ Contacto: isaac.tienda01@gmail.com
 
 #EconomíaMexicana #Banxico #TipoDeCambio
 ```
-_1600 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
+_1610 caracteres (límite LinkedIn: 3,000; se muestran ~210 antes de "…ver más")._
 
 ## 2. Documento a adjuntar
 
@@ -43,14 +43,14 @@ Texto alternativo (para quien usa lector de pantalla; pégalo en el primer comen
 ```text
 English version · MX Macro Monitor No. 1: Peso falls 5.5%. Only 4 of 416 weeks since 2018 were worse for the peso. MX Macro thermometer: 2 of 6 signals flashing red, 3 on watch, 1 stable. Mexico's ex-post real rate (2.8 pp) ranks #3 of 6 among its peers. Not dollar strength: the real fell 5.4% and the peso 2.5%, while the broad dollar index rose just 0.8%. A USD 100,000 import now costs MXN 103,170 more than a week ago.
 
-My take: This week's depreciation comes with the policy stance already in neutral territory: the ex-ante real rate stands at 2.2%, in the lower part of Banxico's estimated range. If the exchange rate holds at these levels, room for further cuts narrows, although evidence for Mexico points to limited pass-through to prices.
+My take: The peso's depreciation comes with the real interest rate at 2.2%, in the lower part of the neutral range estimated by Banxico. If the exchange rate holds at these levels, Banxico will have less room to cut its policy rate. However, studies for Mexico show that a weaker peso has a limited effect on prices.
 
 Official data from Banxico, INEGI, the BIS and the Federal Reserve.
 ```
 
 ## 4. Checklist antes de publicar
 
-- [ ] **Nota del autor en BORRADOR:** revísala o reescríbela en `config/nota_autor.yml` (estado: final) y vuelve a correr el flujo.
+- [x] Nota del autor lista.
 - [ ] Revisar que el titular siga vigente (si hubo un dato relevante después de las 07:00 h, ajustar).
 - [ ] Abrir el PDF y confirmar que todas las páginas se ven completas (una idea por página).
 - [ ] Correr el agente `lector-scroll` (`.claude/agents/lector-scroll.md`) sobre `bulletins/slides_es/` y atender lo que marque como Rehacer.
