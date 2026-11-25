@@ -1,21 +1,22 @@
-# Nota del autor (página «Mi lectura» del documento y párrafo "Mi lectura" del post).
-# Escríbela cada lunes antes de publicar. Si `semana` no coincide con la semana ISO
-# de la corrida, el documento se genera sin nota y el checklist lo marca.
-# estado: borrador | final   (borrador = redactada como propuesta; revisar antes de publicar)
-# cita_es / cita_en: frase corta para la página (máximo 20 palabras). El texto completo va en el post.
+# Nota del autor (párrafo «Mi lectura» del post y del comentario en inglés).
+# Escríbela cada semana antes de publicar. Si `semana` no coincide con la semana ISO
+# de la corrida, el post se genera sin nota y el checklist lo marca.
+# estado: borrador | final   (borrador = propuesta por revisar)
+# Estilo: el del Comentario Económico Semanal. Oraciones de unas 21 palabras, verbos literales,
+# sin dos puntos, punto y coma ni guiones, sin jerga de mercado.
 semana: 2026-W48
-estado: borrador
+estado: final
 cita_es: >
-  El peso se debilita con la tasa real ya en terreno neutral: queda menos espacio para recortes.
+  Con el tipo de cambio en estos niveles, Banxico tendrá menos margen para recortar su tasa.
 cita_en: >
-  The peso weakens with the real rate already neutral: there is less room for cuts.
+  With the exchange rate at these levels, Banxico will have less room to cut its rate.
 es: >
-  La depreciación de esta semana llega con la postura monetaria ya en terreno neutral:
-  la tasa real ex ante está en 2.2%, en la parte baja del rango que estima Banxico.
-  Si el tipo de cambio se sostiene en estos niveles, el espacio para nuevos recortes
-  se estrecha, aunque la evidencia para México apunta a un traspaso limitado a precios.
+  La depreciación del peso llega con una tasa de interés real de 2.2%, en la parte baja del
+  rango neutral que estima Banxico. Si el tipo de cambio se mantiene en estos niveles, Banxico
+  tendrá menos margen para recortar su tasa de interés. Sin embargo, los estudios para México
+  muestran que una depreciación tiene un efecto limitado en los precios.
 en: >
-  This week's depreciation comes with the policy stance already in neutral territory:
-  the ex-ante real rate stands at 2.2%, in the lower part of Banxico's estimated range.
-  If the exchange rate holds at these levels, room for further cuts narrows, although
-  evidence for Mexico points to limited pass-through to prices.
+  The peso's depreciation comes with the real interest rate at 2.2%, in the lower part of the
+  neutral range estimated by Banxico. If the exchange rate holds at these levels, Banxico will
+  have less room to cut its policy rate. However, studies for Mexico show that a weaker peso has
+  a limited effect on prices.
