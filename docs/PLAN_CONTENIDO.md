@@ -41,7 +41,7 @@ Calendario editable con estados: https://claude.ai/artifact/B8NyQnySph4ZL7eAf9kp
 | mar 23-feb | Monitor Nº 14 | Boletín semanal | lun 22-feb 17:34 |
 | jue 25-feb | P12 | Discounted cash flow (DCF) valuation | vie 19-feb 17:00 |
 
-«Construcción» es la hora (centro de México) en que corre la tarea programada en Claude. Las tareas construyen y redactan; nada se publica sin revisión. Para correr una pieza a mano en Claude Code: `/monitor-prep` o `/proyecto P01` (ver `.claude/commands/`). El detalle de cada proyecto está en [`PROYECTOS.md`](PROYECTOS.md).
+«Construcción» es la hora (centro de México) en que corre la tarea programada en Claude. Las tareas construyen y redactan; nada se publica sin revisión. Para correr una pieza a mano en Claude Code: `/monitor-prep` o `/proyecto P01` (ver `.claude/commands/`). El encargo de cada proyecto está en su carpeta: [`projects/`](../projects/README.md).
 
 ## Reserva para marzo de 2027
 
