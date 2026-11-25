@@ -8,9 +8,9 @@
 | Inflación general (% anual) | 3.75 | +0.30 pp | oct-2026 | Dentro de lo habitual |
 | Inflación subyacente (% anual) | 3.80 | +0.05 pp | oct-2026 | — |
 | Expectativa de inflación 12m (mediana) | 4.04 | −0.12 pp | oct-2026 | — |
-| Tasa objetivo Banxico (%) | 6.25 | −100 pb 12m | 24-nov-2026 | — |
+| Tasa objetivo Banxico (%) | 6.25 | −100 pb 12m | 25-nov-2026 | — |
 | Tasa real ex ante (%) | 2.23 | — | oct-2026 | — |
-| Diferencial Banxico–Fed (pb) | 225 | −100 12m | 24-nov-2026 | — |
+| Diferencial Banxico–Fed (pb) | 225 | −100 12m | 25-nov-2026 | — |
 | Tipo de cambio FIX (MXN/USD) | 19.3668 | +4.87% sem. | 24-nov-2026 | Atípico |
 | IGAE a.e. (% mensual) | −0.7 | +3.0% anual | sep-2026 | Inusual |
 

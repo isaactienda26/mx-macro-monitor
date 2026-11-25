@@ -8,9 +8,9 @@
 | Headline inflation (% y/y) | 3.75 | +0.30 pp | Oct-2026 | Within normal range |
 | Core inflation (% y/y) | 3.80 | +0.05 pp | Oct-2026 | — |
 | 12m inflation expectation (median) | 4.04 | −0.12 pp | Oct-2026 | — |
-| Banxico policy rate (%) | 6.25 | −100 bp 12m | Nov 24, 2026 | — |
+| Banxico policy rate (%) | 6.25 | −100 bp 12m | Nov 25, 2026 | — |
 | Ex-ante real rate (%) | 2.23 | — | Oct-2026 | — |
-| Banxico–Fed spread (bp) | 225 | −100 12m | Nov 24, 2026 | — |
+| Banxico–Fed spread (bp) | 225 | −100 12m | Nov 25, 2026 | — |
 | USD/MXN FIX | 19.3668 | +4.87% w/w | Nov 24, 2026 | Atypical |
 | IGAE s.a. (% m/m) | −0.7 | +3.0% y/y | Sep-2026 | Unusual |
 
